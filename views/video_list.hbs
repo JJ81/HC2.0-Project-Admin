@@ -1,12 +1,50 @@
-<ul>
-    {{#each videos}}
-    <li>
-        <a href="/channel/{{channel_id}}/video/{{video_id}}">
-            <img src="{{../static}}channel/{{channel_id}}/{{video_id}}/thumbnail" alt="{{title}}" />
-            <span>타이틀 : {{title}}</span><br />
-            <span>조회수 : {{hits}}</span><br />
-            <span>생성일 : {{created_dt}}</span>
-        </a>
-    </li>
-    {{/each}}
-</ul>
+<div class="right_col" id="body_content" role="main">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="dashboard_graph">
+
+                <div class="row x_title">
+                    <div class="col-md-6 col-lg-6">
+                        <h3>채널등록</h3>
+                    </div>
+
+                    <div class="col-md-6 col-lg-6">
+                        <div class="pull-right">
+                            <button class="btn btn-success" data-toggle="modal" data-target="#registerVideo">
+                                <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp; 등록
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--<div class="x_content" style="display: block;">-->
+
+                <div class="row x_title">
+                    <h3>Active List</h3>
+                </div>
+
+                <div class="row">
+                    {{#each result}}
+
+                        <div class="col-sm-6 col-md-3 col-lg-3">
+                            <div class="thumbnail" style="height: 100%">
+                                <img src="https://s3.ap-northeast-2.amazonaws.com/holdemclub/channel/{{channel_id}}/{{video_id}}/thumbnail" alt="channel thumbnail"/>
+
+                                    <div class="caption center-block text-center">
+                                        <h5><a href="/channel/{{channel_id}}/video/{{video_id}}/">{{title}}</a> </h5>
+                                        <button class="btn btn-success btn_content_modify btn-sm" data-id="{{id}}"  data-toggle="modal" data-target="#modifyContent">수정</button>
+                                        <button class="btn btn-danger btn_content_delete btn-sm" data-id="{{id}}" role="button">삭제</button>
+                                    </div>
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{>modal_video_register}}
+{{>modal_contents_modify}}

@@ -36,6 +36,7 @@
     "moment": "^2.17.0",
     "morgan": "~1.6.1",
     "mysql": "^2.12.0",
+    "node-uuid": "^1.4.7",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "redis": "^2.6.3",

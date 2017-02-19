@@ -1,0 +1,60 @@
+<div class="right_col" id="body_bc_live" role="main">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="dashboard_graph">
+
+                <div class="row x_title">
+                    <div class="col-md-6 col-lg-6">
+                        <h3>방송 라이브 알림 관리</h3>
+                    </div>
+
+                    <div class="col-md-6 col-lg-6">
+                        {{#unless live_result}}
+                            <div class="pull-right">
+                                <button class="btn btn-success" data-toggle="modal" data-target="#registerLive">
+                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;
+                                    생방송 등록
+                                </button>
+                            </div>
+                        {{/unless}}
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="row top_tiles">
+                        <div class="_animated flipInY col-md-12 col-sm-12 col-xs-12">
+
+                            {{#if live_result}}
+
+                                {{#each live_result}}
+                                    <div class="tile-stats col-md-8">
+                                        <div class="icon"><i class="fa fa-video-camera"></i></div>
+                                        <div class="count">{{link}}</div>
+                                        <h3>지금은 생방송 중입니다.</h3>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-danger btn-lg btn-block btn_bc_live_off" data-bc-id="{{id}}">생방송 종료</button>
+                                        <button type="button" class="btn btn-primary btn-lg btn-block btn_bc_live_modify">생방송 정보 수정</button>
+                                    </div>
+
+                                {{/each}}
+                            {{else}}
+                                <div class="tile-stats col-md-12">
+                                    <div class="icon"><i class="fa fa-close"></i></div>
+                                    <div class="count">진행중인 방송이 없습니다</div>
+                                    <h3>방송을 등록해주세요.</h3>
+                                </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{{>modal_bc_live_register}}

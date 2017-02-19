@@ -1,26 +1,64 @@
-<h3>이벤트 페이지</h3>
-<ul>
-    {{#each list}}
-    <li>
-        {{#if (isEquals status 'C')}}
-        <a href="/event/{{id}}/result">
-            <img src="{{../static}}event/{{thumbnail}}"
-                 alt="{{title}}" />
-            {{title}}
-        </a>
-        {{else if (isEquals status 'P') }}
-        <a href="/event/{{ref_id}}/information">
-            <img src="{{../static}}event/{{thumbnail}}"
-                 alt="{{title}}" />
-            {{title}}
-        </a>
-        {{else if (isEquals status 'N') }}
-        <a href="/event/{{ref_id}}/information">
-            <img src="{{../static}}event/{{thumbnail}}"
-                 alt="{{title}}" />
-            {{title}}
-        </a>
-        {{/if}}
-    </li>
-    {{/each}}
-</ul>
+<div class="right_col" id="body_event" role="main">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="dashboard_graph">
+
+                <div class="row x_title">
+                    <div class="col-md-6 col-lg-6">
+                        <h3>이벤트 등록</h3>
+                    </div>
+
+                    <div class="col-md-6 col-lg-6">
+                        <div class="pull-right">
+                            <button class="btn btn-success" data-toggle="modal" data-target="#registerEvent">
+                                <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;
+                                이벤트 등록
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    {{#each result}}
+
+                        <div class="col-sm-2 col-md-3">
+                            <div class="thumbnail" style="height: 100%">
+                                <!--<img src="https://s3.ap-northeast-2.amazonaws.com/holdemclub/event/{{thumbnail}}" alt="image"/>-->
+                                <img src="http://i.imgur.com/tvuH0ZJ.png" alt="image"/>
+                                <div class="caption center-block">
+                                    <h3>{{title}}</h3>
+
+                                    {{#if (isEquals status 'C')}}
+                                        <strong><p>완료된 이벤트입니다.</p></strong>
+                                    {{else if (isEquals status 'P')}}
+                                        <strong><p>진행중인 이벤트입니다.</p></strong>
+                                    {{else if (isEquals  status 'N')}}
+                                        <strong><p>준비중인 이벤트입니다.</p></strong>
+                                    {{/if}}
+
+
+                                    {{#if (isEquals status 'N')}}
+                                        <button class="btn btn-primary btn-block btn-lg btn_event_start" data-event-id="{{id}}">
+                                            <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;이벤트 시작
+                                        </button>
+                                    {{else}}
+                                        <button class="btn btn-warning btn-block btn-lg" disabled="disabled" >
+                                            <p class="small">완료 혹은 진행중입니다.</p>
+                                        </button>
+                                    {{/if}}
+
+                                </div>
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{{>modal_event_register}}

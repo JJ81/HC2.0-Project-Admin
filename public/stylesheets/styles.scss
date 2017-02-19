@@ -1,11 +1,9 @@
 @charset "UTF-8";
-@import '../components/bootstrap/dist/css/bootstrap.min.css';
 @import 'variables';
 @import 'common';
 @import 'layout';
-//@import 'main_channel';
-//@import 'main_recom';
+@import 'main_channel';
+@import 'main_recom';
 @import 'main_community';
-//@import '../components/swiper/dist/css/swiper.min.css';
-//@import 'swiper';
-@import '../stylesheets/_ps.ui.estate';
+@import '../components/swiper/dist/css/swiper.min.css';
+@import 'swiper';

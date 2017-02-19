@@ -12,10 +12,10 @@ module.exports = () => {
 				database: config.database,
 				connectionLimit: 20,
 				waitForConnections: false,
-				multipleStatements : true
+				multipleStatements: true
 			});
 		},
-
+        
 		test_open: (conn) => {
 			conn.connect((err) => {
 				if (err) {

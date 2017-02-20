@@ -1,6 +1,8 @@
 /**
  * Created by cheese on 2017. 2. 16..
  */
+'use strict';
+
 const
 	mysql_dbc = require('../commons/db_conn')(),
 	connection = mysql_dbc.init(),

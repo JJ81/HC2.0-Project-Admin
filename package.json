@@ -20,6 +20,7 @@
   "dependencies": {
     "JSON": "^1.0.0",
     "async": "^2.1.4",
+    "aws-sdk": "^2.16.0",
     "axios": "^0.15.3",
     "bcrypt": "^0.8.7",
     "body-parser": "~1.13.2",
@@ -31,8 +32,10 @@
     "debug": "~2.2.0",
     "express": "^4.14.0",
     "express-csv": "^0.6.0",
+    "formidable": "^1.1.1",
     "hbs": "^4.0.1",
     "helmet": "^3.4.0",
+    "md5": "^2.2.1",
     "moment": "^2.17.0",
     "morgan": "~1.6.1",
     "mysql": "^2.12.0",

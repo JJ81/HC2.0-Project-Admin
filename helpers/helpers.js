@@ -1,3 +1,5 @@
+'use strict';
+
 var hbs = require('hbs');
 var currencyFormatter = require('currency-formatter');
 var dateFormat = require('dateformat');

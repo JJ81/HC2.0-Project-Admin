@@ -1,3 +1,5 @@
+'use strict';
+
 const
 	formidable = require('formidable'),
 	md5 = require('md5'),
@@ -50,7 +52,6 @@ Upload.formidable = (req, callback) => {
 };
 
 Upload.s3 = (files, key, callback) => {
-  
 	const s3_file_name = makeS3FilesName(files);
 	params.Key = key + s3_file_name;
 	params.Body = require('fs').createReadStream(files[0].path);
@@ -74,7 +75,6 @@ Upload.s3Multiple = (files, key, callback) => {
 };
 
 
-/*TODO 파일 이름이 여러개 일 경우는 어떻게 처리할것인가?*/
 function makeS3FilesName(files) {
 	return (md5(files[0].name + files[0].lastModifiedDate));
 }

@@ -1,18 +1,34 @@
-const
-	formidable = require('formidable'),
-	md5 = require('md5'),
-	async = require('async'),
-	Upload = {};
+'use strict';
+const formidable = require('formidable');
+const md5 = require('md5');
+const async = require('async');
+const AWS = require('aws-sdk');
+AWS.config.region = 'ap-northeast-2';
+const s3 = new S3Instance();
+const Upload = {};
 
-let AWS = require('aws-sdk');
-AWS.config.region = 'ap-northeast-2'; //지역 서울 설정
-let s3 = new AWS.S3();
+function S3Instance() {
+  'use strict';
+  let instance;
+  S3Instance = function () {
+    return instance;
+  };
+  instance = new AWS.S3();
+  return instance
+}
+
+
+
+/**
+ * AWS S3 세부 설정은
+ */
 
 const form = new formidable.IncomingForm({
 	encoding: 'utf-8',
 	multiples: true,
 	keepExtensions: false //확장자 제거
 });
+
 
 /*S3 버킷 설정*/
 let params = {
@@ -22,17 +38,18 @@ let params = {
 	Body: null
 };
 
-Upload.s3Keys = {
-	calendar: 'broadcast/calendar/',
-	event_result: 'event/result/',
-	event: 'event/',
-	channel: 'channel/test/'
+Upload.S3KYES = {
+	CALENDAR: 'broadcast/calendar/',
+	EVENT_RESULT: 'event/result/',
+	EVENT: 'event/',
+	CHANNEL: 'channel/test/',
+  NEWS: 'news/'
 };
 
 Upload.formidable = (req, callback) => {
 	let field;
   
-	form.parse(req, (err, fields, files) => {
+	form.parse(req, (err, fields) => {
 		field = fields;
 	});
   
@@ -55,7 +72,7 @@ Upload.s3 = (files, key, callback) => {
 	params.Key = key + s3_file_name;
 	params.Body = require('fs').createReadStream(files[0].path);
   
-	s3.upload(params, function (err, result) {
+  s3.upload(params, function (err, result) {
 		callback(err, result, s3_file_name);
 	});
 };
@@ -65,7 +82,7 @@ Upload.s3Multiple = (files, key, callback) => {
 		params.Key = key + file.name;
 		params.Body = require('fs').createReadStream(file.path);
     
-		s3.upload(params, (err, result) => {
+    s3.upload(params, (err, result) => {
 			cb(err, result);
 		});
 	}, (err, result) => {
@@ -74,9 +91,7 @@ Upload.s3Multiple = (files, key, callback) => {
 };
 
 
-/*TODO 파일 이름이 여러개 일 경우는 어떻게 처리할것인가?*/
 function makeS3FilesName(files) {
 	return (md5(files[0].name + files[0].lastModifiedDate));
 }
-
 module.exports = Upload;

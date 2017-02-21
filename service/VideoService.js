@@ -35,7 +35,7 @@ Video.upload = (req, callback) => {
 		},
     
 		(files, field, callback) => {
-			Upload.s3Multiple(files, `${Upload.s3Keys.channel}${field.channel_id}/${video_id}/`, (err, result) => {
+			Upload.s3Multiple(files, `${Upload.S3KYES.CHANNEL}${field.channel_id}/${video_id}/`, (err) => {
 				callback(err, field);
 			});
 		},

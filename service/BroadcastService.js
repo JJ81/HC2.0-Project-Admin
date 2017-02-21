@@ -18,7 +18,7 @@ Broadcast.onLive = (link, callback) => {
 		status: 1,
 		link: link
 	};
-	connection.query(QUERY.Broadcast.LiveOn, _obj, (err, result) => {
+	connection.query(QUERY.Broadcast.LiveOn, _obj, (err) => {
 		if (!err) {
 			callback(null, {success: true, msg: '생방송 등록 완료'});
 		} else {
@@ -28,7 +28,7 @@ Broadcast.onLive = (link, callback) => {
 };
 
 Broadcast.endLive = (id, callback) => {
-	connection.query(QUERY.Broadcast.LiveEnd, [new Date(), id], (err, result) => {
+	connection.query(QUERY.Broadcast.LiveEnd, [new Date(), id], (err) => {
 		if (!err) {
 			callback(null, {success: true, msg: '생방송 종료 완료'});
 		} else {
@@ -56,8 +56,6 @@ Broadcast.uploadCalendar = (req, callback) => {
      *      1.formidable 파일 업로드
      *      2.S3 업로드 (formidable 업로드한 파일을 다시 S3에 업로드)
      *      3. 데이터베이스에 저장
-     *     TODO 4. 업로드된 파일삭제(S3 파일이 정상적으로 업로드되면 로컬에 남아있는 파일을 삭제한다.) 이건 공통로직이니 Common Server 에 작성해야 될까???
-     *     TODO 추가 작업 이미지 최적화 작업
      *
      */
 	const tasks = [
@@ -67,7 +65,7 @@ Broadcast.uploadCalendar = (req, callback) => {
 			});
 		},
 		(files, field, callback) => {
-			Upload.s3(files, Upload.s3Keys.calendar, (err, result, s3_file_name) => {
+			Upload.s3(files, Upload.S3KYES.CALENDAR, (err, result, s3_file_name) => {
 				callback(err, s3_file_name, field);
 			});
 		},
@@ -83,7 +81,7 @@ Broadcast.uploadCalendar = (req, callback) => {
 		}
 	];
     
-	async.waterfall(tasks, (err, result) => {
+	async.waterfall(tasks, (err) => {
 		if (!err) {
 			callback(null, {success: true, msg: '방송표 업로드 완료'});
 		} else {

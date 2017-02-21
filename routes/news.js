@@ -23,7 +23,7 @@ router.get('/', (req, res) => {
 			const _body = JSON.parse(body);
       
 			res.render('news', {
-				current_path: 'event',
+				current_path: 'news',
 				title: PROJ_TITLE + '이벤트',
 				result: _body.result,
 			});

@@ -1,10 +1,8 @@
 const express = require('express');
 const router = express.Router();
-// const passport = require('passport');
-// const LocalStrategy = require('passport-local').Strategy;
 const flash = require('connect-flash');
 const bcrypt = require('bcrypt');
-require('../database/redis')(router, 'local'); // redis
+// require('../database/redis')(router, 'local'); // redis
 require('../helpers/helpers');
 
 
@@ -15,11 +13,7 @@ const isAuthenticated = (req, res, next) => {
 };
 
 router.get('/', isAuthenticated, (req, res) => {
-	res.render('index', {
-		current_path: 'INDEX',
-		title: PROJ_TITLE,
-		loggedIn: req.user
-	});
+  res.redirect('/broadcast/live');
 });
 
 

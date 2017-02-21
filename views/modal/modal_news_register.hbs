@@ -10,7 +10,12 @@
             </div>
             <div class="modal-body">
                 <!-- modal body -->
-                <form id="form_event_upload" action="/api/v1/news" method="post">
+                <form id="form_news_upload" action="/api/v1/news" enctype="multipart/form-data"  method="post">
+
+                    <fieldset class="form-group">
+                        <label for="image">Image</label>
+                        <input class="form-control" type="file" id="file" name="img_files[]" accept="image/*">
+                    </fieldset>
 
                     <fieldset class="form-group">
                         <label for="title">Title</label>
@@ -36,7 +41,7 @@
                     <fieldset class="form-group">
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Add</button>
+                            <button type="submit" class="btn btn-primary" id="submit_news_upload">Add</button>
                         </div>
                     </fieldset>
                 </form>

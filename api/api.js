@@ -469,14 +469,7 @@ router.get('/news', (req, res)=>{
 });
 
 router.post('/news', (req, res)=>{
-	const values ={
-		title : req.body.title,
-		sub_title : req.body.sub_title,
-		desc : req.body.desc,
-		contents : req.body.contents
-	};
-  
-	News.register(values, (err)=>{
+	News.register(req, (err)=>{
 		if (!err) {
 			res.json({success: true, msg: '등록완료'});
 		} else {

@@ -30,7 +30,7 @@ Event.uploadResult = (req, callback) => {
 		},
         
 		(files, field, callback) => {
-			Upload.s3(files, Upload.s3Keys.event_result, (err, result, s3_file_name) => {
+			Upload.s3(files, Upload.S3KYES.EVENT_RESULT, (err, result, s3_file_name) => {
 				callback(err, s3_file_name, field);
 			});
 		},
@@ -54,7 +54,7 @@ Event.uploadResult = (req, callback) => {
 		}
 	];
     
-	async.waterfall(tasks, (err, result) => {
+	async.waterfall(tasks, (err) => {
 		if (!err) {
 			callback(null, {success: true, msg: '방송표 업로드 완료'});
 		} else {
@@ -80,7 +80,7 @@ Event.upload = (req, callback) => {
 		},
         
 		(files, field, callback) => {
-			Upload.s3(files, Upload.s3Keys.event, (err, result, s3_file_name) => {
+			Upload.s3(files, Upload.S3KYES.EVENT, (err, result, s3_file_name) => {
 				callback(err, s3_file_name, field);
 			});
 		},

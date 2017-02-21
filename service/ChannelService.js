@@ -48,7 +48,7 @@ Channel.set = (req, callback) => {
 		},
     
 		(files, field, callback) => {
-			Upload.s3Multiple(files, `${Upload.s3Keys.channel + channel_id}/`, (err, result) => {
+			Upload.s3Multiple(files, `${Upload.S3KYES + Channel}/`, (err) => {
 				callback(err, field);
 			});
 		},

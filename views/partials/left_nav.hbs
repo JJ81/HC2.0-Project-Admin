@@ -1,46 +1,70 @@
-<div class="sidebar-fixed">
-    <div class="inner-sidebar">
-        <h3 class="title">추천방송</h3>
-        <ul class="recomList">
-            {{#each recomList}}
-            <li class="nav_list">
-                <a href="/channel/{{channel_id}}" class="linkNav">
-                    <img src="https://s3.ap-northeast-2.amazonaws.com/holdemclub/channel/{{channel_id}}/logo"
-                         width="32"
-                         height="32"
-                         class="img_logo"
-                         alt="{{title}}" />
-                    {{title}}
-                </a>
-            </li>
-            {{/each}}
-        </ul>
+<div class="col-md-3 left_col">
+    <div class="left_col scroll-view">
+        <div class="navbar nav_title" style="border: 0;">
+            <a href="/" class="site_title"><i class="fa fa-paw"></i> <span>HoldemClub TV </span></a>
+        </div>
 
-        <h3 class="title">홀클.tv 컨텐츠</h3>
-        <ul class="channelList">
-            {{#each contentlist}}
-            <li class="nav_list">
-                {{#if (isEquals type 'single')}}
-                <a href="/channel/{{group_channel_id}}" class="linkNav">
-                    <img src="https://s3.ap-northeast-2.amazonaws.com/holdemclub/channel/{{group_channel_id}}/logo"
-                         width="32"
-                         height="32"
-                         class="img_logo"
-                         alt="{{title}}" />
-                    {{title}}
-                </a>
-                {{else if (isEquals type 'group') }}
-                <a href="/channel/{{divideChannel group_channel_id}}" class="linkNav">
-                    <img src="https://s3.ap-northeast-2.amazonaws.com/holdemclub/channel/{{divideChannel group_channel_id}}/logo"
-                         width="32"
-                         height="32"
-                         class="img_logo"
-                         alt="{{title}}" />
-                    {{title}}
-                </a>
-                {{/if}}
-            </li>
-            {{/each}}
-        </ul>
+        <div class="clearfix"></div>
+
+        <br />
+
+        <!-- sidebar menu -->
+        <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+            <div class="menu_section">
+                <h3>Back Office</h3>
+                <ul class="nav side-menu">
+                    <li><a><i class="fa fa-video-camera"></i> 방송 <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li ><a href="/broadcast/live"><i class="fa fa-bell"></i> 생방송 등록</a></li>
+                            <li><a href="/broadcast/calendar"><i class="fa fa-calendar"></i>방송 편셩표 등록</a></li>
+                        </ul>
+                    </li>
+                    <li><a><i class="fa fa-video-camera"></i> 뉴스 <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li ><a href="/news"><i class="fa fa-bell"></i> 뉴스 등록</a></li>
+                        </ul>
+                    </li>
+                    <li><a><i class="fa fa-folder-o"></i> 체널<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="/channel">채널 등록</a></li>
+                            <li><a href="/channel/group">채널 그룹화</a></li>
+                        </ul>
+                    </li>
+                    <li><a><i class="fa fa-folder-o"></i> 컨텐츠<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="/contents/representative">대표 컨텐츠</a></li>
+                            <li><a href="/contents/education">교육 컨텐츠</a></li>
+                            <li><a href="/contents/summary">요약 컨텐츠</a></li>
+                            <li><a href="/contents/Recommend">추천 컨텐츠</a></li>
+                        </ul>
+                    </li>
+                    <li><a><i class="fa fa-desktop"></i> 이벤트 <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="/event">이벤트 등록</a></li>
+                            <li><a href="/event/result">이벤트 결과 등록</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <!-- /sidebar menu -->
+
+        <!-- /menu footer buttons -->
+        <div class="sidebar-footer hidden-small">
+            <a data-toggle="tooltip" data-placement="top" title="Settings">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+            </a>
+            <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+            </a>
+            <a data-toggle="tooltip" data-placement="top" title="Lock">
+                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+            </a>
+            <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
+                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+            </a>
+        </div>
+        <!-- /menu footer buttons -->
     </div>
 </div>

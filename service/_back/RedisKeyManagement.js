@@ -6,7 +6,7 @@ var RedisKey = {};
 var AMS_HOME_READBYDATE = null;
 
 RedisKey.keySet = function () {
-  return
+	return;
 };
 
 

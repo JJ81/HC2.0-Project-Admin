@@ -1,54 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
-<meta name="Referrer" content="origin" />
-<!-- Open Graph -->
-<meta property="og:title" content="홀덤클럽티비" />
-<meta property="og:url" content="http://holdemclub.tv/" />
-<meta property="og:image" content="https://s3.ap-northeast-2.amazonaws.com/holdemclubtv/static/logo_holdemclubtv.png" />
-<meta property="og:description" content="텍사스 홀덤, 홀덤, 포커, 포커 전문 영상, 홀덤교육, 홀덤스쿨, 홀덤 콘텐츠 토너먼트" />
-<!-- twitter -->
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="홀덤클럽티비" />
-<meta name="twitter:url" content="http://holdemclub.tv/" />
-<meta name="twitter:image" content="https://s3.ap-northeast-2.amazonaws.com/holdemclubtv/static/logo_holdemclubtv.png" />
-<meta name="twitter:description" content="텍사스 홀덤, 홀덤, 포커, 포커 전문 영상, 홀덤교육, 홀덤스쿨, 홀덤 콘텐츠, 토너먼트" />
-<!-- common data -->
-<meta name="naver-site-verification" content="a153f94a1cbbeecf0056394854faf2192600cbc5" />
-<meta name="description" content="텍사스 홀덤, 홀덤, 포커, 포커 전문 영상, 홀덤교육, 홀덤스쿨, 홀덤 콘텐츠, 토너먼트" />
-<meta name="keyword" content="텍사스 홀덤, 홀덤, 포커, 포커 전문 영상, 홀덤교육, 홀덤스쿨, 홀덤 콘텐츠, 토너먼트" />
-<meta name="author" content="홀덤클럽티비" />
-<link rel="canonical" href="http://holdemclub.tv" />
-
-<link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css" />
-<link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css" />
-<link rel='stylesheet' href='/stylesheets/styles.css' />
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+    <meta name="Referrer" content="origin"/>
 
 
-<title>{{title}}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Gentallela Alela! | </title>
+
+
+    <!-- Bootstrap -->
+    <link href="/components/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- Font Awesome -->
+    <link href="/components/gentelella/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="/components/gentelella/vendors/animate.css/animate.min.css" rel="stylesheet"/>
+    <!-- NProgress -->
+    <link href="/components/gentelella/vendors/nprogress/nprogress.css" rel="stylesheet"/>
+    <!-- iCheck -->
+    <link href="/components/gentelella/vendors/iCheck/skins/flat/green.css" rel="stylesheet"/>
+    <!-- bootstrap-progressbar -->
+    <link href="/components/gentelella/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet"/>
+    <!-- JQVMap -->
+    <link href="/components/gentelella/vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
+    <!-- bootstrap-daterangepicker -->
+    <link href="/components/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet"/>
+    <!-- Custom Theme Style -->
+    <link href="/components/gentelella/build/css/custom.min.css" rel="stylesheet"/>
+    <!--Video.JS-->
+    <link href="/components/video.js/dist/video-js.min.css" rel="stylesheet" />
+
+
+    <title>{{title}}</title>
 </head>
+<body class="nav-md {{current_path}}" id="body">
 
-<body class="open_nav">
-    <div id="holdemclub">
-        {{> header}}
-        <div class="content_wrapper">
+{{#unless (isEquals current_path 'login')}}
+    <div class="container body">
+        <div class="main_container">
             {{> left_nav}}
-            <div class="content_area">
-                <div class="inner_content">
-                    <!-- content -->
-                    {{{body}}}
-                    <!-- // content -->
-                </div>
-                {{> footer}}
-            </div>
+            {{> header}}
+            {{{body}}}
+            {{> footer}}
         </div>
     </div>
+{{else}}
+    {{{body}}}
+{{/unless}}
 
-    <script src="/components/requirejs/require.js"></script>
-    <script src="/javascripts/app.js"></script>
-    {{#if (isEquals current_path 'login')}}<script src="javascripts/login.js"></script>{{/if}}
-    {{#if (isEquals current_path 'INDEX')}}<script src="javascripts/index.js"></script>{{/if}}
+<script src="/components/requirejs/require.js"></script>
+<script src="/javascripts/app.js"></script>
+{{#if current_path}}
+    <script src="/javascripts/{{current_path}}.js"></script>
+{{/if}}
 </body>
 </html>

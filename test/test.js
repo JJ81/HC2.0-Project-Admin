@@ -1,42 +1,214 @@
-const assert = require('assert');
-const request = require('request');
-const expect = require('chai').expect;
+const
+	assert = require('assert'),
+	req = require('request'),
+	expect = require('chai').expect,
+	JSON = require('JSON'),
+	should = require('should'),
+	HOST = 'http://localhost:3002/',
+	HOST_API = `${HOST}api/v1/`;
 
+// TODO POST, PUT, DELETE는 어떻게 테스트 할것인가?
 
-describe('Should return 200', () => {
-
-	it('Index Page', (done) =>{
-		'use strict';
-		request.get('http://localhost:3002/', (err, res, body) => {
-			expect(res.statusCode).to.equal(200);
-			done();
+describe('[API 2.0] Should return 200', () => {
+    
+	describe('Broadcast Live List', ()=>{
+		it('/broadcast/live', (done)=>{
+			req.get(`${HOST_API}broadcast/live`, (err, res, body)=>{
+				const _body = JSON.parse(body);
+				expect(res.statusCode).to.equal(200);
+				expect(_body.success).to.be.true;
+				done();
+			});
 		});
 	});
-
-
-	// todo 아래와 같이 에러 페이지가 호출되는 경우를 볼 수 있으므로 정확한 테스트 과정은 아니다
-	// todo 따라서 아래와 같이 해당 페이지가 호출되는지 여부와 함께 해당 페이지에 특정 데이터가 올바르게 들어오고 있는지 확인할 수 있는 절차가 필요하다
-	// todo channel페이지의 경우 뒤에 고유 아이디를 붙여서 호출을 할 수 있도록 되어 있는데 이것을 랜덤으로 가져와서 테스트를 할 수 있도록 할 것인지
-	// todo 아니면 모든 채널 목록을 디비에서 가져와서 일일이 테스트할 것인지 판단을 해야 한다
-	// todo 아마도 모든 페이지를 테스트를 자동화하는 것이므로 디비에서 가져온 모든 데이터를 조사하는 것이 좋겠다
-	// todo 대신 채널 데이터 리스트는 실 디비에서 가져오지 않고 로컬이나 데브 디비에서 가져와서 테스트할 수 있도록 하며,
-	// todo 실 서버에 있는 콘텐츠와 동일한 데이터로 업데이트 한 후에 테스트를 실행할 수 있도록 한다
-	// todo remote 환경에서 단위 테스트 하기
-	// todo TDD vs. BDD 설정 webStorm
-	it('Channel Page', (done) => {
-		'use strict';
-		request.get('http://localhost:3002/channel', (err, res, body) => {
-			expect(res.statusCode).to.equal(200);
-			done();
+    
+    // describe('Broadcast Register', () => {
+    //     it('/broadcast/live', (done) =>{
+    //         req.post(`${HOST_API}broadcast/live`, {form:{link:'http://www.naver.com/'}}, (err, res, body)=>{
+    //             const _body = JSON.parse(body);
+    //             expect(res.statusCode).to.equal(200);
+    //             expect(_body.success).to.be.true;
+    //             done();
+    //         });
+    //     });
+    // });
+    //
+    // describe('Broadcast modify', () => {
+    //     it('/broadcast/live', (done) =>{
+    //         req.put(`${HOST_API}broadcast/live`, {form:{id:18}}, (err, res, body)=>{
+    //             const _body = JSON.parse(body);
+    //             expect(res.statusCode).to.equal(200);
+    //             expect(_body.success).to.be.true;
+    //             done();
+    //         });
+    //     });
+    // });
+    
+	describe('Contents representative List', ()=>{
+		it('/contents/representative', (done)=>{
+			req.get(`${HOST_API}contents/representative`, (err, res, body)=>{
+				const _body = JSON.parse(body);
+				expect(res.statusCode).to.equal(200);
+				expect(_body.success).to.be.true;
+				done();
+			});
+		});
+	});
+    
+	describe('Contents education List', ()=>{
+		it('/contents/education', (done)=>{
+			req.get(`${HOST_API}contents/education`, (err, res, body)=>{
+				const _body = JSON.parse(body);
+				expect(res.statusCode).to.equal(200);
+				expect(_body.success).to.be.true;
+				done();
+			});
+		});
+	});
+    
+	describe('Contents summary List', ()=>{
+		it('/contents/summary', (done)=>{
+			req.get(`${HOST_API}contents/summary`, (err, res, body)=>{
+				const _body = JSON.parse(body);
+				expect(res.statusCode).to.equal(200);
+				expect(_body.success).to.be.true;
+				done();
+			});
+		});
+	});
+    
+	describe('Contents recommend List', ()=>{
+		it('/contents/recommend', (done)=>{
+			req.get(`${HOST_API}contents/recommend`, (err, res, body)=>{
+				const _body = JSON.parse(body);
+				expect(res.statusCode).to.equal(200);
+				expect(_body.success).to.be.true;
+				done();
+			});
+		});
+	});
+    
+    
+	describe('Event List', ()=>{
+		it('/event', (done)=>{
+			req.get(`${HOST_API}event`,(err, res, body)=>{
+				const _body = JSON.parse(body);
+				expect(res.statusCode).to.equal(200);
+				expect(_body.success).to.be.true;
+				done();
+			});
+		});
+        
+	});
+    
+	describe('Event Result List', ()=>{
+		it('/event/result', (done)=>{
+			req.get(`${HOST_API}event/result`, (err, res ,body)=>{
+				const _body = JSON.parse(body);
+				expect(res.statusCode).to.equal(200);
+				expect(_body.success).to.be.true;
+				done();
+			});
+		});
+	});
+    
+	describe('Calendar Result List', ()=>{
+		it('/broadcast/calendar', (done)=>{
+			req.get(`${HOST_API}broadcast/calendar`, (err, res ,body)=>{
+				const _body = JSON.parse(body);
+				expect(res.statusCode).to.equal(200);
+				expect(_body.success).to.be.true;
+				done();
+			});
+		});
+	});
+    
+	describe('Live Result List', ()=>{
+		it('/broadcast/live', (done)=>{
+			req.get(`${HOST_API}broadcast/live`, (err, res ,body)=>{
+				const _body = JSON.parse(body);
+				expect(res.statusCode).to.equal(200);
+				expect(_body.success).to.be.true;
+				done();
+			});
+		});
+	});
+    
+	describe('Channel List All', ()=>{
+		it('/channel', (done)=>{
+			req.get(`${HOST_API}channel`, (err, res ,body)=>{
+				const _body = JSON.parse(body);
+				expect(res.statusCode).to.equal(200);
+				expect(_body.success).to.be.true;
+				done();
+			});
+		});
+	});
+    
+	describe('Channel List Special', ()=>{
+		it('/channel/pecial', (done)=>{
+			req.get(`${HOST_API}channel/special`, (err, res ,body)=>{
+				const _body = JSON.parse(body);
+				expect(res.statusCode).to.equal(200);
+				expect(_body.success).to.be.true;
+				done();
+			});
+		});
+	});
+    
+	describe('Channel General', ()=>{
+		it('/channel/general', (done)=>{
+			req.get(`${HOST_API}channel/general`, (err, res ,body)=>{
+				const _body = JSON.parse(body);
+				expect(res.statusCode).to.equal(200);
+				expect(_body.success).to.be.true;
+				done();
+			});
+		});
+	});
+    
+	describe('Channel List Under', () => {
+		it('/channel/Under', (done) => {
+			req.get(`${HOST_API}channel/under`, (err, res, body) => {
+				const _body = JSON.parse(body);
+				expect(res.statusCode).to.equal(200);
+				expect(_body.success).to.be.true;
+				done();
+			});
+		});
+	});
+    
+	describe('video List', ()=>{
+		it('/video/:channl_id', (done)=>{
+			req.get(`${HOST_API}video/list/09a7d000-6e5f-11e6-8218-a1708bd8e844`, (err, res ,body)=>{
+				const _body = JSON.parse(body);
+				expect(res.statusCode).to.equal(200);
+				expect(_body.success).to.be.true;
+				done();
+			});
+		});
+	});
+    
+	describe('video View', ()=>{
+		it('/video/:video_id', (done)=>{
+			req.get(`${HOST_API}video/view/7d42cdc0-9ce6-11e6-b9dd-1f2406af1976`, (err, res, body)=>{
+				const _body = JSON.parse(body);
+				expect(res.statusCode).to.equal(200);
+				expect(_body.success).to.be.true;
+				done();
+			});
+		});
+	});
+  
+	describe('News List All', ()=>{
+		it('/news', (done)=>{
+			req.get(`${HOST_API}news`, (err, res, body)=>{
+				const _body = JSON.parse(body);
+				expect(res.statusCode).to.equal(200);
+				expect(_body.success).to.be.true;
+				done();
+			});
 		});
 	});
 	
-	
-
-	// test es6 from this area by unit test and check again webstore tools for same thing.
-
-
-
-
-
 });

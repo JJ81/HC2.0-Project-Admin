@@ -1,0 +1,52 @@
+<div class="modal fade " id="_modifyContent" tabindex="-1" role="dialog" aria-labelledby="myMomyModalLabeldalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">이벤트 결과 등록</h4>
+            </div>
+            <div class="modal-body">
+                <!-- modal body -->
+                <form id="form_content_modify" action="/api/v1/contents" data-parsley-validate="" class="form-horizontal form-label-left">
+                    <input type="hidden" class="method" value="PUT">
+                    <input type="hidden" id="content_id" name="id" value="">
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ref_id">Contents <span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12"><input type="text" class="form-control col-md-7 col-xs-12" name="ref_id" required autocomplete="off"/></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Contents Type</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select class="form-control" name="type" required>
+                                <option value="RT">대표 컨텐츠</option>
+                                <option value="E">교육 컨텐츠</option>
+                                <option value="S">요약 컨텐츠</option>
+                                <option value="R">추천 컨텐츠</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <fieldset class="form-group">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" id="btn_content_modify_submit">Create
+                            </button>
+                        </div>
+                    </fieldset>
+                </form>
+                <!-- // modal body -->
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--// Modal (Add Player) -->
+
+
+

@@ -1,0 +1,38 @@
+<div class="right_col" id="body_content" role="main">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="dashboard_graph">
+
+                <div class="row x_title">
+                    <div class="col-md-6 col-lg-6">
+                        <h3>비디오 뷰</h3>
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+                    {{#each result}}
+
+                        {{#if (isEquals type 'Y')}}
+                            <video id="really-cool-video" class="video-js vjs-default-skin vjs-16-9 vjs-big-play-centered" controls preload="auto"
+                                   data-setup='{ "techOrder": ["youtube"], "sources": [{ "type": "video/youtube", "src": "{{link}}"}], "youtube": {"modestbranding":1, "playsinline":1, "ytControls":0 }  }'>
+                            </video>
+                        {{else}}
+                            <video id="really-cool-video" class="video-js vjs-default-skin vjs-4-3 vjs-big-play-centered" controls  preload="auto" data-setup='{}'>
+                                <source src="https://s3.ap-northeast-2.amazonaws.com/holdemclub/channel/{{channel_id}}/{{video_id}}/video.mp4" type="video/mp4">
+                            </video>
+                        {{/if}}
+
+                    {{/each}}
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{{>modal_video_register}}
+{{>modal_contents_modify}}

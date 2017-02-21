@@ -3,17 +3,18 @@
  */
 
 const
-    express = require('express'),
-    router = express.Router(),
-    bcrypt = require('bcrypt'),
-    passport = require('passport'),
-    LocalStrategy = require('passport-local').Strategy,
-    // async = require('async'),
-    // CommonDAO = require('../RedisDAO/CommonDAO'),
-    // UTIL = require('../util/util'),
-    User = require('../service/UserService'),
-    Reply = require('../service/UserService');
-// Auth = require('../service/AuthService')
+	express = require('express'),
+	router = express.Router(),
+	bcrypt = require('bcrypt'),
+	passport = require('passport'),
+	LocalStrategy = require('passport-local').Strategy,
+	Common = require('../service/CommonService'),
+	Broadcast = require('../service/BroadcastService'),
+	Event = require('../service/Eventservice'),
+	Content = require('../service/ContentService'),
+	Channel = require('../service/ChannelService'),
+	Video = require('../service/VideoService'),
+	News = require('../service/NewsService');
 
 
 /**
@@ -62,29 +63,19 @@ const
 
 
 passport.serializeUser((user, done) => {
-    done(null, user);
+	done(null, user);
 });
 
 passport.deserializeUser((user, done) => {
-    done(null, user);
+	done(null, user);
 });
 
 
 const isAuthenticated = (req, res, next) => {
-    if (req.isAuthenticated())
-        return next();
-    res.redirect('/login');
+	if (req.isAuthenticated())
+		return next();
+	res.redirect('/login');
 };
-
-/*게임 로그인에 대한 API*/
-router.post('/login', function (req, res) {
-    const _obj = {
-        user_id: req.body.user_id,
-        password: req.body.password
-    };
-    // TODO _obj null, undefined 로직 추가해야됨
-});
-
 
 /**
  * 홀덤쿨럽 티비 로그인 API
@@ -92,144 +83,411 @@ router.post('/login', function (req, res) {
  */
 
 passport.use(new LocalStrategy({
-        usernameField: 'user_id',
-        passwordField: 'password',
-        passReqToCallback: true
-    }, (req, user_id, password, done) => {
-        User.login(user_id, password, (err, result) => {
-            if (err) {
-                return done(null, false);
-            } else {
-                if (result.success) {
-                    return done(null, result.user_info);
-                } else {
-                    return done(null, false);
-                }
-            }
-        });
-    }
+	usernameField: 'user_id',
+	passwordField: 'password',
+	passReqToCallback: true
+}, (req, usernameField, passwordField, done) => {
+	Common.login(usernameField, passwordField, (err, result) => {
+		if (err) {
+			return done(null, false);
+		} else {
+			if (result.success) {
+				return done(null, result.admin_info);
+			} else {
+				return done(null, false);
+			}
+		}
+	});
+}
 ));
 
+router.get('/logout', isAuthenticated, (req, res) => {
+	req.logout();
+	res.redirect('/');
+});
 
 router.post('/hc/login', passport.authenticate('local', {
-    failureRedirect: '/login',
-    failureFlash: true
+	failureRedirect: '/login',
+	failureFlash: true
 }), (req, res) => {
-    res.redirect('/');
-});
-
-router.get('/api/v1/logout', (req, res) => {
-    req.logout();
-    res.redirect('/');
-});
-
-/**
- * 홀덤클럽 회원가입
- */
-router.post('/signup', (req, res) => {
-    
-    // TODO _obj 검사 그런데 마켓팅코드는 입력안할수있는데??, password === re_password  검사
-    const _obj = {
-        user_id: req.body.user_id,
-        nickname: req.body.nickname,
-        password: bcrypt.hashSync(req.body.password, 10),
-        email: req.body.email,
-        market_code: req.body.market_code || null,
-        signup_dt: new Date()
-    };
-    
-    User.signUp(_obj, (err, result) => {
-        if (!err) {
-            res.json(result);
-        } else {
-            res.json(result);
-        }
-    });
+	res.redirect('/');
 });
 
 
-router.get('/users/duplication/user_id', (req, res) => {
-    const user_id = req.query.user_id;
-    
-    User.duplicateByUserId(user_id, (err, result) => {
-        if (!err) {
-            res.json(result);
-        } else {
-            res.json(result);
-        }
-    });
+//broadcast API Start
+router.post('/broadcast/live', (req, res) => {
+  // TODO 유효성 검사 추가해야됨
+	const link = req.body.link;
+	Broadcast.onLive(link, (err, result) => {
+		if (!err) {
+			res.json(result);
+		} else {
+			res.json(result);
+		}
+	});
 });
 
-router.get('/users/duplication/nickname', (req, res) => {
-    const nickname = req.query.nickname;
-    
-    User.duplicateByNickname(nickname, (err, result) => {
-        if (!err) {
-            res.json(result);
-        } else {
-            res.json(result);
-        }
-    });
+router.get('/broadcast/live', (req, res) => {
+  // TODO 유효성 검사 추가해야됨
+	Broadcast.getLiveList((err, result) => {
+		if (!err) {
+			res.json({success: true, result: result});
+		} else {
+			res.json(err);
+		}
+	});
 });
 
-router.get('/users/duplication/email', (req, res) => {
-    const email = req.query.email;
-    
-    User.duplicateByEmail(email, (err, result) => {
-        if (!err) {
-            res.json(result);
-        } else {
-            res.json(result);
-        }
-    });
+router.put('/broadcast/live', (req, res) => {
+	const id = req.body.id;
+	Broadcast.endLive(id, (err, result) => {
+		if (!err) {
+			res.json(result);
+		} else {
+			res.json(result);
+		}
+	});
 });
 
-router.post('/reply', (req, res) => {
-    //TODO 댓글이랑 답글을 한곳에서 처리하자
-    
-    const _obj = {
-        video_id: req.body.video_id,
-        comment: req.body.comment_content,
-        nickname: req.user.nickname
-    };
-    
-    Reply.write(_obj, (err, result) => {
-        if (!err) {
-            res.json(result);
-        } else {
-            res.json(result);
-        }
-    });
+/*아직 사용안하고 있음*/
+router.delete('/broadcast/live', (req, res) => {
+	const id = req.body.id;
+	Broadcast.endLive(id, (err, result) => {
+		if (!err) {
+			res.json(result);
+		} else {
+			res.json(result);
+		}
+	});
 });
 
-router.put('/reply', (req, res) => {
-    
-    const _obj = {
-        id: req.body.id,
-        comment: req.body.comment_content,
-    };
-    
-    Reply.modify(_obj, (err, result) => {
-        if (!err) {
-            res.json(result);
-        } else {
-            res.json(result);
-        }
-    });
+router.get('/broadcast/calendar', (req, res) => {
+	Broadcast.getCalendarList((err, result) => {
+		if (!err) {
+			res.json({success: true, result: result});
+		} else {
+			res.json({success: false, err: err});
+		}
+	});
 });
 
-router.delete('/reply', (req, res) => {
+router.post('/broadcast/calendar', (req, res) => {
+	Broadcast.uploadCalendar(req, (err, result) => {
+		if (!err) {
+			res.json(result);
+		} else {
+			res.json(result);
+		}
+	});
+});
 
-    const reply_id = req.body.id;
+router.delete('/broadcast/calendar', (req, res) => {
+	const id = req.body.id;
+	Broadcast.deleteCalendar(id, (err) => {
+		if (!err) {
+			res.json({success: true, msg: '삭제를 완료했습니다.'});
+		} else {
+			res.json({success: false, msg: '다시 시도해주세요'});
+		}
+	});
+});
+//broadcast API END
 
-    Reply.remove(reply_id, (err, result) => {
-        if (!err) {
-            res.json(result);
-        } else {
-            res.json(result);
-        }
-    });
+//event API Start
+
+router.get('/event', (req, res) => {
+	Event.getList((err, result) => {
+		if (!err) {
+			res.json({success: true, result: result});
+		} else {
+			res.json({success: false, err: err});
+		}
+	});
+});
+
+router.put('/event', (req, res) => {
+	const event_id = req.body.event_id;
+  
+	Event.start(event_id, (err) => {
+		if (!err) {
+			res.json({success: true, msg: '작업완료'});
+		} else {
+			res.json({success: false, err: err});
+		}
+	});
 });
 
 
+router.get('/event/result', (req, res) => {
+	Event.getResultList((err, result) => {
+		if (!err) {
+			res.json({success: true, result: result});
+		} else {
+			res.json({success: false, err: err});
+		}
+	});
+});
+
+
+router.post('/event', (req, res) => {
+	Event.upload(req, (err) => {
+		if (!err) {
+			res.json({success: true, msg: '등록 완료'});
+		} else {
+			res.json({success: false, err: err});
+		}
+	});
+});
+
+router.post('/event/result', (req, res) => {
+	Event.uploadResult(req, (err, result) => {
+		res.json(result);
+	});
+});
+
+router.delete('/event/result', (req, res) => {
+	const event_id = req.body.event_id;
+  
+  
+	Event.deleteResult(event_id, (err) => {
+		if (!err) {
+			res.json({success: true, msg: '삭제를 완료했습니다.'});
+		} else {
+			res.json({success: false, msg: '다시 시도해주세요.'});
+		}
+	});
+});
+//event API END
+
+//contents API start
+router.get('/contents/representative', (req, res) => {
+	Content.getRepresentativeList((err, result) => {
+		if (!err) {
+			res.json({success: true, result: result});
+		} else {
+			res.json({success: false, err: err});
+		}
+	});
+});
+
+router.get('/contents/education', (req, res) => {
+	Content.getEducationList((err, result) => {
+		if (!err) {
+			res.json({success: true, result: result});
+		} else {
+			res.json({success: false, err: err});
+		}
+	});
+});
+
+router.get('/contents/summary', (req, res) => {
+	Content.getSummaryList((err, result) => {
+		if (!err) {
+			res.json({success: true, result: result});
+		} else {
+			res.json({success: false, err: err});
+		}
+	});
+});
+
+router.get('/contents/recommend', (req, res) => {
+	Content.getRecommendList((err, result) => {
+		if (!err) {
+			res.json({success: true, result: result});
+		} else {
+			res.json({success: false, err: err});
+		}
+	});
+});
+
+router.post('/contents', (req, res) => {
+	const
+		ref_id = req.body.ref_id,
+		type = req.body.type;
+	Content.register(ref_id, type, (err) => {
+		if (!err) {
+			res.json({success: true, msg: '등록완료'});
+		} else {
+			res.json({success: false, msg: '다시 시도해주세요.'});
+		}
+	});
+});
+
+router.delete('/contents', (req, res) => {
+	const
+    id = req.body.id;
+	Content.delete(id, (err) => {
+		if (!err) {
+			res.json({success: true, msg: '삭제 완료'});
+		} else {
+			res.json({success: false, msg: '다시 시도해주세요.'});
+		}
+	});
+});
+
+router.put('/contents', (req, res) => {
+	const
+		id = req.body.id,
+		ref_id = req.body.ref_id,
+		type = req.body.type;
+  
+	Content.update(id, ref_id, type, (err) => {
+		if (!err) {
+			res.json({success: true, msg: '수정 완료'});
+		} else {
+			res.json({success: false, msg: '다시 시도해주세요.'});
+		}
+	});
+});
+
+//contents API end
+
+//channel API start
+router.get('/channel', (req, res) => {
+	Channel.getListAll((err, result) => {
+		if (!err) {
+			res.json({success: true, result: result});
+		} else {
+			res.json({success: false, err: err});
+		}
+	});
+});
+
+router.get('/channel/special', (req, res) => {
+	Channel.getListSpecial((err, result) => {
+		if (!err) {
+			res.json({success: true, result: result});
+		} else {
+			res.json({success: false, err: err});
+		}
+	});
+});
+
+router.get('/channel/general', (req, res) => {
+	Channel.getListGeneral((err, result) => {
+		if (!err) {
+			res.json({success: true, result: result});
+		} else {
+			res.json({success: false, err: err});
+		}
+	});
+});
+
+router.get('/channel/under', (req, res) => {
+	Channel.getListUnder((err, result) => {
+		if (!err) {
+			res.json({success: true, result: result});
+		} else {
+			res.json({success: false, err: err});
+		}
+	});
+});
+
+router.post('/channel', (req, res) => {
+	Channel.set(req, (err) => {
+		if (!err) {
+			res.json({success: true, msg: '등록완료'});
+		} else {
+			res.json({success: false, msg: '다시 시도해주세요.', err: err});
+		}
+	});
+});
+
+router.post('/channel/group', (req, res) => {
+	const group_id = req.body.channel_rt_group_id;
+	const channel_id = req.body.channel_id;
+  
+	Channel.registerGroup(group_id, channel_id, (err) => {
+		if (!err) {
+			res.json({success: true, msg: '등록완료'});
+		} else {
+			res.json({success: false, msg: '다시 시도해주세요.'});
+		}
+	});
+});
+
+router.put('/channel/group', (req, res) => {
+	const channel_id = req.body.channel_id;
+  
+	Channel.deleteGroup(channel_id, (err) => {
+		if (!err) {
+			res.json({success: true, msg: '해제'});
+		} else {
+			res.json({success: false, msg: '다시 시도해주세요.'});
+		}
+	});
+});
+
+//channel API end
+
+//video API START
+router.get('/video/list/:channel_id', (req, res) => {
+	const channel_id = req.params.channel_id;
+	Video.getList(channel_id, (err, result) => {
+		if (!err) {
+			res.json({success: true, result: result});
+		} else {
+			res.json({success: false, err: err});
+		}
+	});
+});
+
+/*Video View*/
+router.get('/video/view/:video_id', (req, res) => {
+	const video_id = req.params.video_id;
+	Video.view(video_id, (err, result) => {
+		if (!err) {
+			res.json({success: true, result: result});
+		} else {
+			res.json({success: false, err: err});
+		}
+	});
+});
+
+router.post('/video', (req, res) => {
+	Video.upload(req, (err) => {
+		if (!err) {
+			res.json({success: true, msg: '등록완료'});
+		} else {
+			res.json({success: false, msg: '다시 시도해주세요.', err: err});
+		}
+	});
+});
+
+//video API END
+
+//NEWS API START
+
+router.get('/news', (req, res)=>{
+	News.getListAll((err, result)=>{
+		if (!err) {
+			res.json({success: true, result: result});
+		} else {
+			res.json({success: false, err: err});
+		}
+	});
+});
+
+router.post('/news', (req, res)=>{
+	News.register(req, (err)=>{
+		if (!err) {
+			res.json({success: true, msg: '등록완료'});
+		} else {
+			res.json({success: false, msg: '다시 시도해주세요.', err: err});
+		}
+	});
+});
+
+router.delete('/news', (req, res) => {
+	const id = req.body.id;
+	News.delete(id, (err)=>{
+		if (!err) {
+			res.json({success: true, msg: '삭제완료'});
+		} else {
+			res.json({success: false, msg: '다시 시도해주세요.', err: err});
+		}
+	});
+});
+
+//NEWS API END
 module.exports = router;

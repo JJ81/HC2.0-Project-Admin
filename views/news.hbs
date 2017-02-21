@@ -1,0 +1,41 @@
+<div class="right_col" id="body_event" role="main">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="dashboard_graph">
+
+                <div class="row x_title">
+                    <h3>뉴스
+                        <button class="btn btn-success pull-right" data-toggle="modal" data-target="#registerNews">
+                            <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;
+                            등록
+                        </button>
+                    </h3>
+                </div>
+
+                <div class="row">
+                    {{#each result}}
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="thumbnail" style="height: 100%">
+                                <img src="https://holdemclub.s3.ap-northeast-2.amazonaws.com/news/{{thumbnail}}" alt="...">
+                                <div class="caption center-block">
+                                    <h3>{{title}}</h3>
+                                    <strong>{{desc}}</strong>
+                                    <button class="btn btn-danger btn-block btn-lg btn_news_delete"
+                                            data-news-id="{{id}}">
+                                        <i class="fa fa-minus-circle" aria-hidden="true"></i>&nbsp;&nbsp;이벤트 결과 삭제
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{{>modal_news_register}}

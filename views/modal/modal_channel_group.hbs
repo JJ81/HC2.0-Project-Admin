@@ -1,0 +1,38 @@
+<div class="modal fade" id="groupChannel" tabindex="-1" role="dialog" aria-labelledby="myMomyModalLabeldalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">채널 그룹화</h4>
+            </div>
+            <div class="modal-body">
+                <!-- modal body -->
+                <form id="form_event_upload" action="/api/v1/channel/group" method="post">
+
+                    <fieldset class="form-group">
+                        <label for="title">Channel Title</label>
+                        <div id="group_info" class="group_info"></div>
+                    </fieldset>
+
+                    <fieldset class="form-group">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="submit" name="wr ite_video_modal" class="btn btn-primary add-freer-btn">Add</button>
+                        </div>
+                    </fieldset>
+
+                </form>
+                <!-- // modal body -->
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--// Modal (Add Player) -->
+
+
+

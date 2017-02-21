@@ -12,15 +12,15 @@ var HomeDAO = {};
 // };
 
 HomeDAO.QueryHomeReadByDate = function (reqCache, key, callback) {
-  return reqCache.get(key, callback)
+	return reqCache.get(key, callback);
 };
 
 HomeDAO.CacheWithAgentWallet = function (reqCache, key, value, callback) {
-  return reqCache.set(key, value, callback)
+	return reqCache.set(key, value, callback);
 };
 
 HomeDAO.DeleteByKey = function (reqCache, key, callback) {
-  return reqCache.del(key, callback)
+	return reqCache.del(key, callback);
 };
 
 module.exports = HomeDAO;

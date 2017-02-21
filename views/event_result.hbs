@@ -1,0 +1,65 @@
+<div class="right_col" id="body_event" role="main">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="dashboard_graph">
+
+                <div class="row x_title">
+                    <div class="col-md-6 col-lg-6">
+                        <h3>이벤트</h3>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    {{#each result}}
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="thumbnail" style="height: 100%">
+
+                                {{#if (isEquals status 'C')}}
+                                    <img src="https://s3.ap-northeast-2.amazonaws.com/holdemclub/event/result/{{result_img}}" alt="image"/>
+                                {{else if (isEquals status 'P')}}
+                                    <img src="http://i.imgur.com/LrE1Zze.gif" alt="image"/>
+                                {{else if (isEquals  status 'N')}}
+                                    <img src="http://i.imgur.com/tvuH0ZJ.png" alt="image"/>
+                                {{/if}}
+
+                                <div class="caption center-block">
+                                    <h3>{{title}}</h3>
+
+                                    {{#if (isEquals status 'C')}}
+                                        <strong><p>완료된 이벤트입니다.</p></strong>
+                                    {{else if (isEquals status 'P')}}
+                                        <strong><p>진행중인 이벤트입니다.</p></strong>
+                                    {{else if (isEquals  status 'N')}}
+                                        <strong><p>준비중인 이벤트입니다.</p></strong>
+                                    {{/if}}
+
+                                    {{#if (isEquals status 'C')}}
+                                        <button class="btn btn-danger btn-block btn-lg btn_event_result_delete" data-event-id="{{id}}">
+                                            <i class="fa fa-minus-circle" aria-hidden="true"></i>&nbsp;&nbsp;이벤트 결과 삭제
+                                        </button>
+                                    {{else if (isEquals status 'P')}}
+                                        <button class="btn btn-success btn-block btn-lg btn_event_result_register" data-toggle="modal" data-target="#registerEventResult" data-event-id="{{id}}">
+                                            <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;이벤트 결과 등록
+                                        </button>
+                                    {{else if (isEquals  status 'N')}}
+                                        <button class="btn btn-primary btn-block btn-lg" disabled="disabled" data-toggle="modal" data-target="#registerEventResult" data-event-id="{{id}}">
+                                            <i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;<small>준비중 이벤트 결과등록 X</small>
+                                        </button>
+
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{{>modal_event_result_register}}

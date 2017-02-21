@@ -8,6 +8,12 @@ const bodyParser = require('body-parser');
 /*routes*/
 const routes = require('./routes/index');
 const api = require('./api/api');
+const event = require('./routes/event');
+const contents = require('./routes/contents');
+const channel = require('./routes/channel');
+const news = require('./routes/news');
+const broadcast = require('./routes/broadcast');
+/*routes*/
 
 const app = express();
 const hbs = require('hbs');
@@ -25,8 +31,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 hbs.registerPartials(__dirname + '/views/partials');
-// hbs.registerPartials(__dirname + '/views/modal');
-// hbs.registerPartials(__dirname + '/views/main');
+hbs.registerPartials(__dirname + '/views/modal');
+hbs.registerPartials(__dirname + '/views/main');
 
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -34,14 +40,14 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 // todo 무료 개방 TLS를 적용할 경우 아래 코드를 수정해야 한다
 // var expiryDate = new Date( Date.now() + 60 * 60 * 1000 ); // 1 hour
 app.use(cookieSession({
-    name: 'session',
-    keys: ['HC_Mobile', 'Holdemclub'],
-    cookie: {
-        secure: false // https를 통해서만 쿠키를 전송하도록 한다
-        , httpOnly: false // 쿠키가 클라이언트 js가 아닌 httpd를 통해서만 전송이 되도록 하며 XSS 공격으로부터 보호할 수 있다
-        , domain: 'holdemclub.tv' // 쿠키의 도메인 설정
-        // expires: expiryDate // 지속적 쿠키에 대한 만기 일짜를 설정, 쿠키에 중요한 정보가 없으므로 로그인을 일단 유지하게 한다.
-    }
+  name: 'session',
+  keys: ['HC_Mobile', 'Holdemclub'],
+  cookie: {
+    secure: false // https를 통해서만 쿠키를 전송하도록 한다
+    , httpOnly: false // 쿠키가 클라이언트 js가 아닌 httpd를 통해서만 전송이 되도록 하며 XSS 공격으로부터 보호할 수 있다
+    , domain: 'holdemclub.tv' // 쿠키의 도메인 설정
+    // expires: expiryDate // 지속적 쿠키에 대한 만기 일짜를 설정, 쿠키에 중요한 정보가 없으므로 로그인을 일단 유지하게 한다.
+  }
 }));
 
 // helmet related configuration for security
@@ -57,29 +63,34 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
-app.use('/static', express.static(__dirname + '/public'));
+// app.use('/static', express.static(__dirname + '/public'));
 
 const allowCORS = (req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-    (req.method === 'OPTIONS') ? res.send(200) : next();
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+  (req.method === 'OPTIONS') ? res.send(200) : next();
 };
 app.use(allowCORS);
 
 global.PROJ_TITLE = '홀덤클럽티비';
 
 app.use('/', routes);
-app.use('/api/v1/', routes);
+app.use('/api/v1', api);
+app.use('/event', event);
+app.use('/contents', contents);
+app.use('/broadcast', broadcast);
+app.use('/channel', channel);
+app.use('/news', news);
 
 // catch 404 and forward to error handler
 app.use((req, res) => {
   // TODO 무조건 404를 거쳐가고 있는데 이것을 방지하는 코드를 넣을 것
-	res.status(404);
+  res.status(404);
   res.render('404', {
-      current_path: '404 Error Page',
-      title: PROJ_TITLE + 'ERROR PAGE',
-      loggedIn: req.user
+    current_path: '404 Error Page',
+    title: PROJ_TITLE + 'ERROR PAGE',
+    loggedIn: req.user
   });
 });
 
@@ -87,35 +98,35 @@ app.use((req, res) => {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-    app.use((err, req, res, next) => {
-        res.status(err.status || 500);
-        res.render('500', {
-            current_path: ' 500 Error Page',
-            title: PROJ_TITLE + 'ERROR PAGE'
-        });
+  app.use((err, req, res) => {
+    res.status(err.status || 500);
+    res.render('500', {
+      current_path: ' 500 Error Page',
+      title: PROJ_TITLE + 'ERROR PAGE'
     });
+  });
 }
 
 // production error handler
 // no stacktraces leaked to user
-app.use((err, req, res, next) => {
-    res.render('500', {
-        current_path: '500 Error Page',
-        title: PROJ_TITLE + 'ERROR PAGE'
-    });
+app.use((err, req, res) => {
+  res.render('500', {
+    current_path: '500 Error Page',
+    title: PROJ_TITLE + 'ERROR PAGE'
+  });
 });
 
 // Swifty Automatic Changing ENV.
 // todo config 파일을 생성하여 아래의 설정을 공통으로 가져갈 수 있도록
-if (app.get('env') === 'local'){
-    global.mysql_location = 'local';
-    global.redis_location = 'local';
-}else if(app.get('env') === 'development'){
-    global.redis_location = 'dev';
-    global.mysql_location = 'dev';
-}else if(app.get('env') === 'production'){
-    global.mysql_location = 'real';
-    global.redis_location = 'real';
+if (app.get('env') === 'local') {
+  global.mysql_location = 'local';
+  global.redis_location = 'local';
+} else if (app.get('env') === 'development') {
+  global.redis_location = 'dev';
+  global.mysql_location = 'dev';
+} else if (app.get('env') === 'production') {
+  global.mysql_location = 'real';
+  global.redis_location = 'real';
 }
 
 

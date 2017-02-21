@@ -1,0 +1,41 @@
+<div class="modal fade " id="registerEvent" tabindex="-1" role="dialog" aria-labelledby="myMomyModalLabeldalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">{{showContentType type}}등록</h4>
+            </div>
+            <div class="modal-body">
+                <!-- modal body -->
+                <form id="form_content_register" action="/api/v1/contents" method="post" data-parsley-validate=""
+                      class="form-horizontal form-label-left">
+
+                    <input type="hidden" name="type" value="{{type}}">
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ref_id">Contents <span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12"><input type="text" class="form-control col-md-7 col-xs-12" name="ref_id" required autocomplete="off"/></div>
+                    </div>
+
+                    <fieldset class="form-group">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" id="btn_content_register_submit">Create
+                            </button>
+                        </div>
+                    </fieldset>
+                </form>
+                <!-- // modal body -->
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--// Modal (Add Player) -->
+
+
+

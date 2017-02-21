@@ -1,9 +1,9 @@
 /**
  * Created by yijaejun on 15/12/2016.
  */
-var QUERY = require('../database/query');
-var CommonDAO = require('../RedisDAO/CommonDAO');
-var UTIL = require('../util/util');
+var QUERY = require('../../database/query');
+var CommonDAO = require('../../RedisDAO/CommonDAO');
+var UTIL = require('../../util/util');
 
 module.exports = {
 	/**

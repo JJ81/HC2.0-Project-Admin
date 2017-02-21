@@ -14,7 +14,7 @@
     "bower_components",
     "public/components",
     "test",
-    "tests"}
+    "tests"
   ],
   "dependencies": {
     "lodash": "^4.17.4",
@@ -27,6 +27,10 @@
     "font-awesome": "fontawesome#^4.7.0",
     "requirejs": "^2.3.2",
     "jquery-validation": "jquery.validate#^1.13.0",
-    "swiper": "^3.4.1"
+    "swiper": "^3.4.1",
+    "gentelella": "^1.4.0",
+    "jquery-form": "^3.46.0",
+    "video.js": "^5.17.0",
+    "videojs-youtube": "^2.3.2"
   }
 }

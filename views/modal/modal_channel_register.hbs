@@ -10,7 +10,7 @@
             </div>
             <div class="modal-body">
                 <!-- modal body -->
-                <form id="form_event_upload" action="/api/v1/channel" enctype="multipart/form-data"  method="post">
+                <form id="form_channel_upload" action="/api/v1/channel" enctype="multipart/form-data"  method="post">
 
                     <fieldset class="form-group">
                         <label for="title">Title</label>
@@ -19,22 +19,22 @@
 
                     <fieldset class="form-group">
                         <label for="image">Thumbnail</label>
-                        <input class="form-control" type="file" name="img_files[]" accept="image/*">
+                        <input class="form-control" type="file" name="img_files[]" accept="image/*" required>
                     </fieldset>
 
                     <fieldset class="form-group">
                         <label for="image">Thumbnail_m</label>
-                        <input class="form-control" type="file" name="img_files[]" accept="image/*">
+                        <input class="form-control" type="file" name="img_files[]" accept="image/*" required>
                     </fieldset>
 
                     <fieldset class="form-group">
                         <label for="image">Logo</label>
-                        <input class="form-control" type="file" name="img_files[]" accept="image/*">
+                        <input class="form-control" type="file" name="img_files[]" accept="image/*" required>
                     </fieldset>
 
                     <fieldset class="form-group">
                         <label for="image">Logo_m</label>
-                        <input class="form-control" type="file" name="img_files[]" accept="image/*">
+                        <input class="form-control" type="file" name="img_files[]" accept="image/*" required>
                     </fieldset>
 
 

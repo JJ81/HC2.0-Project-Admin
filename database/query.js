@@ -96,6 +96,7 @@ QUERY.Channel = {
 	ListGeneral: 'select *from `channel_new` where `type` = \'G\';',
 	ListUnder: 'select *from `channel_new` where `type` = \'U\';',
 	Register: 'insert into `channel_new` set ? ;',
+  Modify : 'update `channel_new` set `title`= ?, `type` =? where `channel_id`= ?;',
 	RegisterGroup: 'update `channel_new` set `type` = ? , `group_id`= ? where `channel_id` =?;',
 	DeleteGroup: 'update `channel_new` set `group_id`= ?, `type`= ? where `channel_id`= ?;'
 };
@@ -103,7 +104,8 @@ QUERY.Channel = {
 QUERY.Video = {
 	List: 'select *from `video` where `channel_id`= ? order by `created_dt` desc;',
 	View: 'select * from `video` where `video_id`= ?',
-	Register: 'insert into `video` set ?;'
+	Register: 'insert into `video` set ?;',
+  Modify :'update `video` set `title` =? where `video_id`= ?;'
 };
 
 QUERY.News = {

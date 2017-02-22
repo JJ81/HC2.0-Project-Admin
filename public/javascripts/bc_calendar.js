@@ -12,19 +12,17 @@ requirejs(
 		btn_calendar_delete = $('#btn_calendar_delete');
             
     
-        /**
-         * 편성표 업로드
-         */
-	submit_bc_calendar_upload.on('click', function () {
-		Common.AjaxFormSubmit(form_bc_calendar_upload, function (err, result) {
-			if (!err) {
-				alert(result.msg);
-				location.reload();
-			} else {
-				alert(result.msg);
-			}
-		});
-	});
+        
+	// submit_bc_calendar_upload.on('click', function () {
+	// 	Common.AjaxFormSubmit(form_bc_calendar_upload, function (err, result) {
+	// 		if (!err) {
+	// 			alert(result.msg);
+	// 			location.reload();
+	// 		} else {
+	// 			alert(result.msg);
+	// 		}
+	// 	});
+	// });
     
         /**
          * 편성표 삭제

@@ -32,8 +32,8 @@
                                 <div class="caption">
                                     <div class="caption text-center">
                                         <h5 class="text-nowrap"><a href="/channel/{{channel_id}}/video/list">{{title}}</a> </h5>
-                                        <button class="btn btn-success btn_content_modify" data-id="{{id}}"  data-toggle="modal" data-target="#modifyContent">수정</button>
-                                        <button class="btn btn-danger btn_content_delete" data-id="{{id}}" role="button">삭제</button>
+                                        <button class="btn btn-success btn_channel_modify btn-block" data-id="{{channel_id}}" data-title="{{title}}"  data-toggle="modal" data-target="#modifyChannel">수정</button>
+                                        <button class="btn btn-danger btn_content_delete btn-block" data-id="{{channel_id}}" role="button">삭제</button>
                                     </div>
                                 </div>
                             </div>
@@ -48,4 +48,4 @@
 </div>
 
 {{>modal_channel_register}}
-{{>modal_contents_modify}}
+{{>modal_channel_modify}}

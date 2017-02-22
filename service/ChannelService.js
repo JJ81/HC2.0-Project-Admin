@@ -82,7 +82,7 @@ Channel.modify = (req, callback)=>{
   const tasks = [
     (callback) => {
       Upload.formidable(req, (err, files, field) => {
-        files.S3_FILE_NAME = S3_FILE_NAME;
+        // files.S3_FILE_NAME = S3_FILE_NAME;
         callback(err, files, field);
       });
     },

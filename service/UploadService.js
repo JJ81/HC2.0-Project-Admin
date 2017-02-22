@@ -58,15 +58,15 @@ Upload.formidable = (req, callback) => {
   let _fields;
   
   form.parse(req, function (err, fields, files) {
-    // _fields = fields
+    _fields = fields;
     // callback(err, fields, files);
   });
   
   
   // Form File의 Name 값으로 S3_FILE_NAME  값을 결정하다. (체널 업로드, 비디오 업로드에 사용)
-  // form.on('file', (name, file) => {
-  //   file.S3_FILE_NAME = name
-  // });
+  form.on('file', (name, file) => {
+    file.S3_FILE_NAME = name
+  });
   
   // form.on('progress', (bytesReceived, bytesExpected) => {
   //   let percent = (bytesReceived / bytesExpected * 100) | 0;
@@ -78,7 +78,7 @@ Upload.formidable = (req, callback) => {
   // });
   
   form.on('end', function () {
-    callback(null, this.openedFiles, null);
+    callback(null, this.openedFiles, _fields);
   });
 };
 

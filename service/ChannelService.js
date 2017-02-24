@@ -113,9 +113,12 @@ Channel.modify = (req, callback)=>{
   });
   
 };
-Channel.registerGroup = (group_id, channel_id_list, callback) => {
-  async.each(channel_id_list, (item, cb) => {
-    connection.query(QUERY.Channel.RegisterGroup, ['U', group_id, item], (err, result) => {
+Channel.registerGroup = (group_id, channel_id, callback) => {
+  const array_channel_id = (channel_id.constructor === Array) ? channel_id : [channel_id];
+  
+  async.each(array_channel_id, (item, cb) => {
+    const test = connection.query(QUERY.Channel.RegisterGroup, ['U', group_id, item], (err, result) => {
+      console.log(test.sql);
       cb(err, result);
     });
   }, (err, result) => {

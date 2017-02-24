@@ -151,7 +151,7 @@ router.put('/broadcast/live', (req, res) => {
 /*아직 사용안하고 있음*/
 router.delete('/broadcast/live', (req, res) => {
   const id = req.body.id;
-  Broadcast.endLive(id, (err, result) => {
+  Broadcast.endLive(id, (err) => {
     if (!err) {
       res.json({success: true, msg: '삭제를 완료했습니다.'});
     } else {
@@ -172,16 +172,9 @@ router.get('/broadcast/calendar', (req, res) => {
 
 router.post('/broadcast/calendar', (req, res) => {
   
-  
-  Broadcast.uploadCalendar(req, (err, result) => {
+  Broadcast.registerCalendar(req, (err) => {
     if (!err) {
-      // res.json({success: true, msg: '등록을 완료했습니다.'});
-      // res.writeHead(200, {'content-type': 'text/plain'});
-      // res.write('received upload:\n\n');
-      // res.json({success: true, msg: '성공'});
-      res.end();
-      // res.json({success: false, msg: '다시 시도해주세요'});
-
+      res.json({success: false, msg: '다시 시도해주세요'});
     } else {
       res.json({success: false, msg: '다시 시도해주세요'});
     }
@@ -238,7 +231,7 @@ router.get('/event/result', (req, res) => {
 
 
 router.post('/event', (req, res) => {
-  Event.upload(req, (err) => {
+  Event.register(req, (err) => {
     if (!err) {
       res.json({success: true, msg: '등록 완료'});
     } else {
@@ -248,7 +241,7 @@ router.post('/event', (req, res) => {
 });
 
 router.post('/event/result', (req, res) => {
-  Event.uploadResult(req, (err, result) => {
+  Event.registerResult(req, (err, result) => {
     res.json(result);
   });
 });
@@ -501,6 +494,7 @@ router.post('/news', (req, res) => {
     if (!err) {
       res.json({success: true, msg: '등록완료'});
     } else {
+      console.log(err);
       res.json({success: false, msg: '다시 시도해주세요.', err: err});
     }
   });

@@ -47,7 +47,7 @@ Broadcast.getCalendarList = (callback) => {
   
 };
 
-Broadcast.uploadCalendar = (req, callback) => {
+Broadcast.registerCalendar = (req, callback) => {
   
   const tasks = [
     (callback) => {
@@ -61,9 +61,9 @@ Broadcast.uploadCalendar = (req, callback) => {
     		callback(err, file_name, fields);
     	});
     },
-    (file_name, field, callback) => {
+    (file_name, fields, callback) => {
     	const _obj = {
-    		title: field.link,
+    		title: fields.link,
     		img_name: file_name.S3_FILE_NAME,
     		created_dt :new Date()
     	};

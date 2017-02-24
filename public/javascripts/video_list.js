@@ -14,6 +14,8 @@ requirejs(
       btn_video_modify = $('.btn_video_modify'),
       modal_modify_id = $('#modifyVideo'),
       submit_video_modify = $('#submit_video_modify'),
+      submit_video_upload = $('#submit_video_upload'),
+      form_video_upload = $('#form_video_upload'),
       form_video_modify = $('#form_video_modify');
     
   
@@ -30,6 +32,18 @@ requirejs(
   
     submit_video_modify.on('click', function () {
       Common.AjaxFormSubmit(form_video_modify, (err, result)=>{
+        if(result.success){
+          alert(result.msg);
+          location.reload();
+        }else{
+          alert(result.msg);
+        }
+      });
+    });
+  
+  
+    submit_video_upload.on('click', function () {
+      Common.AjaxFormSubmit(form_video_upload, (err, result)=>{
         if(result.success){
           alert(result.msg);
           location.reload();

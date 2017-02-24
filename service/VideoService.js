@@ -24,7 +24,7 @@ Video.view = (video_id, callback) => {
   });
 };
 
-Video.upload = (req, callback) => {
+Video.register = (req, callback) => {
   const video_id = uuid.v1();
   
   const tasks = [
@@ -51,7 +51,8 @@ Video.upload = (req, callback) => {
         created_dt: new Date()
       };
       
-      connection.query(QUERY.Video.Register, values, (err, result) => {
+      const test = connection.query(QUERY.Video.Register, values, (err, result) => {
+        console.log(test.sql);
         callback(err, result);
       });
     },
@@ -87,8 +88,7 @@ Video.modify = (req, callback) => {
     },
     
     (fields, callback) => {
-      let test = connection.query(QUERY.Video.Modify, [fields.title, fields.video_id], (err, result)=>{
-        console.log(test.sql);
+      connection.query(QUERY.Video.Modify, [fields.title, fields.video_id], (err, result)=>{
         callback(err, result);
       })
     }
@@ -97,8 +97,6 @@ Video.modify = (req, callback) => {
   async.waterfall(tasks, (err, result)=>{
     callback(err, result)
   });
-  
-  
 };
 
 module.exports = Video;

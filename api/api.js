@@ -463,7 +463,7 @@ router.get('/video/view/:video_id', (req, res) => {
 });
 
 router.post('/video', (req, res) => {
-  Video.upload(req, (err) => {
+  Video.register(req, (err) => {
     if (!err) {
       res.json({success: true, msg: '등록완료'});
     } else {

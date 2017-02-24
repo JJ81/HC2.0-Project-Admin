@@ -48,40 +48,34 @@ Broadcast.getCalendarList = (callback) => {
 };
 
 Broadcast.uploadCalendar = (req, callback) => {
-  // const tasks = [
-  //   (callback) => {
-  //     Upload.formidable(req, (err, fields, files) => {
-  //       callback(err, fields, files);
-  //     });
-  //   },
-    // (fields, files, callback) => {
-    // 	Upload.s3(files, Upload.S3KYES.CALENDAR, (err, file_name) => {
-    //
-    // 		callback(err, file_name, fields);
-    // 	});
-    // },
-    // (file_name, field, callback) => {
-    // 	const _obj = {
-    // 		title: field.link,
-    // 		img_name: file_name.S3_FILE_NAME,
-    // 		created_dt :new Date()
-    // 	};
-    // 	connection.query(QUERY.Broadcast.CalendarWrite, _obj, (err, result) => {
-    // 		callback(err, result);
-    // 	});
-    // }
-  // ];
   
-  Upload.formidable(req, (err, fields, files) => {
-    console.log('----------------');
-    console.log(fields, files);
-    console.log('----------------');
-    callback(err, fields);
+  const tasks = [
+    (callback) => {
+      Upload.formidable(req, (err, files, fields) => {
+        callback(err, files, fields);
+      });
+    },
+    (files, fields, callback) => {
+    	Upload.s3(files, Upload.S3KYES.CALENDAR, (err, file_name) => {
+
+    		callback(err, file_name, fields);
+    	});
+    },
+    (file_name, field, callback) => {
+    	const _obj = {
+    		title: field.link,
+    		img_name: file_name.S3_FILE_NAME,
+    		created_dt :new Date()
+    	};
+    	connection.query(QUERY.Broadcast.CalendarWrite, _obj, (err, result) => {
+    		callback(err, result);
+    	});
+    }
+  ];
+  
+  async.waterfall(tasks, (err, result) => {
+    callback(err, result);
   });
-  
-  // async.waterfall(tasks, (err, result) => {
-  //   callback(err, result);
-  // });
 };
 
 Broadcast.deleteCalendar = (id, callback) => {

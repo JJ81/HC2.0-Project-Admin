@@ -5,7 +5,6 @@ const async = require('async');
 const AWS = require('aws-sdk');
 AWS.config.region = 'ap-northeast-2';
 const s3 = new S3Instance();
-const form = new FormidableInstance();
 const Upload = {};
 
 function S3Instance() {
@@ -23,20 +22,7 @@ function S3Instance() {
  */
 
 
-function FormidableInstance() {
-  'use strict';
-  let instance;
-  FormidableInstance = function () {
-    return instance;
-  };
-  instance = new formidable.IncomingForm({
-    encoding: 'utf-8',
-    multiples: true,
-    keepExtensions: false //확장자 제거
-  });
-  
-  return instance
-}
+
 
 /*S3 버킷 설정*/
 let params = {
@@ -57,6 +43,24 @@ Upload.S3KYES = {
 Upload.formidable = (req, callback) => {
   let _fields;
   
+  function FormidableInstance() {
+    'use strict';
+    let instance;
+    FormidableInstance = function () {
+      return instance;
+    };
+    
+    instance = new formidable.IncomingForm({
+      encoding: 'utf-8',
+      multiples: true,
+      keepExtensions: false //확장자 제거
+    });
+    
+    return instance
+  }
+  
+  const form = new FormidableInstance();
+  
   form.parse(req, function (err, fields, files) {
     _fields = fields;
     // callback(err, fields, files);
@@ -73,9 +77,9 @@ Upload.formidable = (req, callback) => {
   //   // console.log(percent);
   // });
   
-  // form.on('error', function(err) {
-  //   callback(err, null, null);
-  // });
+  form.on('error', function(err) {
+    callback(err, null, null);
+  });
   
   form.on('end', function () {
     callback(null, this.openedFiles, _fields);

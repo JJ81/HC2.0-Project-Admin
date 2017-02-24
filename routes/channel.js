@@ -23,7 +23,7 @@ router.get('/', (req, res) => {
 			const _body = JSON.parse(body);
       
 			res.render('channel_register', {
-				current_path: 'event',
+				current_path: 'channel',
 				title: PROJ_TITLE + '이벤트',
 				result: _body.result,
 			});
@@ -42,7 +42,7 @@ router.get('/:channel_id/video/list', (req, res) => {
 			const _body = JSON.parse(body);
       
 			res.render('video_list', {
-				current_path: 'event_result',
+				current_path: 'video_list',
 				title: PROJ_TITLE + '이벤트 결과 등록',
 				result: _body.result,
 				channel_id: channel_id

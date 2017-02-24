@@ -9,17 +9,7 @@ const
 	Upload = require('../service/UploadService'),
 	Event = {};
 
-Event.uploadResult = (req, callback) => {
-    
-    /**
-     * @task 작업순서
-     *  1. formidable로 EC 업로드
-     *  2. EC 업로드된 파일을 다시 S3업로드
-     *  3. event_result 추가
-     *  4. event status 완료로 변경
-     *
-     *  TODO 트렌젹션이 필요한가?
-     */
+Event.registerResult = (req, callback) => {
     
 	const tasks = [
         
@@ -30,15 +20,15 @@ Event.uploadResult = (req, callback) => {
 		},
         
 		(files, field, callback) => {
-			Upload.s3(files, Upload.S3KYES.EVENT_RESULT, (err, result, s3_file_name) => {
-				callback(err, s3_file_name, field);
+			Upload.s3(files, Upload.S3KYES.EVENT_RESULT, (err, s3_result) => {
+				callback(err, s3_result, field);
 			});
 		},
         
-		(s3_file_name, field, callback) => {
+		(s3_result, field, callback) => {
 			const _obj = {
 				event_id: field.event_id,
-				result_img: s3_file_name,
+				result_img: s3_result.S3_FILE_NAME,
 				created_dt: new Date()
 			};
 			connection.query(QUERY.Event.ResultRegister, _obj, (err, result) => {
@@ -63,15 +53,8 @@ Event.uploadResult = (req, callback) => {
 	});
 };
 
-Event.upload = (req, callback) => {
-    /**
-     * tasks 작업순서
-     *
-     *  1. formidable로 EC 업로드
-     *  2. EC 업로드된 파일을 다시 S3업로드
-     *  3. 이벤트 등록
-     * */
-    
+Event.register = (req, callback) => {
+  
 	const tasks = [
 		(callback) => {
 			Upload.formidable(req, (err, files, field) => {
@@ -80,17 +63,17 @@ Event.upload = (req, callback) => {
 		},
         
 		(files, field, callback) => {
-			Upload.s3(files, Upload.S3KYES.EVENT, (err, result, s3_file_name) => {
-				callback(err, s3_file_name, field);
+			Upload.s3(files, Upload.S3KYES.EVENT, (err, s3_result) => {
+				callback(err, s3_result, field);
 			});
 		},
         
-		(s3_file_name, field, callback) => {
+		(s3_result, field, callback) => {
 			const values = {
 				title: field.title,
 				type: field.type,
 				status: 'N',
-				thumbnail: s3_file_name,
+				thumbnail: s3_result.S3_FILE_NAME,
 				created_dt: new Date()
 			};
 			connection.query(QUERY.Event.Register, values, (err, result) => {

@@ -18,17 +18,17 @@ News.register = (req, callback) => {
     },
     
     (files, fields, callback) => {
-      UploadService.s3(files, UploadService.S3KYES.NEWS, (err, result, s3_file_name)=>{
-        callback(err, fields, s3_file_name)
+      UploadService.s3(files, UploadService.S3KYES.NEWS, (err, file_name)=>{
+        callback(err, file_name, fields)
       })
     },
-    (fields, s3_file_name, callback)=>{
+    (file_name, fields, callback)=>{
       const values ={
         title : fields.title,
         sub_title : fields.sub_title,
         desc : fields.desc,
         contents : fields.contents,
-        thumbnail : s3_file_name
+        thumbnail : file_name.S3_FILE_NAME,
       };
       connection.query(QUERY.News.Register, values, (err, result) => {
         callback(err, result);

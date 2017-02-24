@@ -25,7 +25,7 @@ requirejs(
         }
       });
     });
-    
+    $('#parent1').clone().children().remove().end().text();
     btn_news_delete.on('click', function () {
       const data = {
         id: $(this).attr('data-news-id')
@@ -40,5 +40,4 @@ requirejs(
         }
       })
     });
-    
   });

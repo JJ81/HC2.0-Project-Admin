@@ -4,14 +4,15 @@
 
 'use strict';
 requirejs(
-	[
-		'common',
-		'jquery',
-		'videoJS',
-		'videoJSYoutube'
-	],
+  [
+    'common',
+    'jquery',
+    'videoJS',
+    'videoJSYoutube'
+  ],
+  
+  (Common, $) => {
     
-    (Common, $) => {
-        
-        
-});
+    
+    
+  });

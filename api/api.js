@@ -113,403 +113,378 @@ router.post('/hc/login', passport.authenticate('local', {
 });
 
 
-//broadcast API Start
-router.post('/broadcast/live', (req, res) => {
-  // TODO 유효성 검사 추가해야됨
-  const link = req.body.link;
-  Broadcast.onLive(link, (err, result) => {
-    if (!err) {
-      res.json(result);
-    } else {
-      res.json(result);
-    }
+router.route('/broadcast/live')
+  .get((req, res) => {
+    Broadcast.getLiveList((err, result) => {
+      if (!err) {
+        res.json({success: true, result: result});
+      } else {
+        res.json({success: false, err: err});
+      }
+    });
+  })
+  .post((req, res) => {
+    const link = req.body.link;
+    Broadcast.onLive(link, (err) => {
+      if (!err) {
+        res({success: true, msg: '생방송 등록 완료'});
+      } else {
+        res({success: false, msg: '다시 시도해주세요'});
+      }
+    });
+  })
+  .put((req, res) => {
+    const id = req.body.id;
+    Broadcast.endLive(id, (err) => {
+      if (!err) {
+        res.json({success: true, msg: '생방송 종료 완료'});
+      } else {
+        res.json({success: false, msg: '다시 시도해주세요'});
+      }
+    });
+  })
+  .delete((req, res) => {
+    const id = req.body.id;
+    Broadcast.endLive(id, (err) => {
+      if (!err) {
+        res.json({success: true, msg: '삭제를 완료했습니다.'});
+      } else {
+        res.json({success: false, msg: '다시 시도해주세요'});
+      }
+    });
   });
-});
 
-router.get('/broadcast/live', (req, res) => {
-  // TODO 유효성 검사 추가해야됨
-  Broadcast.getLiveList((err, result) => {
-    if (!err) {
-      res.json({success: true, result: result});
-    } else {
-      res.json(err);
-    }
-  });
-});
 
-router.put('/broadcast/live', (req, res) => {
-  const id = req.body.id;
-  Broadcast.endLive(id, (err, result) => {
-    if (!err) {
-      res.json(result);
-    } else {
-      res.json(result);
-    }
+router.route('/broadcast/calendar')
+  .get((req, res) => {
+    Broadcast.getCalendarList((err, result) => {
+      if (!err) {
+        res.json({success: true, result: result});
+      } else {
+        res.json({success: false, err: err});
+      }
+    });
+  })
+  .post((req, res) => {
+    Broadcast.registerCalendar(req, (err) => {
+      if (!err) {
+        res.json({success: false, msg: '다시 시도해주세요'});
+      } else {
+        res.json({success: false, msg: '다시 시도해주세요'});
+      }
+    });
+  })
+  .delete((req, res) => {
+    const id = req.body.id;
+    Broadcast.deleteCalendar(id, (err) => {
+      if (!err) {
+        res.json({success: true, msg: '삭제를 완료했습니다.'});
+      } else {
+        res.json({success: false, msg: '다시 시도해주세요'});
+      }
+    });
   });
-});
 
-/*아직 사용안하고 있음*/
-router.delete('/broadcast/live', (req, res) => {
-  const id = req.body.id;
-  Broadcast.endLive(id, (err) => {
-    if (!err) {
-      res.json({success: true, msg: '삭제를 완료했습니다.'});
-    } else {
-      res.json({success: false, msg: '다시 시도해주세요'});
-    }
-  });
-});
-
-router.get('/broadcast/calendar', (req, res) => {
-  Broadcast.getCalendarList((err, result) => {
-    if (!err) {
-      res.json({success: true, result: result});
-    } else {
-      res.json({success: false, err: err});
-    }
-  });
-});
-
-router.post('/broadcast/calendar', (req, res) => {
-  
-  Broadcast.registerCalendar(req, (err) => {
-    if (!err) {
-      res.json({success: false, msg: '다시 시도해주세요'});
-    } else {
-      res.json({success: false, msg: '다시 시도해주세요'});
-    }
-  });
-  
-});
-
-router.delete('/broadcast/calendar', (req, res) => {
-  const id = req.body.id;
-  Broadcast.deleteCalendar(id, (err) => {
-    if (!err) {
-      res.json({success: true, msg: '삭제를 완료했습니다.'});
-    } else {
-      res.json({success: false, msg: '다시 시도해주세요'});
-    }
-  });
-});
 //broadcast API END
 
 //event API Start
 
-router.get('/event', (req, res) => {
-  Event.getList((err, result) => {
-    if (!err) {
-      res.json({success: true, result: result});
-    } else {
-      res.json({success: false, err: err});
-    }
+router.route('/event')
+  .get((req, res) => {
+    Event.getList((err, result) => {
+      if (!err) {
+        res.json({success: true, result: result});
+      } else {
+        res.json({success: false, err: err});
+      }
+    });
+  })
+  .post((req, res) => {
+    Event.register(req, (err) => {
+      if (!err) {
+        res.json({success: true, msg: '등록 완료'});
+      } else {
+        res.json({success: false, err: err});
+      }
+    });
+  })
+  .put((req, res) => {
+    const event_id = req.body.event_id;
+    
+    Event.start(event_id, (err) => {
+      if (!err) {
+        res.json({success: true, msg: '작업완료'});
+      } else {
+        res.json({success: false, err: err});
+      }
+    });
   });
-});
 
-router.put('/event', (req, res) => {
-  const event_id = req.body.event_id;
-  
-  Event.start(event_id, (err) => {
-    if (!err) {
-      res.json({success: true, msg: '작업완료'});
-    } else {
-      res.json({success: false, err: err});
-    }
+router.route('/event/result')
+  .get((req, res) => {
+    Event.getResultList((err, result) => {
+      if (!err) {
+        res.json({success: true, result: result});
+      } else {
+        res.json({success: false, err: err});
+      }
+    });
+  })
+  .post((req, res) => {
+    Event.registerResult(req, (err) => {
+      if (!err) {
+        res.json({success: true, msg: '방송표 업로드 완료'});
+      } else {
+        res.json({success: false, msg: '다시 시도해주세요'});
+      }
+    });
   });
-});
 
-
-router.get('/event/result', (req, res) => {
-  Event.getResultList((err, result) => {
-    if (!err) {
-      res.json({success: true, result: result});
-    } else {
-      res.json({success: false, err: err});
-    }
-  });
-});
-
-
-router.post('/event', (req, res) => {
-  Event.register(req, (err) => {
-    if (!err) {
-      res.json({success: true, msg: '등록 완료'});
-    } else {
-      res.json({success: false, err: err});
-    }
-  });
-});
-
-router.post('/event/result', (req, res) => {
-  Event.registerResult(req, (err, result) => {
-    res.json(result);
-  });
-});
-
-router.delete('/event/result', (req, res) => {
-  const event_id = req.body.event_id;
-  
-  
-  Event.deleteResult(event_id, (err) => {
-    if (!err) {
-      res.json({success: true, msg: '삭제를 완료했습니다.'});
-    } else {
-      res.json({success: false, msg: '다시 시도해주세요.'});
-    }
-  });
-});
-//event API END
 
 //contents API start
-router.get('/contents/representative', (req, res) => {
-  Content.getRepresentativeList((err, result) => {
-    if (!err) {
-      res.json({success: true, result: result});
-    } else {
-      res.json({success: false, err: err});
-    }
-  });
-});
 
-router.get('/contents/education', (req, res) => {
-  Content.getEducationList((err, result) => {
-    if (!err) {
-      res.json({success: true, result: result});
-    } else {
-      res.json({success: false, err: err});
-    }
+router
+  .get('/contents/representative', (req, res) => {
+    Content.getRepresentativeList((err, result) => {
+      if (!err) {
+        res.json({success: true, result: result});
+      } else {
+        res.json({success: false, err: err});
+      }
+    });
+  })
+  .get('/contents/education', (req, res) => {
+    Content.getEducationList((err, result) => {
+      if (!err) {
+        res.json({success: true, result: result});
+      } else {
+        res.json({success: false, err: err});
+      }
+    });
+  })
+  .get('/contents/summary', (req, res) => {
+    Content.getSummaryList((err, result) => {
+      if (!err) {
+        res.json({success: true, result: result});
+      } else {
+        res.json({success: false, err: err});
+      }
+    });
+  })
+  .get('/contents/recommend', (req, res) => {
+    Content.getRecommendList((err, result) => {
+      if (!err) {
+        res.json({success: true, result: result});
+      } else {
+        res.json({success: false, err: err});
+      }
+    });
   });
-});
 
-router.get('/contents/summary', (req, res) => {
-  Content.getSummaryList((err, result) => {
-    if (!err) {
-      res.json({success: true, result: result});
-    } else {
-      res.json({success: false, err: err});
-    }
-  });
-});
-
-router.get('/contents/recommend', (req, res) => {
-  Content.getRecommendList((err, result) => {
-    if (!err) {
-      res.json({success: true, result: result});
-    } else {
-      res.json({success: false, err: err});
-    }
-  });
-});
-
-router.post('/contents', (req, res) => {
-  const
-    ref_id = req.body.ref_id,
-    type = req.body.type;
-  Content.register(ref_id, type, (err) => {
-    if (!err) {
-      res.json({success: true, msg: '등록완료'});
-    } else {
-      res.json({success: false, msg: '다시 시도해주세요.'});
-    }
-  });
-});
-
-router.delete('/contents', (req, res) => {
-  const
-    id = req.body.id;
-  Content.delete(id, (err) => {
-    if (!err) {
-      res.json({success: true, msg: '삭제 완료'});
-    } else {
-      res.json({success: false, msg: '다시 시도해주세요.'});
-    }
-  });
-});
-
-router.put('/contents', (req, res) => {
-  const
-    id = req.body.id,
-    ref_id = req.body.ref_id,
-    type = req.body.type;
+router.route('/contents')
+  .post((req, res)=>{
+    const
+      ref_id = req.body.ref_id,
+      type = req.body.type;
+    Content.register(ref_id, type, (err) => {
+      if (!err) {
+        res.json({success: true, msg: '등록완료'});
+      } else {
+        res.json({success: false, msg: '다시 시도해주세요.'});
+      }
+    });
+  })
+  .put((req, res)=>{
+    const
+      id = req.body.id,
+      ref_id = req.body.ref_id,
+      type = req.body.type;
   
-  Content.update(id, ref_id, type, (err) => {
-    if (!err) {
-      res.json({success: true, msg: '수정 완료'});
-    } else {
-      res.json({success: false, msg: '다시 시도해주세요.'});
-    }
+    Content.update(id, ref_id, type, (err) => {
+      if (!err) {
+        res.json({success: true, msg: '수정 완료'});
+      } else {
+        res.json({success: false, msg: '다시 시도해주세요.'});
+      }
+    });
+  })
+  .delete((req, res)=>{
+    const
+      id = req.body.id;
+    Content.delete(id, (err) => {
+      if (!err) {
+        res.json({success: true, msg: '삭제 완료'});
+      } else {
+        res.json({success: false, msg: '다시 시도해주세요.'});
+      }
+    });
   });
-});
 
 //contents API end
 
 //channel API start
-router.get('/channel', (req, res) => {
-  Channel.getListAll((err, result) => {
-    if (!err) {
-      res.json({success: true, result: result});
-    } else {
-      res.json({success: false, err: err});
-    }
+router
+  .get('/channel/special', (req, res) =>{
+    Channel.getListSpecial((err, result) => {
+      if (!err) {
+        res.json({success: true, result: result});
+      } else {
+        res.json({success: false, err: err});
+      }
+    });
+  })
+  .get('/channel/general', (req, res) =>{
+    Channel.getListGeneral((err, result) => {
+      if (!err) {
+        res.json({success: true, result: result});
+      } else {
+        res.json({success: false, err: err});
+      }
+    });
+  })
+  .get('/channel/under', (req, res) =>{
+    Channel.getListUnder((err, result) => {
+      if (!err) {
+        res.json({success: true, result: result});
+      } else {
+        res.json({success: false, err: err});
+      }
+    });
   });
-});
 
-router.get('/channel/special', (req, res) => {
-  Channel.getListSpecial((err, result) => {
-    if (!err) {
-      res.json({success: true, result: result});
-    } else {
-      res.json({success: false, err: err});
-    }
+router.route('/channel')
+  .get((req, res) =>{
+    Channel.getListAll((err, result) => {
+      if (!err) {
+        res.json({success: true, result: result});
+      } else {
+        res.json({success: false, err: err});
+      }
+    });
+  })
+  .post((req, res)=>{
+    Channel.register(req, (err) => {
+      if (!err) {
+        res.json({success: true, msg: '등록완료'});
+      } else {
+        res.json({success: false, msg: '다시 시도해주세요.', err: err});
+      }
+    });
+  })
+  .put((req, res)=>{
+    Channel.modify(req, (err) => {
+      if (!err) {
+        res.json({success: true, msg: '등록완료'});
+      } else {
+        res.json({success: false, msg: '다시 시도해주세요.', err: err});
+      }
+    });
   });
-});
 
-router.get('/channel/general', (req, res) => {
-  Channel.getListGeneral((err, result) => {
-    if (!err) {
-      res.json({success: true, result: result});
-    } else {
-      res.json({success: false, err: err});
-    }
+router.route('/channel/group')
+  .post((req, res) => {
+    const group_id = req.body.channel_rt_group_id;
+    const channel_id = req.body.channel_id;
+    
+    Channel.registerGroup(group_id, channel_id, (err) => {
+      if (!err) {
+        res.json({success: true, msg: '등록완료'});
+      } else {
+        res.json({success: false, msg: '다시 시도해주세요.'});
+      }
+    });
+  })
+  .put((req, res) => {
+    const channel_id = req.body.channel_id;
+    
+    Channel.deleteGroup(channel_id, (err) => {
+      if (!err) {
+        res.json({success: true, msg: '해제'});
+      } else {
+        res.json({success: false, msg: '다시 시도해주세요.'});
+      }
+    });
   });
-});
-
-router.get('/channel/under', (req, res) => {
-  Channel.getListUnder((err, result) => {
-    if (!err) {
-      res.json({success: true, result: result});
-    } else {
-      res.json({success: false, err: err});
-    }
-  });
-});
-
-router.post('/channel', (req, res) => {
-  Channel.register(req, (err) => {
-    if (!err) {
-      res.json({success: true, msg: '등록완료'});
-    } else {
-      res.json({success: false, msg: '다시 시도해주세요.', err: err});
-    }
-  });
-});
-
-router.put('/channel', (req, res) => {
-  Channel.modify(req, (err) => {
-    if (!err) {
-      res.json({success: true, msg: '등록완료'});
-    } else {
-      res.json({success: false, msg: '다시 시도해주세요.', err: err});
-    }
-  });
-});
-
-router.post('/channel/group', (req, res) => {
-  const group_id = req.body.channel_rt_group_id;
-  const channel_id = req.body.channel_id;
-  
-  Channel.registerGroup(group_id, channel_id, (err) => {
-    if (!err) {
-      res.json({success: true, msg: '등록완료'});
-    } else {
-      res.json({success: false, msg: '다시 시도해주세요.'});
-    }
-  });
-});
-
-router.put('/channel/group', (req, res) => {
-  const channel_id = req.body.channel_id;
-  
-  Channel.deleteGroup(channel_id, (err) => {
-    if (!err) {
-      res.json({success: true, msg: '해제'});
-    } else {
-      res.json({success: false, msg: '다시 시도해주세요.'});
-    }
-  });
-});
 
 //channel API end
 
 //video API START
-router.get('/video/list/:channel_id', (req, res) => {
-  const channel_id = req.params.channel_id;
-  Video.getList(channel_id, (err, result) => {
-    if (!err) {
-      res.json({success: true, result: result});
-    } else {
-      res.json({success: false, err: err});
-    }
-  });
-});
 
-/*Video View*/
-router.get('/video/view/:video_id', (req, res) => {
-  const video_id = req.params.video_id;
-  Video.view(video_id, (err, result) => {
-    if (!err) {
-      res.json({success: true, result: result});
-    } else {
-      res.json({success: false, err: err});
-    }
+router
+  .get('/video/list/:channel_id', (req, res)=>{
+    const channel_id = req.params.channel_id;
+    Video.getList(channel_id, (err, result) => {
+      if (!err) {
+        res.json({success: true, result: result});
+      } else {
+        res.json({success: false, err: err});
+      }
+    });
+  })
+  .get('/video/view/:video_id', (req, res)=>{
+    const video_id = req.params.video_id;
+    Video.view(video_id, (err, result) => {
+      if (!err) {
+        res.json({success: true, result: result});
+      } else {
+        res.json({success: false, err: err});
+      }
+    });
   });
-});
 
-router.post('/video', (req, res) => {
-  Video.register(req, (err) => {
-    if (!err) {
-      res.json({success: true, msg: '등록완료'});
-    } else {
-      res.json({success: false, msg: '다시 시도해주세요.', err: err});
-    }
+router.route('/channel')
+  .post((req, res)=>{
+    Video.register(req, (err) => {
+      if (!err) {
+        res.json({success: true, msg: '등록완료'});
+      } else {
+        res.json({success: false, msg: '다시 시도해주세요.', err: err});
+      }
+    });
+  })
+  .put((req, res) =>{
+    Video.modify(req, (err) => {
+      if (!err) {
+        res.json({success: true, msg: '수정 완료'});
+      } else {
+        res.json({success: false, msg: '다시 시도해주세요.', err: err});
+      }
+    });
   });
-});
-
-router.put('/video', (req, res) => {
-  Video.modify(req, (err) => {
-    if (!err) {
-      res.json({success: true, msg: '수정 완료'});
-    } else {
-      res.json({success: false, msg: '다시 시도해주세요.', err: err});
-    }
-  });
-});
 
 //video API END
 
 //NEWS API START
-
-router.get('/news', (req, res) => {
-  News.getListAll((err, result) => {
-    if (!err) {
-      res.json({success: true, result: result});
-    } else {
-      res.json({success: false, err: err});
-    }
+router.route('/news')
+  .get((req, res) => {
+    News.getListAll((err, result) => {
+      if (!err) {
+        res.json({success: true, result: result});
+      } else {
+        res.json({success: false, err: err});
+      }
+    });
+  })
+  .post((req, res) => {
+    News.register(req, (err) => {
+      if (!err) {
+        res.json({success: true, msg: '등록완료'});
+      } else {
+        console.log(err);
+        res.json({success: false, msg: '다시 시도해주세요.', err: err});
+      }
+    });
+  })
+  .delete((req, res) => {
+    const id = req.body.id;
+    News.delete(id, (err) => {
+      if (!err) {
+        res.json({success: true, msg: '삭제완료'});
+      } else {
+        res.json({success: false, msg: '다시 시도해주세요.', err: err});
+      }
+    });
   });
-});
-
-router.post('/news', (req, res) => {
-  News.register(req, (err) => {
-    if (!err) {
-      res.json({success: true, msg: '등록완료'});
-    } else {
-      console.log(err);
-      res.json({success: false, msg: '다시 시도해주세요.', err: err});
-    }
-  });
-});
-
-router.delete('/news', (req, res) => {
-  const id = req.body.id;
-  News.delete(id, (err) => {
-    if (!err) {
-      res.json({success: true, msg: '삭제완료'});
-    } else {
-      res.json({success: false, msg: '다시 시도해주세요.', err: err});
-    }
-  });
-});
 
 //NEWS API END
 module.exports = router;

@@ -61,11 +61,9 @@ Upload.formidable = (req, callback) => {
   
   const form = new FormidableInstance();
   
-  form.parse(req, function (err, fields, files) {
+  form.parse(req, function (err, fields) {
     _fields = fields;
-    // callback(err, fields, files);
   });
-  
   
   // Form File의 Name 값으로 S3_FILE_NAME  값을 결정하다. (체널 업로드, 비디오 업로드에 사용)
   form.on('file', (name, file) => {
@@ -92,7 +90,6 @@ Upload.s3 = (files, key, callback) => {
   params.Key = key + s3_file_name;
   params.Body = require('fs').createReadStream(files[0].path);
   
-  
   s3.upload(params, function (err, result) {
    result.S3_FILE_NAME = s3_file_name;
   	callback(err, result);
@@ -111,6 +108,16 @@ Upload.s3Multiple = (files, key, callback) => {
     callback(err, result);
   });
 };
+
+// AWS 업로드, 디비 저장이 완료되면 해당 파일을 삭제시킨다.
+Upload.RemovieFile = (callback) => {
+  require('fs').unlink('/tmp/hello', (err) => {
+    if (err) throw err;
+    console.log('successfully deleted /tmp/hello');
+  });
+};
+
+
 
 
 function makeS3FilesName(file_name) {

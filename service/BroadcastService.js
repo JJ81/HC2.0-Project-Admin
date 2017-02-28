@@ -16,21 +16,13 @@ Broadcast.onLive = (link, callback) => {
     link: link
   };
   connection.query(QUERY.Broadcast.LiveOn, _obj, (err) => {
-    if (!err) {
-      callback(null, {success: true, msg: '생방송 등록 완료'});
-    } else {
-      callback(err, {success: false, msg: '다시 시도해주세요'});
-    }
+    callback(err);
   });
 };
 
 Broadcast.endLive = (id, callback) => {
   connection.query(QUERY.Broadcast.LiveEnd, [new Date(), id], (err) => {
-    if (!err) {
-      callback(null, {success: true, msg: '생방송 종료 완료'});
-    } else {
-      callback(err, {success: false, msg: '다시 시도해주세요'});
-    }
+    callback(err);
   });
 };
 

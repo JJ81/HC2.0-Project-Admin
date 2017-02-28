@@ -45,11 +45,7 @@ Event.registerResult = (req, callback) => {
 	];
     
 	async.waterfall(tasks, (err) => {
-		if (!err) {
-			callback(null, {success: true, msg: '방송표 업로드 완료'});
-		} else {
-			callback(err, {success: false, msg: '다시 시도해주세요'});
-		}
+		callback(err)
 	});
 };
 

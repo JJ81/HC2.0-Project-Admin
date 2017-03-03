@@ -24,8 +24,13 @@
 
                         <div class="col-sm-2 col-md-3">
                             <div class="thumbnail" style="height: 100%">
-                                <!--<img src="https://s3.ap-northeast-2.amazonaws.com/holdemclub/event/{{thumbnail}}" alt="image"/>-->
-                                <img src="http://i.imgur.com/tvuH0ZJ.png" alt="image"/>
+                                {{#if (isEquals status 'N')}}
+                                    <img src="http://i.imgur.com/tvuH0ZJ.png" alt="image"/>
+                                {{else}}
+                                    <img src="https://s3.ap-northeast-2.amazonaws.com/holdemclub/event/{{thumbnail}}" alt="image"/>
+                                {{/if}}
+
+
                                 <div class="caption center-block">
                                     <h3>{{title}}</h3>
 

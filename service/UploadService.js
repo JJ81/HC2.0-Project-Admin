@@ -3,6 +3,9 @@ const formidable = require('formidable');
 const md5 = require('md5');
 const async = require('async');
 const AWS = require('aws-sdk');
+const imagemin = require('imagemin');
+const imageminPngquant = require('imagemin-pngquant');
+// const imageminMozjpeg = require('imagemin-mozjpeg');
 AWS.config.region = 'ap-northeast-2';
 const s3 = new S3Instance();
 const Upload = {};
@@ -17,12 +20,10 @@ function S3Instance() {
   return instance
 }
 
+const ROOT_PATH = process.cwd();
 /**
  * AWS S3 세부 설정은
  */
-
-
-
 
 /*S3 버킷 설정*/
 let params = {
@@ -53,7 +54,8 @@ Upload.formidable = (req, callback) => {
     instance = new formidable.IncomingForm({
       encoding: 'utf-8',
       multiples: true,
-      keepExtensions: false //확장자 제거
+      keepExtensions: false, //확장자 제거
+      uploadDir: `${ROOT_PATH}/temp`
     });
     
     return instance
@@ -75,7 +77,7 @@ Upload.formidable = (req, callback) => {
   //   // console.log(percent);
   // });
   
-  form.on('error', function(err) {
+  form.on('error', function (err) {
     callback(err, null, null);
   });
   
@@ -84,15 +86,38 @@ Upload.formidable = (req, callback) => {
   });
 };
 
-Upload.s3 = (files, key, callback) => {
+Upload.optimize = (files, callback) => {
+  // TODO 이미지 파일이 아닌 걍우에는 최적화를 진행하지 않는다
+  // TODO 최적화가 완료되면 S3 업로드를 진행한다
   
+  async.each(files, (file, cb) => {
+    console.log(file.path);
+    imagemin([file.path], `${ROOT_PATH}/temp/`, {
+      plugins: [
+        // imageminMozjpeg(),
+        imageminPngquant({quality: '0-80', verbose: false, floyd: 1})
+      ]
+    }).then((test) => {
+      console.log('최적화 작업 진행중...');
+      console.log('=============');
+      console.log(test);
+      console.log('=============');
+      cb();
+    })
+  }, (err) => {
+    callback(err)
+  });
+  
+};
+
+Upload.s3 = (files, key, callback) => {
   const s3_file_name = makeS3FilesName(files[0].name);
   params.Key = key + s3_file_name;
   params.Body = require('fs').createReadStream(files[0].path);
   
   s3.upload(params, function (err, result) {
-   result.S3_FILE_NAME = s3_file_name;
-  	callback(err, result);
+    result.S3_FILE_NAME = s3_file_name;
+    callback(err, result);
   });
 };
 
@@ -116,9 +141,6 @@ Upload.RemovieFile = (callback) => {
     console.log('successfully deleted /tmp/hello');
   });
 };
-
-
-
 
 function makeS3FilesName(file_name) {
   return (md5(file_name + new Date()));

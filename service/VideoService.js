@@ -33,6 +33,12 @@ Video.register = (req, callback) => {
         callback(err, files, field);
       });
     },
+  
+    (files, fields, callback) => {
+      Upload.optimize(files, (err) => {
+        callback(err, files, fields)
+      });
+    },
     
     (files, field, callback) => {
       Upload.s3Multiple(files, `${Upload.S3KYES.CHANNEL + field.channel_id}/${video_id}/`, (err) => {
@@ -79,6 +85,12 @@ Video.modify = (req, callback) => {
       Upload.formidable(req, (err, files, fields) => {
         callback(err, files, fields);
       })
+    },
+  
+    (files, fields, callback) => {
+      Upload.optimize(files, (err) => {
+        callback(err, files, fields)
+      });
     },
     
     (files, fields, callback) =>{

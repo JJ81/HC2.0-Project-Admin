@@ -45,6 +45,12 @@ Channel.register = (req, callback) => {
         callback(err, files, field);
       });
     },
+  
+    (files, fields, callback) => {
+      Upload.optimize(files, (err) => {
+        callback(err, files, fields)
+      });
+    },
     
     (files, field, callback) => {
       Upload.s3Multiple(files, `${Upload.S3KYES.CHANNEL + channel_id}/`, (err) => {
@@ -82,8 +88,13 @@ Channel.modify = (req, callback)=>{
   const tasks = [
     (callback) => {
       Upload.formidable(req, (err, files, field) => {
-        // files.S3_FILE_NAME = S3_FILE_NAME;
         callback(err, files, field);
+      });
+    },
+  
+    (files, fields, callback) => {
+      Upload.optimize(files, (err) => {
+        callback(err, files, fields)
       });
     },
     
@@ -131,5 +142,6 @@ Channel.deleteGroup = (channel_id, callback) => {
     callback(err, result);
   });
 };
+
 
 module.exports = Channel;

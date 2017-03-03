@@ -9,13 +9,8 @@ define(
     'jquery',
     'jqueryForm',
     'bootstrap',
-    'bootstrapProgressbar',
+    // 'bootstrapProgressbar',
     'custom',
-    'npPogress',
-    'iCheck',
-    'fastclick',
-    'jqueryForm'
-  
   ], function ($) {
     // 로직 설명
     
@@ -54,7 +49,6 @@ define(
           }
         });
       },
-      
     };
     
     /*모달 close시 입력값 초기화*/
@@ -63,8 +57,6 @@ define(
     });
     
     window.util = utils;
-    
     return utils;
-    
     
   });

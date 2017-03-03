@@ -36,7 +36,6 @@ Broadcast.getCalendarList = (callback) => {
   connection.query(QUERY.Broadcast.CalendarList, (err, result) => {
     callback(err, result);
   });
-  
 };
 
 Broadcast.registerCalendar = (req, callback) => {
@@ -47,21 +46,28 @@ Broadcast.registerCalendar = (req, callback) => {
         callback(err, files, fields);
       });
     },
+    
     (files, fields, callback) => {
-    	Upload.s3(files, Upload.S3KYES.CALENDAR, (err, file_name) => {
-
-    		callback(err, file_name, fields);
-    	});
+      Upload.optimize(files,(err)=>{
+        callback(err, files, fields)
+      });
+    },
+    
+    (files, fields, callback) => {
+      Upload.s3(files, Upload.S3KYES.CALENDAR, (err, file_name) => {
+        
+        callback(err, file_name, fields);
+      });
     },
     (file_name, fields, callback) => {
-    	const _obj = {
-    		title: fields.link,
-    		img_name: file_name.S3_FILE_NAME,
-    		created_dt :new Date()
-    	};
-    	connection.query(QUERY.Broadcast.CalendarWrite, _obj, (err, result) => {
-    		callback(err, result);
-    	});
+      const _obj = {
+        title: fields.link,
+        img_name: file_name.S3_FILE_NAME,
+        created_dt: new Date()
+      };
+      connection.query(QUERY.Broadcast.CalendarWrite, _obj, (err, result) => {
+        callback(err, result);
+      });
     }
   ];
   

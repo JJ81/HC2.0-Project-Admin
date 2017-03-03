@@ -18,17 +18,23 @@ News.register = (req, callback) => {
     },
     
     (files, fields, callback) => {
-      UploadService.s3(files, UploadService.S3KYES.NEWS, (err, file_name)=>{
+      UploadService.optimize(files, (err) => {
+        callback(err, files, fields)
+      });
+    },
+    
+    (files, fields, callback) => {
+      UploadService.s3(files, UploadService.S3KYES.NEWS, (err, file_name) => {
         callback(err, file_name, fields)
       })
     },
-    (file_name, fields, callback)=>{
-      const values ={
-        title : fields.title,
-        sub_title : fields.sub_title,
-        desc : fields.desc,
-        contents : fields.contents,
-        thumbnail : file_name.S3_FILE_NAME,
+    (file_name, fields, callback) => {
+      const values = {
+        title: fields.title,
+        sub_title: fields.sub_title,
+        desc: fields.desc,
+        contents: fields.contents,
+        thumbnail: file_name.S3_FILE_NAME,
       };
       connection.query(QUERY.News.Register, values, (err, result) => {
         callback(err, result);
@@ -36,7 +42,7 @@ News.register = (req, callback) => {
     }
   ];
   
-  async.waterfall(tasks, (err, result)=>{
+  async.waterfall(tasks, (err, result) => {
     callback(err, result);
   });
   

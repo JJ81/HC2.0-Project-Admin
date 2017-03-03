@@ -8,7 +8,7 @@
                         <h3>방송 라이브 알림 관리</h3>
                     </div>
 
-                    <div class="col-md-6 col-lg-6">
+                    <div class="col-md-12 col-lg-12">
                         {{#unless live_result}}
                             <div class="pull-right">
                                 <button class="btn btn-success" data-toggle="modal" data-target="#registerLive">
@@ -28,20 +28,20 @@
                             {{#if live_result}}
 
                                 {{#each live_result}}
-                                    <div class="tile-stats col-md-8">
+                                    <div class="tile-stats col-md-8 col-lg-8 col-xs-8">
                                         <div class="icon"><i class="fa fa-video-camera"></i></div>
                                         <div class="count">{{link}}</div>
                                         <h3>지금은 생방송 중입니다.</h3>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 col-lg-4 col-xs-4">
                                         <button type="button" class="btn btn-danger btn-lg btn-block btn_bc_live_off" data-bc-id="{{id}}">생방송 종료</button>
                                         <button type="button" class="btn btn-primary btn-lg btn-block btn_bc_live_modify">생방송 정보 수정</button>
                                     </div>
 
                                 {{/each}}
                             {{else}}
-                                <div class="tile-stats col-md-12">
+                                <div class="tile-stats col-md-12 col-lg-12 col-xs-12">
                                     <div class="icon"><i class="fa fa-close"></i></div>
                                     <div class="count">진행중인 방송이 없습니다</div>
                                     <h3>방송을 등록해주세요.</h3>

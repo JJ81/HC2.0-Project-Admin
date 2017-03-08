@@ -21,6 +21,7 @@ function S3Instance() {
 }
 
 const ROOT_PATH = process.cwd();
+console.log(ROOT_PATH);
 /**
  * AWS S3 세부 설정은
  */

@@ -20,7 +20,7 @@ function S3Instance() {
   return instance
 }
 
-const ROOT_PATH = process.cwd();
+const ROOT_PATH = `${process.cwd()}/HC2.0-Project-Admin/`;
 console.log(ROOT_PATH);
 /**
  * AWS S3 세부 설정은

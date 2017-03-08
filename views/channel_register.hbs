@@ -31,9 +31,14 @@
                                 <img src="https://s3.ap-northeast-2.amazonaws.com/holdemclub/channel/{{channel_id}}/thumbnail" alt="channel thumbnail"/>
                                 <div class="caption">
                                     <div class="caption text-center">
-                                        <h5 class="text-nowrap"><a href="/channel/{{channel_id}}/video/list">{{title}}</a> </h5>
+                                        <h5 class="text-nowrap"><a href="/channel/{{channel_id}}/video/list">{{title}} </a> </h5>
+                                        <p>{{showChannelType type}}</p>
                                         <button class="btn btn-success btn_channel_modify btn-block" data-id="{{channel_id}}" data-title="{{title}}"  data-toggle="modal" data-target="#modifyChannel">수정</button>
-                                        <button class="btn btn-danger btn_content_delete btn-block" data-id="{{channel_id}}" role="button">삭제</button>
+                                        {{#if active}}
+                                            <button class="btn btn-danger btn_channel_active btn-block" data-id="{{channel_id}}" data-active="0" role="button">비활성화</button>
+                                        {{else}}
+                                            <button class="btn btn-info btn_channel_active btn-block" data-id="{{channel_id}}" data-active="1" role="button">활성화</button>
+                                        {{/if}}
                                     </div>
                                 </div>
                             </div>

@@ -9,6 +9,7 @@ requirejs(
     const
       form_bc_calendar_upload = $('#form_bc_calendar_upload'),
       submit_bc_calendar_upload = $('#submit_bc_calendar_upload'),
+      btn_calendar_active = $('.btn_calendar_active'),
       btn_calendar_delete = $('#btn_calendar_delete');
     
     
@@ -26,6 +27,7 @@ requirejs(
     /**
      * 편성표 삭제
      */
+
     btn_calendar_delete.on('click', function () {
       const check_confirm = confirm('삭제를 진해하시겠습니까?');
       if (check_confirm) {
@@ -41,5 +43,21 @@ requirejs(
           }
         });
       }
+    });
+  
+    btn_calendar_active.on('click', function () {
+      const data = {
+        id: $(this).attr('data-id'),
+        active: $(this).attr('data-active'),
+      };
+      
+      Common.AjaxSubmit('broadcast/calendar', data, 'PUT', (err, result)=>{
+        if (!err) {
+          alert(result.msg);
+          location.reload();
+        } else {
+          alert(result.msg);
+        }
+      })
     });
   });

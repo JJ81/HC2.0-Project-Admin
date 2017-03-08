@@ -39,7 +39,6 @@ Broadcast.getCalendarList = (callback) => {
 };
 
 Broadcast.registerCalendar = (req, callback) => {
-  
   const tasks = [
     (callback) => {
       Upload.formidable(req, (err, files, fields) => {
@@ -48,7 +47,7 @@ Broadcast.registerCalendar = (req, callback) => {
     },
     
     (files, fields, callback) => {
-      Upload.optimize(files,(err)=>{
+      Upload.optimize(files, (err) => {
         callback(err, files, fields)
       });
     },
@@ -80,6 +79,13 @@ Broadcast.deleteCalendar = (id, callback) => {
   /*TODO 추후에 S3삭제 로직 추가*/
   connection.query(QUERY.Broadcast.CalendarDelete, [id], (err, result) => {
     callback(err, result);
+  });
+};
+
+Broadcast.activeCalendar = (id, active, callback) => {
+  const test = connection.query(QUERY.Broadcast.ActiveByCalendar, [active, id], (err, result) => {
+    console.log(test.sql);
+    callback(err, result)
   });
 };
 

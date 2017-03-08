@@ -107,7 +107,6 @@ Upload.optimize = (files, callback) => {
   }, (err) => {
     callback(err)
   });
-  
 };
 
 Upload.s3 = (files, key, callback) => {

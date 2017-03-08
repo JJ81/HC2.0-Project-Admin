@@ -53,7 +53,8 @@ QUERY.Broadcast = {
 	LiveGetList: 'select *from `broadcast` where `status` = 1;',
 	CalendarWrite: 'insert into `broadcast_calendar` set ?;',
 	CalendarList: 'select *from `broadcast_calendar` order by `created_dt` desc limit 1;',
-	CalendarDelete: 'delete from `broadcast_calendar` where `id` =?;'
+	CalendarDelete: 'delete from `broadcast_calendar` where `id` =?;',
+  ActiveByCalendar: 'update `broadcast_calendar` set `active` = ? where `id`= ?'
 };
 
 QUERY.Event = {
@@ -81,11 +82,12 @@ QUERY.Contents = {
 	RecommendList: 'select * from `contents` ' +
   'where `type`=\'R\' ' +
   'order by `priority` desc, `created_dt` desc ;',
-  
 	Register: 'insert into `contents` set ?;',
 	Delete: 'delete from `contents`where `id`= ?',
 	Update: 'update `contents` set `ref_id` = ?, `type` = ? where `id` =?;',
-	ListGet: 'select *from `contents`;'
+	ListGet: 'select *from `contents`;',
+  ActiveRT : 'update `contents` set `active` =? where `ref_id` =?;',
+  ActiveOther : 'update `contents` set `active` =? where `video_id` =?;'
 };
 
 
@@ -98,14 +100,18 @@ QUERY.Channel = {
 	Register: 'insert into `channel_new` set ? ;',
   Modify : 'update `channel_new` set `title`= ?, `type` =? where `channel_id`= ?;',
 	RegisterGroup: 'update `channel_new` set `type` = ? , `group_id`= ? where `channel_id` =?;',
-	DeleteGroup: 'update `channel_new` set `group_id`= ?, `type`= ? where `channel_id`= ?;'
+	DeleteGroup: 'update `channel_new` set `group_id`= ?, `type`= ? where `channel_id`= ?;',
+  Active : 'update `channel_new` set `active`= ? where `channel_id`= ?',
+  
 };
 
 QUERY.Video = {
 	List: 'select *from `video` where `channel_id`= ? order by `created_dt` desc;',
+  ListByTitle : 'select * from `video` where `title` like ? order by `title` asc;' ,
 	View: 'select * from `video` where `video_id`= ?',
 	Register: 'insert into `video` set ?;',
-  Modify :'update `video` set `title` =? where `video_id`= ?;'
+  Modify :'update `video` set `title` =? where `video_id`= ?;',
+  Active: 'update `video` set `active`= ? where `video_id`= ?',
 };
 
 QUERY.News = {

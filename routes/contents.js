@@ -22,10 +22,10 @@ router.get('/representative', (req, res) => {
 			const _body = JSON.parse(body);
             
 			res.render('contents_rt', {
-				current_path: 'contents',
+				current_path: 'contents_rt',
 				title: PROJ_TITLE + '대표 체널',
 				result: _body.result,
-				type: (_body.result.length ===0)?  null: _body.result[0].type
+				type: 'RT'
 			});
             
 		} else {
@@ -44,7 +44,7 @@ router.get('/education', (req, res) => {
 				current_path: 'contents',
 				title: PROJ_TITLE + '대표 체널',
 				result: _body.result,
-				type: (_body.result.length ===0)?  null: _body.result[0].type
+        type: 'E'
 			});
             
 		} else {
@@ -58,14 +58,12 @@ router.get('/summary', (req, res) => {
 	request.get(`${HOST}/contents/summary`, (err, response, body) => {
 		if (!err && response.statusCode === 200) {
 			const _body = JSON.parse(body);
-			console.log(typeof _body.result);
-            
-            
+			
 			res.render('contents_sum', {
 				current_path: 'contents',
 				title: PROJ_TITLE + '대표 체널',
 				result: _body.result,
-				type: (_body.result.length ===0)?  null: _body.result[0].type
+        type: 'S'
 			});
             
 		} else {
@@ -84,7 +82,7 @@ router.get('/recommend', (req, res) => {
 				current_path: 'contents',
 				title: PROJ_TITLE + '대표 체널',
 				result: _body.result,
-				type: (_body.result.length ===0)?  null: _body.result[0].type
+        type: 'R'
 			});
             
 		} else {

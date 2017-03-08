@@ -69,11 +69,32 @@ hbs.registerHelper('showContentType', (type) => {
       show_type = '추천 컨텐츠';
       break;
     default:
-      show_type = '대표 컨텐츠';
+      show_type = '';
       break;
   }
   return show_type;
 });
+
+hbs.registerHelper('showChannelType', (type) => {
+  let switch_type;
+  
+  switch (type) {
+    case 'G':
+      switch_type = '단독';
+      break;
+    case 'U':
+      switch_type = '하위';
+      break;
+    case 'S':
+      switch_type = '대표';
+      break;
+    default:
+      switch_type = '';
+      break;
+  }
+  return switch_type
+});
+
 
 /*
  * http://bdadam.com/blog/comparison-helper-for-handlebars.html

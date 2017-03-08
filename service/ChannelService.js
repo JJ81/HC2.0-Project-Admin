@@ -45,7 +45,7 @@ Channel.register = (req, callback) => {
         callback(err, files, field);
       });
     },
-  
+    
     (files, fields, callback) => {
       Upload.optimize(files, (err) => {
         callback(err, files, fields)
@@ -59,15 +59,15 @@ Channel.register = (req, callback) => {
     },
     
     (field, callback) => {
-    	const values = {
-    		channel_id: channel_id,
-    		title: field.title,
-    		type: field.type,
-    		created_dt: new Date()
-    	};
-    	connection.query(QUERY.Channel.Register, values, (err, result) => {
-    		callback(err, result);
-    	});
+      const values = {
+        channel_id: channel_id,
+        title: field.title,
+        type: field.type,
+        created_dt: new Date()
+      };
+      connection.query(QUERY.Channel.Register, values, (err, result) => {
+        callback(err, result);
+      });
     },
     
     // TODO 레디스 키 정책 나오면 진행
@@ -83,7 +83,7 @@ Channel.register = (req, callback) => {
   });
 };
 
-Channel.modify = (req, callback)=>{
+Channel.modify = (req, callback) => {
   
   const tasks = [
     (callback) => {
@@ -91,7 +91,7 @@ Channel.modify = (req, callback)=>{
         callback(err, files, field);
       });
     },
-  
+    
     (files, fields, callback) => {
       Upload.optimize(files, (err) => {
         callback(err, files, fields)
@@ -139,6 +139,12 @@ Channel.registerGroup = (group_id, channel_id, callback) => {
 
 Channel.deleteGroup = (channel_id, callback) => {
   connection.query(QUERY.Channel.DeleteGroup, [null, 'G', channel_id], (err, result) => {
+    callback(err, result);
+  });
+};
+
+Channel.active = (channel_id, active, callback) => {
+  connection.query(QUERY.Channel.Active, [active, channel_id], (err, result)=>{
     callback(err, result);
   });
 };

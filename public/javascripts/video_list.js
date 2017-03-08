@@ -16,6 +16,7 @@ requirejs(
       submit_video_modify = $('#submit_video_modify'),
       submit_video_upload = $('#submit_video_upload'),
       form_video_upload = $('#form_video_upload'),
+      btn_video_active = $('.btn_video_active'),
       form_video_modify = $('#form_video_modify');
     
   
@@ -48,6 +49,22 @@ requirejs(
           alert(result.msg);
           location.reload();
         }else{
+          alert(result.msg);
+        }
+      });
+    });
+  
+    btn_video_active.on('click', function () {
+      const data = {
+        video_id : $(this).attr('data-id'),
+        active: $(this).attr('data-active')
+      };
+      
+      Common.AjaxSubmit('video/active', data, 'PUT', (err, result)=>{
+        if (!err) {
+          alert(result.msg);
+          location.reload();
+        } else {
           alert(result.msg);
         }
       });

@@ -169,6 +169,20 @@ router.route('/broadcast/calendar')
         res.json({success: false, msg: '다시 시도해주세요'});
       }
     });
+  })
+  .put((req, res) => {
+    const id = req.body.id;
+    const active = req.body.active;
+    
+    Broadcast.activeCalendar(id, active, (err, result) => {
+      if (!err) {
+        res.json({success: true, msg: '활성화 완료'});
+      } else {
+        res.json({success: false, msg: '다시 시도해주세요'});
+      }
+    });
+    
+    
   });
 
 //broadcast API END
@@ -275,14 +289,31 @@ router
         res.json({success: false, err: err});
       }
     });
+  })
+  
+  .put('/contents/active', (req, res) => {
+    const id = req.body.id;
+    const active = req.body.active;
+    const target = req.body.target;
+    
+    Content.active(id, active, target, (err, result) => {
+      if (!err) {
+        res.json({success: true, msg: '작업을 완료했습니다.'});
+      } else {
+        res.json({success: false, err: err});
+      }
+    });
   });
 
 router.route('/contents')
   .post((req, res) => {
     const
       ref_id = req.body.ref_id,
+      video_id = req.body.video_id || null,
       type = req.body.type;
-    Content.register(ref_id, type, (err) => {
+    
+    console.log(ref_id, video_id, type);
+    Content.register(ref_id, video_id, type, (err) => {
       if (!err) {
         res.json({success: true, msg: '등록완료'});
       } else {
@@ -305,8 +336,7 @@ router.route('/contents')
     });
   })
   .delete((req, res) => {
-    const
-      id = req.body.id;
+    const id = req.body.id;
     Content.delete(id, (err) => {
       if (!err) {
         res.json({success: true, msg: '삭제 완료'});
@@ -345,7 +375,7 @@ router
       } else {
         res.json({success: false, err: err});
       }
-    });
+    })
   });
 
 router.route('/channel')
@@ -371,6 +401,19 @@ router.route('/channel')
     Channel.modify(req, (err) => {
       if (!err) {
         res.json({success: true, msg: '등록완료'});
+      } else {
+        res.json({success: false, msg: '다시 시도해주세요.', err: err});
+      }
+    });
+  });
+
+router.route('/channel/active')
+  .put((req, res) => {
+    const channel_id = req.body.channel_id;
+    const active = req.body.active;
+    Channel.active(channel_id, active, (err) => {
+      if (!err) {
+        res.json({success: true, msg: '작업 완료'});
       } else {
         res.json({success: false, msg: '다시 시도해주세요.', err: err});
       }
@@ -417,6 +460,16 @@ router
       }
     });
   })
+  .get('/video/title/:title', (req, res) => {
+    const title = req.params.title;
+    Video.getListByTitle(title, (err, result) => {
+      if (!err) {
+        res.json({success: true, result: result});
+      } else {
+        res.json({success: false, err: err});
+      }
+    });
+  })
   .get('/video/view/:video_id', (req, res) => {
     const video_id = req.params.video_id;
     Video.view(video_id, (err, result) => {
@@ -442,6 +495,20 @@ router.route('/video')
     Video.modify(req, (err) => {
       if (!err) {
         res.json({success: true, msg: '수정 완료'});
+      } else {
+        res.json({success: false, msg: '다시 시도해주세요.', err: err});
+      }
+    });
+  });
+
+router.route('/video/active')
+  .put((req, res) => {
+    const video_id = req.body.video_id;
+    const active = req.body.active;
+    
+    Video.active(video_id, active, (err, result)=>{
+      if (!err) {
+        res.json({success: true, msg: '작업완료'});
       } else {
         res.json({success: false, msg: '다시 시도해주세요.', err: err});
       }

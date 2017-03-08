@@ -18,8 +18,20 @@ Video.getList = (channel_id, callback) => {
   });
 };
 
+Video.getListByTitle = (title, callback) => {
+  connection.query(QUERY.Video.ListByTitle, `%${title}%`, (err, result) => {
+    callback(err, result);
+  });
+};
+
 Video.view = (video_id, callback) => {
   connection.query(QUERY.Video.View, video_id, (err, result) => {
+    callback(err, result);
+  });
+};
+
+Video.active = (video_id, active, callback) =>{
+  connection.query(QUERY.Video.Active, [active, video_id], (err, result)=>{
     callback(err, result);
   });
 };
@@ -33,7 +45,7 @@ Video.register = (req, callback) => {
         callback(err, files, field);
       });
     },
-  
+    
     (files, fields, callback) => {
       Upload.optimize(files, (err) => {
         callback(err, files, fields)
@@ -57,8 +69,7 @@ Video.register = (req, callback) => {
         created_dt: new Date()
       };
       
-      const test = connection.query(QUERY.Video.Register, values, (err, result) => {
-        console.log(test.sql);
+      connection.query(QUERY.Video.Register, values, (err, result) => {
         callback(err, result);
       });
     },
@@ -86,27 +97,27 @@ Video.modify = (req, callback) => {
         callback(err, files, fields);
       })
     },
-  
+    
     (files, fields, callback) => {
       Upload.optimize(files, (err) => {
         callback(err, files, fields)
       });
     },
     
-    (files, fields, callback) =>{
-      Upload.s3Multiple(files, `${Upload.S3KYES.CHANNEL+fields.channel_id}/${fields.video_id}/`, (err) =>{
+    (files, fields, callback) => {
+      Upload.s3Multiple(files, `${Upload.S3KYES.CHANNEL + fields.channel_id}/${fields.video_id}/`, (err) => {
         callback(err, fields);
       });
     },
     
     (fields, callback) => {
-      connection.query(QUERY.Video.Modify, [fields.title, fields.video_id], (err, result)=>{
+      connection.query(QUERY.Video.Modify, [fields.title, fields.video_id], (err, result) => {
         callback(err, result);
       })
     }
   ];
   
-  async.waterfall(tasks, (err, result)=>{
+  async.waterfall(tasks, (err, result) => {
     callback(err, result)
   });
 };

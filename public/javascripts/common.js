@@ -49,7 +49,21 @@ define(
           }
         });
       },
+      
+      getAPIData: function (url, callback) {
+        $.ajax({
+          url: HOST_API + url,
+          type: 'get',
+          success: function (data, textStatus , jqXHR) {
+            callback(null, data);
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            callback(textStatus, null);
+          }
+        });
+      }
     };
+      
     
     /*모달 close시 입력값 초기화*/
     $('.modal').on('hidden.bs.modal', function () {

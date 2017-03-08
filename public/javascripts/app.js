@@ -10,6 +10,8 @@ require.config({
 		common: ['/javascripts/common'],
 		videoJS: ['/components/video.js/dist/video.min'],
 		videoJSYoutube: ['/components/videojs-youtube/dist/Youtube.min'],
+    lodash: ['/components/lodash/dist/lodash.min']
+
 	},
 	shim: {
 		custom: ['jquery','bootstrap'],

@@ -70,7 +70,7 @@ router.get('/:channel_id/video/:video_id/', isAuthenticated, (req, res) => {
 			const _body = JSON.parse(body);
       
 			res.render('video_view', {
-				// current_path: 'video_view',
+				current_path: 'video_view',
 				title: PROJ_TITLE + '비디오 뷰',
 				result: _body.result,
 				channel_id: channel_id

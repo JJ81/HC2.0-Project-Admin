@@ -16,8 +16,13 @@ const HOST_INFO = {
 
 const HOST = `${HOST_INFO.LOCAL}${HOST_INFO.VERSION}`;
 
+const isAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated())
+    return next();
+  res.redirect('/login');
+};
 
-router.get('/', (req, res) => {
+router.get('/', isAuthenticated, (req, res) => {
 	request.get(`${HOST}/news`, (err, response, body) => {
 		if (!err && response.statusCode === 200) {
 			const _body = JSON.parse(body);

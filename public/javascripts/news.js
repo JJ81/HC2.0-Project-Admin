@@ -12,6 +12,7 @@ requirejs(
     const
       submit_news_upload = $('#submit_news_upload'),
       form_news_upload = $('#form_news_upload'),
+      btn_news_active = $('.btn_news_active'),
       btn_news_delete = $('.btn_news_delete');
   
   
@@ -25,7 +26,6 @@ requirejs(
         }
       });
     });
-    $('#parent1').clone().children().remove().end().text();
     btn_news_delete.on('click', function () {
       const data = {
         id: $(this).attr('data-news-id')
@@ -40,4 +40,20 @@ requirejs(
         }
       })
     });
+  
+    btn_news_active.on('click', function () {
+      const data = {
+        id: $(this).attr('data-news-id'),
+        active : $(this).attr('data-active')
+      };
+      
+      Common.AjaxSubmit('news', data, 'PUT', (err, result)=>{
+        if (!err) {
+          alert(result.msg);
+          location.reload();
+        } else {
+          alert(result.msg);
+        }
+      });
+    })
   });

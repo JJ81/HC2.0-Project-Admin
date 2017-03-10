@@ -56,5 +56,4 @@ requirejs(['common', 'jquery',], function (Common, $) {
     });
     
   });
-  
 });

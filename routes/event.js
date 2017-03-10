@@ -7,6 +7,7 @@ const
 	router = express.Router(),
 	request = require('request');
 
+
 // TODO 모든 라우터에서 사용중 어디로 빼야 될까? 글로벌로 ??
 const HOST_INFO = {
 	LOCAL: 'http://localhost:3002/api/',
@@ -16,7 +17,14 @@ const HOST_INFO = {
 };
 
 const HOST = `${HOST_INFO.LOCAL}${HOST_INFO.VERSION}`;
-router.get('/', (req, res)=>{
+
+const isAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated())
+    return next();
+  res.redirect('/login');
+};
+
+router.get('/', isAuthenticated, (req, res)=>{
 	request.get(`${HOST}/event`, (err, response, body) =>{
 		if (!err && response.statusCode === 200) {
 			const _body = JSON.parse(body);
@@ -33,7 +41,7 @@ router.get('/', (req, res)=>{
 	});
 });
 
-router.get('/result', (req, res)=>{
+router.get('/result', isAuthenticated, (req, res)=>{
 	request.get(`${HOST}/event/result`, (err, response, body) =>{
 		if (!err && response.statusCode === 200) {
 			const _body = JSON.parse(body);

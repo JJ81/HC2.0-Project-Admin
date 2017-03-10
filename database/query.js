@@ -20,28 +20,6 @@ QUERY.HOME = {
   'order by c.priority asc;' // todo 우선순위에 대한 로직은 asc가 아니라 desc가 되어야 한다
 };
 
-QUERY.USER = {
-	Login: 'select `user_id`, `password`, `nickname`, `name`, `email`, `login_fail_count`, `banned`, `market_code` from `user` where `user_id`=?;',
-	FailToLogin: 'update `user` set `login_fail_count`=`login_fail_count`+1 where `user_id`=?;',
-	ClearFailedCount: 'update `user` set `login_fail_count`=0  where `user_id`=?;',
-	UpdateGameLog: 'insert into `log_access_game` set `user_id` = ?, `last_login_dt` = ?;',
-	SignUp: 'insert into `user` set ?;',
-	DuplicateByUserId: 'select `user_id` from `user` where `user_id` = ?;',
-	DuplicateByNickname: 'select `nickname` from `user` where `nickname` = ?;',
-	DuplicateByEmail: 'select `email` from `user` where `email` = ?;',
-};
-
-QUERY.Reply = {
-	Write: 'insert into `reply_video` set ?;',
-	Modify: 'update `reply_video` set `comment` =? where `id` = ?;',
-	Remove: 'delete from `reply_video` where `id` =?'
-};
-
-QUERY.ReReply = {
-	Write: 'insert into `reply_video` set ?;',
-	Modify: 'update `reply_video` set `comment` =? where `id` = ?;',
-	Remove: 'delete from `reply_video` where `id` =?'
-};
 
 QUERY.Common = {
 	SearchAdminById: 'select *from `admin` where `admin_id` = ?;'
@@ -93,15 +71,15 @@ QUERY.Contents = {
 
 // Special(대표채널), General(단독채널), Under(S채널에 종속
 QUERY.Channel = {
-	ListAll: 'select *from `channel_new`;',
-	ListSpecial: 'select *from `channel_new` where `type` = \'S\';',
-	ListGeneral: 'select *from `channel_new` where `type` = \'G\';',
-	ListUnder: 'select *from `channel_new` where `type` = \'U\';',
-	Register: 'insert into `channel_new` set ? ;',
-  Modify : 'update `channel_new` set `title`= ?, `type` =? where `channel_id`= ?;',
-	RegisterGroup: 'update `channel_new` set `type` = ? , `group_id`= ? where `channel_id` =?;',
-	DeleteGroup: 'update `channel_new` set `group_id`= ?, `type`= ? where `channel_id`= ?;',
-  Active : 'update `channel_new` set `active`= ? where `channel_id`= ?',
+	ListAll: 'select *from `channel` order by `created_dt` desc',
+	ListSpecial: 'select *from `channel` where `type` = \'S\' order by `created_dt` desc;',
+	ListGeneral: 'select *from `channel` where `type` = \'G\' order by `created_dt` desc;',
+	ListUnder: 'select *from `channel` where `type` = \'U\' order by `created_dt` desc;',
+	Register: 'insert into `channel` set ? ;',
+  Modify : 'update `channel` set `title`= ?, `type` =? where `channel_id`= ?;',
+	RegisterGroup: 'update `channel` set `type` = ? , `group_id`= ? where `channel_id` =?;',
+	DeleteGroup: 'update `channel` set `group_id`= ?, `type`= ? where `channel_id`= ?;',
+  Active : 'update `channel` set `active`= ? where `channel_id`= ?',
   
 };
 
@@ -118,6 +96,7 @@ QUERY.News = {
 	ListAll: 'select *from `news`;',
 	SearchById: 'select *from `news` where `id`= ?;',
 	Register: 'insert into `news` set ?;',
-	DeleteById: 'delete from `news` where `id` = ? ;'
+	DeleteById: 'delete from `news` where `id` = ? ;',
+  ActiveById :'update `news` set  `active`= ? where `id`= ?'
 };
 module.exports = QUERY;

@@ -174,7 +174,7 @@ router.route('/broadcast/calendar')
     const id = req.body.id;
     const active = req.body.active;
     
-    Broadcast.activeCalendar(id, active, (err, result) => {
+    Broadcast.activeCalendar(id, active, (err) => {
       if (!err) {
         res.json({success: true, msg: '활성화 완료'});
       } else {
@@ -296,7 +296,7 @@ router
     const active = req.body.active;
     const target = req.body.target;
     
-    Content.active(id, active, target, (err, result) => {
+    Content.active(id, active, target, (err) => {
       if (!err) {
         res.json({success: true, msg: '작업을 완료했습니다.'});
       } else {
@@ -506,7 +506,7 @@ router.route('/video/active')
     const video_id = req.body.video_id;
     const active = req.body.active;
     
-    Video.active(video_id, active, (err, result)=>{
+    Video.active(video_id, active, (err) => {
       if (!err) {
         res.json({success: true, msg: '작업완료'});
       } else {
@@ -538,6 +538,16 @@ router.route('/news')
       }
     });
   })
+  .put((req, res) => {
+    News.modify(req, (err)=>{
+      if (!err) {
+        res.json({success: true, msg: '작업완료'});
+      } else {
+        console.log(err);
+        res.json({success: false, msg: '다시 시도해주세요.', err: err});
+      }
+    });
+  })
   .delete((req, res) => {
     const id = req.body.id;
     News.delete(id, (err) => {
@@ -548,6 +558,7 @@ router.route('/news')
       }
     });
   });
+
 
 //NEWS API END
 module.exports = router;

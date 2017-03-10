@@ -60,4 +60,14 @@ News.getListAll = (callback) => {
   });
 };
 
+News.modify = (req, callback) =>{
+  const method = (req.body.active === undefined) ? false : active(req, callback);
+};
+
+function active(req, callback) {
+  connection.query(QUERY.News.ActiveById, [req.body.active, req.body.id], (err, result)=>{
+    callback(err, result);
+  });
+}
+
 module.exports = News;

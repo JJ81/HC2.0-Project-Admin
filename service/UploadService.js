@@ -20,8 +20,13 @@ function S3Instance() {
   return instance
 }
 
+/**
+ * REAL ROOT_PATH 는 ${process.cwd()}/HC2.0-Project-Admin/ 을 사용해야한다
+ * // TODO 한번에 로컬 데브 리얼 동시에 사용할수 있게 수정  or npm 스크립트에서 선택적으로 실행 가능하게 변경할것
+ */
+// const ROOT_PATH = process.cwd();
 const ROOT_PATH = `${process.cwd()}/HC2.0-Project-Admin/`;
-console.log(ROOT_PATH);
+
 /**
  * AWS S3 세부 설정은
  */
@@ -38,7 +43,7 @@ Upload.S3KYES = {
   CALENDAR: 'broadcast/calendar/',
   EVENT_RESULT: 'event/result/',
   EVENT: 'event/',
-  CHANNEL: 'channel/test/',
+  CHANNEL: 'channel/',
   NEWS: 'news/'
 };
 

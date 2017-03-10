@@ -13,9 +13,13 @@ const HOST_INFO = {
 };
 
 const HOST = `${HOST_INFO.LOCAL}${HOST_INFO.VERSION}`;
-console.log(HOST);
+const isAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated())
+    return next();
+  res.redirect('/login');
+};
 
-router.get('/representative', (req, res) => {
+router.get('/representative', isAuthenticated, (req, res) => {
 	request.get(`${HOST}/contents/representative`, (err, response, body) => {
         
 		if (!err && response.statusCode === 200) {
@@ -35,7 +39,7 @@ router.get('/representative', (req, res) => {
 	});
 });
 
-router.get('/education', (req, res) => {
+router.get('/education', isAuthenticated, (req, res) => {
 	request.get(`${HOST}/contents/education`, (err, response, body) => {
 		if (!err && response.statusCode === 200) {
 			const _body = JSON.parse(body);
@@ -54,7 +58,7 @@ router.get('/education', (req, res) => {
 	});
 });
 
-router.get('/summary', (req, res) => {
+router.get('/summary', isAuthenticated, (req, res) => {
 	request.get(`${HOST}/contents/summary`, (err, response, body) => {
 		if (!err && response.statusCode === 200) {
 			const _body = JSON.parse(body);
@@ -73,7 +77,7 @@ router.get('/summary', (req, res) => {
 	});
 });
 
-router.get('/recommend', (req, res) => {
+router.get('/recommend', isAuthenticated, (req, res) => {
 	request.get(`${HOST}/contents/recommend`, (err, response, body) => {
 		if (!err && response.statusCode === 200) {
 			const _body = JSON.parse(body);

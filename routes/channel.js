@@ -17,7 +17,13 @@ const HOST_INFO = {
 };
 
 const HOST = `${HOST_INFO.LOCAL}${HOST_INFO.VERSION}`;
-router.get('/', (req, res) => {
+const isAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated())
+    return next();
+  res.redirect('/login');
+};
+
+router.get('/', isAuthenticated, (req, res) => {
 	request.get(`${HOST}channel`, (err, response, body) => {
 		if (!err && response.statusCode === 200) {
 			const _body = JSON.parse(body);
@@ -34,7 +40,7 @@ router.get('/', (req, res) => {
 	});
 });
 
-router.get('/:channel_id/video/list', (req, res) => {
+router.get('/:channel_id/video/list', isAuthenticated, (req, res) => {
 	const channel_id = req.params.channel_id;
   
 	request.get(`${HOST}/video/list/${channel_id}`, (err, response, body) => {
@@ -55,7 +61,7 @@ router.get('/:channel_id/video/list', (req, res) => {
 });
 
 
-router.get('/:channel_id/video/:video_id/', (req, res) => {
+router.get('/:channel_id/video/:video_id/', isAuthenticated, (req, res) => {
 	const channel_id = req.params.channel_id;
 	const video_id = req.params.video_id;
   
@@ -77,7 +83,7 @@ router.get('/:channel_id/video/:video_id/', (req, res) => {
 	});
 });
 
-router.get('/group', (req, res) => {
+router.get('/group', isAuthenticated, (req, res) => {
   
 	const tasks = [
 		(callback) => {

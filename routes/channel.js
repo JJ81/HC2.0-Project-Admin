@@ -68,10 +68,9 @@ router.get('/:channel_id/video/:video_id/', isAuthenticated, (req, res) => {
 	request.get(`${HOST}/video/view/${video_id}`, (err, response, body) => {
 		if (!err && response.statusCode === 200) {
 			const _body = JSON.parse(body);
-			console.log(_body);
       
 			res.render('video_view', {
-				current_path: 'video_view',
+				// current_path: 'video_view',
 				title: PROJ_TITLE + '비디오 뷰',
 				result: _body.result,
 				channel_id: channel_id

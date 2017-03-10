@@ -18,5 +18,6 @@ require.config({
 		bootstrap: ['jquery'],
 		bootstrapProgressbar: ['jquery'],
 		iCheck:['jquery'],
+    videoJSYoutube: ['videoJS']
 	}
 });

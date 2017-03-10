@@ -7,12 +7,10 @@ requirejs(
   [
     'common',
     'jquery',
-    'videoJS',
-    'videoJSYoutube'
+    // 'videoJS',
+    // 'videoJSYoutube'
   ],
   
-  (Common, $) => {
-    
-    
+  function (common, $) {
     
   });

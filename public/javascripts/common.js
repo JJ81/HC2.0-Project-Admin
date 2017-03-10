@@ -15,9 +15,11 @@ define(
     // 로직 설명
     
     const
-      HOST = 'http://localhost:3002/',
-      HOST_API = `${HOST}api/v1/`;
+      // HOST = 'http://localhost:3002/',
+      HOST = location.host,
+      HOST_API = `${HOST}/api/v1/`;
     
+    console.log(HOST_API);
     const utils = {
       
       /*POST, DELETE, PUT 전솜을 담당(Form 전송 외 모두 담당)*/

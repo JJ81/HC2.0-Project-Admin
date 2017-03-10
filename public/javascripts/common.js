@@ -16,8 +16,9 @@ define(
     
     const
       // HOST = 'http://localhost:3002/',
-      HOST = location.host,
-      HOST_API = `${HOST}/api/v1/`;
+      // HOST = location.host,
+      // HOST_API = `${HOST}/api/v1/`;
+      HOST_API = '/api/v1/';
     
     console.log(HOST_API);
     const utils = {

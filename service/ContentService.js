@@ -40,7 +40,7 @@ Contents.active = (id, active, target, callback) => {
 Contents.register = (ref_id, video_id, type, callback) => {
   const id = ref_id.split(',');
   const _values = {
-    ref_id: id[0], //channel_id
+    channel_id: id[0], //channel_id
     video_id: id[1] || null, //video_id
     type: type,
     created_dt: new Date(),

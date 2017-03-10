@@ -62,9 +62,9 @@ QUERY.Contents = {
   'order by `priority` desc, `created_dt` desc ;',
 	Register: 'insert into `contents` set ?;',
 	Delete: 'delete from `contents`where `id`= ?',
-	Update: 'update `contents` set `ref_id` = ?, `type` = ? where `id` =?;',
+	Update: 'update `contents` set `channel_id` = ?, `type` = ? where `id` =?;',
 	ListGet: 'select *from `contents`;',
-  ActiveRT : 'update `contents` set `active` =? where `ref_id` =?;',
+  ActiveRT : 'update `contents` set `active` =? where `channel_id` =?;',
   ActiveOther : 'update `contents` set `active` =? where `video_id` =?;'
 };
 

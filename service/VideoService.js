@@ -65,6 +65,7 @@ Video.register = (req, callback) => {
         video_id: video_id,
         title: field.title,
         link: field.link,
+        type: field.type,
         active: 0,
         created_dt: new Date()
       };

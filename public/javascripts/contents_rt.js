@@ -17,22 +17,19 @@ requirejs(
       search_title = $('.search_title');
     
     let channel_list;
-    
-    
+
     (function () {
       Common.getAPIData('channel', (err, data) => {
         if (!err && data.success) {
-          
           channel_list = data.result;
         } else {
           console.log(err);
         }
       });
-      
     })();
     
     /**
-     * 컨텐츠 등록
+     * 대표 컨텐츠 등록
      */
     btn_content_register_submit.on('click', function () {
       Common.AjaxFormSubmit(form_content_register, (err, result) => {
@@ -40,7 +37,10 @@ requirejs(
           alert(result.msg);
           location.reload();
         } else {
-          alert(result.msg);
+          console.error(err);
+          if(result){
+	          alert(result.msg);
+          }
         }
       });
     });
@@ -57,13 +57,14 @@ requirejs(
     });
     
     /**
-     * Active / Inactive
+     * 활성화 / 비활성화
      */
     $('.btn_active').on('click', function () {
+      // todo custom attriute에 데이터가 있는지 여부를 확인해야 한다.
       const data = {
         id: $(this).attr('data-id'),
-        active: $(this).attr('data-active'),
-        target: 'ref_id'
+        active: $(this).attr('data-active'), // todo 상태 정보를 view에 의존하면 안된다. 일단 이대로 진행
+        target: 'channel_id'
       };
       
       Common.AjaxSubmit('contents/active', data, 'PUT', (err, result) => {
@@ -71,7 +72,10 @@ requirejs(
           alert(result.msg);
           location.reload();
         } else {
-          alert(result.msg);
+          console.error(err);
+          if(result){
+	          alert(result.msg);
+          }
         }
       });
     });
@@ -104,13 +108,11 @@ requirejs(
         }
       });
     });
-    
-    
+
     search_title.on('keyup', _.debounce(function () {
       const channel_title = search_title.val();
       const channel_list_info = findChannelListByTitle(channel_title, channel_list);
       makeChannelList(channel_list_info);
-      
     }, 1000));
     
     function findChannelListByTitle(title, channel_list) {
@@ -136,7 +138,7 @@ requirejs(
         html = html +
           '<div class="col-lg-6">' +
           '<div class="input-group">' +
-          '<span class="input-group-addon"><input type="radio" name="ref_id" value="' + channel_list_info[i].channel_id + '" aria-label="..."></span>' +
+          '<span class="input-group-addon"><input type="radio" name="channel_id" value="' + channel_list_info[i].channel_id + '" aria-label="..."></span>' +
           '<input type="text" class="form-control" aria-label="..." value="' + channel_list_info[i].title + '" readonly>' +
           '</div><!-- /input-group -->' +
           '</div><!-- /.col-lg-6 -->'

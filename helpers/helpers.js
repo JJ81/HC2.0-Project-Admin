@@ -53,6 +53,7 @@ hbs.registerHelper('comparison', function (value, max) {
 });
 
 hbs.registerHelper('showContentType', (type) => {
+  'use strict';
   let show_type;
   
   switch (type) {
@@ -76,6 +77,7 @@ hbs.registerHelper('showContentType', (type) => {
 });
 
 hbs.registerHelper('showChannelType', (type) => {
+  'use strict';
   let switch_type;
   
   switch (type) {

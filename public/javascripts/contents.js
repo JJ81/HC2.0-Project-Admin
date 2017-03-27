@@ -4,7 +4,6 @@ requirejs(
     'common',
     'jquery',
     'lodash'
-  
   ],
   function (Common, $, _) {
     
@@ -16,7 +15,7 @@ requirejs(
       btn_content_delete = $('.btn_content_delete'),
       search_title = $('.search_title'),
       btn_content_modify = $('.btn_content_modify');
-    let video_list = [];
+    // let video_list = [];
     
     
     /**
@@ -76,20 +75,24 @@ requirejs(
     /**
      * Get Video List By Video Title
      */
-    
-    search_title.on('keyup', _.debounce(function () {
-      const video_title = search_title.val();
-  
+    search_title.on('keyup', _.debounce(function (e) {
+      if(e.keyCode == 13 || $(this).val().trim() === ''){
+        return;
+      }
+
+      const video_title = search_title.val().trim();
+
       getVideoListByTitle(video_title, (err, result)=>{
         if(!err){
-          if(result.length !== 0){
+          if(result){
             makeVideoListToHTML(result);
           }else{
-            alert('조회한 결과가 없습니다. 입력값을 확인해보세요');
-            search_title.val('');
+            alert('조회한 결과가 없습니다.');
+            $(this).val('');
           }
         }else{
-          alert('다시 시도 해주세요')
+          alert('올바른 값을 입력해주세요.');
+          $(this).val('');
         }
       });
     }, 1000));
@@ -97,6 +100,7 @@ requirejs(
     function getVideoListByTitle (title, callback) {
       Common.getAPIData(`video/title/${title}`, (err, data) => {
         if (!err && data.success) {
+          // console.log(data.result);
           callback(null, data.result);
         } else {
           callback(err, null);
@@ -120,23 +124,45 @@ requirejs(
         }
       });
     });
-    
+
+
+
+
   
     function makeVideoListToHTML(video_list) {
+
       const len = video_list.length;
-      let html = '';
+      var html = '';
     
-      for(let i = 0; i < len; i++){
-      
-        html = html +
-          '<div class="col-lg-6">'+
-          '<div class="input-group">'+
-          '<span class="input-group-addon"><input type="radio" name="ref_id" value="'+[video_list[i].channel_id , video_list[i].video_id]+'" aria-label="..."></span>'+
+      for(var i = 0; i < len; i++){
+        html +=
+          '<div class="col-lg-6">' +
+          '<div class="input-group">' +
+          '<span class="input-group-addon">';
+
+        if(video_list[i].video_id){
+	        html +=
+		        '<input type="radio" name="channel_id" value="' + video_list[i].channel_id +'" aria-label="..." onclick="util.checkVideoId(\'' + video_list[i].video_id + '\');" />';
+        }else{
+	        html +=
+		        '<input type="radio" name="channel_id" value="' + video_list[i].channel_id + '" aria-label="..." />';
+        }
+
+	      html +=
+          '</span>'+
           '<input type="text" class="form-control" aria-label="..." value="'+video_list[i].title+'" readonly>'+
-          '</div><!-- /input-group -->'+
-          '</div><!-- /.col-lg-6 -->'
+          '</div>'+
+          '</div>'
       }
+
+      if(!video_list.length){
+	      html  = '<div class="text-center">검색 결과가 없습니다. 다시 시도해주세요.</div>';
+      }
+
       $('.find_list').empty().append(html);
+
+
     }
-  
+
+
   });

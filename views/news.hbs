@@ -14,25 +14,24 @@
 
                 <div class="row">
                     {{#each result}}
-
-                        <div class="col-sm-6 col-md-4">
-                            <div class="thumbnail" style="height: 100%">
-                                <img src="https://holdemclub.s3.ap-northeast-2.amazonaws.com/news/{{thumbnail}}" alt="...">
-                                <div class="caption center-block">
-                                    <h3>{{title}}</h3>
-                                    <strong>{{desc}}</strong>
-                                    <button class="btn btn-danger btn-block btn-lg btn_news_delete"
-                                            data-news-id="{{id}}">
-                                        <i class="fa fa-minus-circle" aria-hidden="true"></i>&nbsp;&nbsp;뉴스 식제
-                                    </button>
-                                    {{#if active}}
-                                        <button class="btn btn-success btn-block btn-lg btn_news_active" data-news-id="{{id}}" data-active="0"><i class="fa fa-minus-circle" aria-hidden="true"></i>&nbsp;&nbsp; 비활성화</button>
-                                    {{else}}
-                                        <button class="btn btn-info btn-block btn-lg btn_news_active" data-news-id="{{id}}" data-active="1"><i class="fa fa-minus-circle" aria-hidden="true"></i>&nbsp;&nbsp; 활성화</button>
-                                    {{/if}}
-                                </div>
+                    <div class="col-md-6">
+                        <div class="thumbnail" style="height: 100%">
+                            <img src="https://holdemclub.s3.ap-northeast-2.amazonaws.com/news/{{thumbnail}}" width="535" height="300" alt="{{title}}" style="width:535px; height: 300px;" />
+                            <div class="caption center-block">
+                                <h3>{{title}}</h3>
+                                <strong>{{desc}}</strong>
+                                {{#if active}}
+                                    <button class="btn btn-warning btn-block btn-lg btn_news_active" data-news-id="{{id}}" data-active="0"><i class="fa fa-minus-circle" aria-hidden="true"></i>&nbsp;&nbsp;비활성화</button>
+                                {{else}}
+                                    <button class="btn btn-info btn-block btn-lg btn_news_active" data-news-id="{{id}}" data-active="1"><i class="fa fa-minus-circle" aria-hidden="true"></i>&nbsp;&nbsp;활성화</button>
+                                {{/if}}
+                                <button class="btn btn-danger btn-block btn-lg btn_news_delete"
+                                        data-news-id="{{id}}">
+                                    <i class="fa fa-minus-circle" aria-hidden="true"></i>&nbsp;삭제
+                                </button>
                             </div>
                         </div>
+                    </div>
                     {{/each}}
                 </div>
 

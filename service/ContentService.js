@@ -30,24 +30,33 @@ Contents.getRecommendList = (callback) => {
 };
 
 Contents.active = (id, active, target, callback) => {
-  const query = (target === 'ref_id') ? QUERY.Contents.ActiveRT : QUERY.Contents.ActiveOther;
+  console.log(`${id} / ${active} / ${target}`);
+
+  // todo 일단 대표 콘텐츠를 일 경우와 그렇지 않을 경우를 구분할 수 있다.
+  const query = (target === 'channel_id') ? QUERY.Contents.ActiveRT : QUERY.Contents.ActiveOther;
   
   connection.query(query, [active, id], (err, result) => {
     callback(err, result);
   });
 };
 
-Contents.register = (ref_id, video_id, type, callback) => {
-  const id = ref_id.split(',');
+Contents.register = (channel_id, video_id, type, callback) => {
+	console.log(channel_id);
+	console.log(video_id);
+	console.log(type);
+
+  // const id = channel_id.split(',');
+	// const id = ;
+
   const _values = {
-    ref_id: id[0], //channel_id
-    video_id: id[1] || null, //video_id
-    type: type,
-    created_dt: new Date(),
-    priority: null,
-    active: 0
+    channel_id, //channel_id
+    video_id, //video_id
+    type
+    // created_dt: new Date(), // todo 디비가 한국시간의 그룹에 편성되어 있는지 확인할 것. (시간으로 확인)
+    //priority : null,
+    //active: 0
   };
-  
+
   connection.query(QUERY.Contents.Register, _values, (err, result) => {
     callback(err, result);
   });

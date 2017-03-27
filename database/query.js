@@ -38,8 +38,8 @@ QUERY.Broadcast = {
 QUERY.Event = {
 	ResultRegister: 'insert into `event_result` set ?;',
 	ResultDelete: 'delete from `event_result` where `event_id` = ?;',
-	StatusChange: 'update `event` set `status` =?, `ref_id` =? where `id`=?;',
-	ResultList: 'select e.`id`, e.`title`, e.`thumbnail`,e.`type`, e.`ref_id`, e.`status`, ' +
+	StatusChange: 'update `event` set `status` =?, `ref_id` =? where `id`=?;', // todo
+	ResultList: 'select e.`id`, e.`title`, e.`thumbnail`,e.`type`, e.`ref_id`, e.`status`, ' + // todo
   'e.`description`, e.`created_dt`, e.`end_dt`,er.`result_img` ' +
   'from `event` as e left join (select *from `event_result`) as er on e.`id` = er.`event_id` order by e.`created_dt` desc;',
 	LIST: 'select * from `event` ' +
@@ -51,9 +51,16 @@ QUERY.Contents = {
 	RepresentativeList: 'select * from `contents` ' +
   'where `type`=\'RT\' ' +
   'order by `priority` desc, `created_dt` desc; ',
-	EducationList: 'select * from `contents` ' +
-  'where `type`=\'E\' ' +
-  'order by `priority` desc, `created_dt` desc ;',
+	EducationList:
+	`
+	select * from contents
+	where type='E'
+	order by priority desc, created_dt desc;
+	`,
+  // 'select * from `contents` ' +
+  // 'where `type`=\'E\' ' +
+  // 'order by `priority` desc, `created_dt` desc ;'
+
 	SummaryList: 'select * from `contents` ' +
   'where `type`=\'S\' ' +
   'order by `priority` desc, `created_dt` desc ;',
@@ -62,9 +69,9 @@ QUERY.Contents = {
   'order by `priority` desc, `created_dt` desc ;',
 	Register: 'insert into `contents` set ?;',
 	Delete: 'delete from `contents`where `id`= ?',
-	Update: 'update `contents` set `ref_id` = ?, `type` = ? where `id` =?;',
-	ListGet: 'select *from `contents`;',
-  ActiveRT : 'update `contents` set `active` =? where `ref_id` =?;',
+	Update: 'update `contents` set `ref_id` = ?, `type` = ? where `id` =?;', // todo
+	ListGet: 'select * from `contents`;',
+  ActiveRT : 'update `contents` set `active`=? where `channel_id`=?;',
   ActiveOther : 'update `contents` set `active` =? where `video_id` =?;'
 };
 
@@ -85,7 +92,9 @@ QUERY.Channel = {
 
 QUERY.Video = {
 	List: 'select *from `video` where `channel_id`= ? order by `created_dt` desc;',
-  ListByTitle : 'select * from `video` where `title` like ? order by `title` asc;' ,
+  ListByTitle :
+	  //'select * from `video` where `title` like ? order by `title` asc;' ,
+  `select * from video where title like ? and active=true order by title asc;`,
 	View: 'select * from `video` where `video_id`= ?',
 	Register: 'insert into `video` set ?;',
   Modify :'update `video` set `title` =? where `video_id`= ?;',
@@ -93,7 +102,11 @@ QUERY.Video = {
 };
 
 QUERY.News = {
-	ListAll: 'select *from `news`;',
+	//ListAll: 'select * from `news`;',
+	ListAll :
+		'select * from `news` ' +
+		'order by `created_dt` desc ' +
+		'limit 1000;',
 	SearchById: 'select *from `news` where `id`= ?;',
 	Register: 'insert into `news` set ?;',
 	DeleteById: 'delete from `news` where `id` = ? ;',

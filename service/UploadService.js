@@ -24,8 +24,8 @@ function S3Instance() {
  * REAL ROOT_PATH 는 ${process.cwd()}/HC2.0-Project-Admin/ 을 사용해야한다
  * // TODO 한번에 로컬 데브 리얼 동시에 사용할수 있게 수정  or npm 스크립트에서 선택적으로 실행 가능하게 변경할것
  */
-// const ROOT_PATH = process.cwd();
-const ROOT_PATH = `${process.cwd()}/HC2.0-Project-Admin/`;
+const ROOT_PATH = process.cwd();
+//const ROOT_PATH = `${process.cwd()}/HC2.0-Project-Admin/`;
 
 /**
  * AWS S3 세부 설정은
@@ -61,8 +61,8 @@ Upload.formidable = (req, callback) => {
       encoding: 'utf-8',
       multiples: true,
       keepExtensions: false, //확장자 제거
-      uploadDir: `${ROOT_PATH}/temp`
-    });
+      uploadDir: `${ROOT_PATH}/temp` // todo 현재 디랙토리를 기준으로 파일을 임시로 업로드 하게 되어 있는데 이게 리얼에 가서도 동일하게 작동하는지 여부를 판단해야 한다.
+    }); // todo 만약 temp 파일이 없어서 업로드가 실패할 경우 폴더를 생성해주어야 한다.
     
     return instance
   }
@@ -105,24 +105,37 @@ Upload.optimize = (files, callback) => {
       ]
     }).then((test) => {
       console.log('최적화 작업 진행중...');
-      console.log('=============');
       console.log(test);
       console.log('=============');
       cb();
     })
   }, (err) => {
-    callback(err)
+    callback(err);
   });
 };
 
+// todo 각 메서드에 대한 유닛 테스트가 없어서 시일이 지난 후에 다시 점검을 하는 경우 아주 큰 기술부채가 발생하게 된다...
 Upload.s3 = (files, key, callback) => {
+
+  console.log(files[0].name);
+  console.log(files[0].path);
+
+
   const s3_file_name = makeS3FilesName(files[0].name);
-  params.Key = key + s3_file_name;
+  console.info('uploading file name : ' + s3_file_name);
+
+  params.Key = key + s3_file_name; // 'news/' --> path
   params.Body = require('fs').createReadStream(files[0].path);
   
   s3.upload(params, function (err, result) {
-    result.S3_FILE_NAME = s3_file_name;
-    callback(err, result);
+    if(err){
+      console.error(err);
+      callback(err, null);
+    }else{
+	    result.S3_FILE_NAME = s3_file_name; // 생성된 파일을 이름을 콜백으로 전달하기 전에 오버라이드한다.
+      callback(null, result);
+    }
+
   });
 };
 

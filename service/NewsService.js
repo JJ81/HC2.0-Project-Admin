@@ -12,7 +12,10 @@ News.register = (req, callback) => {
   
   const tasks = [
     (callback) => {
-      UploadService.formidable(req, (err, files, fields) => {
+      UploadService.formidable(req, (err, files, fields) => { // 이 때 에러가 나도 캐치를 할 수가 없다!
+        if(err){
+	        console.log(err);
+        }
         callback(err, files, fields);
       });
     },
@@ -28,6 +31,7 @@ News.register = (req, callback) => {
         callback(err, file_name, fields)
       })
     },
+
     (file_name, fields, callback) => {
       const values = {
         title: fields.title,
@@ -36,14 +40,25 @@ News.register = (req, callback) => {
         contents: fields.contents,
         thumbnail: file_name.S3_FILE_NAME,
       };
+
       connection.query(QUERY.News.Register, values, (err, result) => {
-        callback(err, result);
+        if(!err){
+	        callback(null, result);
+        }else{
+          console.error(err);
+	        callback(err, null);
+        }
       });
     }
   ];
   
   async.waterfall(tasks, (err, result) => {
-    callback(err, result);
+    if(!err){
+	    callback(null, result);
+    }else{
+      console.error(err);
+	    callback(err, null);
+    }
   });
   
 };

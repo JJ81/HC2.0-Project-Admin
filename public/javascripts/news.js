@@ -4,8 +4,8 @@
 'use strict';
 requirejs(
   [
-    'common',
-    'jquery',
+    'common'
+    ,'jquery'
   ],
   function (Common, $) {
     
@@ -17,12 +17,17 @@ requirejs(
   
   
     submit_news_upload.on('click', function () {
-      Common.AjaxFormSubmit(form_news_upload, (err, result)=>{
+      Common.AjaxFormSubmit(form_news_upload, (err, result) => {
         if (!err) {
           alert(result.msg);
           location.reload();
         } else {
-          alert(result.msg);
+          if(result){
+	          // console.log(result);
+	          alert(result.msg);
+          }else{
+            alert('Something went wrong. please try again.');
+          }
         }
       });
     });

@@ -12,14 +12,26 @@ define(
     // 'bootstrapProgressbar',
     'custom',
   ], function ($) {
-    // 로직 설명
-    
+
+    // prevent from press enter key
+    $('.blockEnterKey').bind('keydown', function (e) {
+      if(e.keyCode == 13){
+        // console.log('block enter key');
+        return false;
+      }
+    });
+
+
+    // todo [중요] 포트 번호 등 문제가 될 만한 ajax사항들은 모두 수정할 것.
     const
-      HOST = 'http://localhost:3002/',
+      HOST = 'http://localhost:3001/',
       HOST_API = `${HOST}api/v1/`;
     
     const utils = {
-      
+      checkVideoId: function(video_id){
+        $('#video_id').val(video_id.trim());
+      },
+
       /*POST, DELETE, PUT 전솜을 담당(Form 전송 외 모두 담당)*/
       AjaxSubmit: function (url, data, type, callback) {
         $.ajax({
@@ -35,7 +47,7 @@ define(
         });
       },
       
-      /*Form 전송은 이곳에서 전부 담당한다.*/
+      /* Form 전송은 이곳에서 전부 담당한다. */
       AjaxFormSubmit: function (form, callback) {
         form.ajaxForm({
           url: form.attr('action'),

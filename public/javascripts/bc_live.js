@@ -1,12 +1,11 @@
 'use strict';
 requirejs(
   [
-    'common',
-    'jquery',
-  
+    'common'
+    ,'jquery'
   ],
   function (Common, $) {
-    console.log(Common);
+    // console.log(Common);
     
     const
       submit_bc_live_on = $('#submit_bc_live_on'),

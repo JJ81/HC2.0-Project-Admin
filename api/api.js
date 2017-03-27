@@ -290,7 +290,7 @@ router
       }
     });
   })
-  
+  // 콘텐츠 활성화 or 비활성화
   .put('/contents/active', (req, res) => {
     const id = req.body.id;
     const active = req.body.active;
@@ -298,22 +298,24 @@ router
     
     Content.active(id, active, target, (err) => {
       if (!err) {
-        res.json({success: true, msg: '작업을 완료했습니다.'});
+        res.json({success: true, msg: '처리되었습니다.'});
       } else {
         res.json({success: false, err: err});
       }
     });
   });
 
+// todo 네 가지 콘텐츠 CUD 설정을 확인할 것
 router.route('/contents')
   .post((req, res) => {
     const
-      ref_id = req.body.ref_id,
+      channel_id = req.body.channel_id,
       video_id = req.body.video_id || null,
       type = req.body.type;
-    
-    console.log(ref_id, video_id, type);
-    Content.register(ref_id, video_id, type, (err) => {
+
+    console.log(`[api] ${channel_id} / ${video_id} / ${type}`);
+
+    Content.register(channel_id, video_id, type, (err) => {
       if (!err) {
         res.json({success: true, msg: '등록완료'});
       } else {
@@ -459,10 +461,11 @@ router
         res.json({success: false, err: err});
       }
     });
-  })
+  }) // 입력된 비디오 타이틀 값을 통해서 비디오를 가져온다.
   .get('/video/title/:title', (req, res) => {
-    const title = req.params.title;
-    Video.getListByTitle(title, (err, result) => {
+    const title = req.params.title.trim();
+
+    Video.getListByTitle(`%${title}%`, (err, result) => {
       if (!err) {
         res.json({success: true, result: result});
       } else {
@@ -529,11 +532,13 @@ router.route('/news')
     });
   })
   .post((req, res) => {
+  // 뉴스 관련 업로드
     News.register(req, (err) => {
       if (!err) {
         res.json({success: true, msg: '등록완료'});
       } else {
         console.log(err);
+        // todo 일부 에러에 대해서만 리턴이 된다 따라서 어떤 에러든지 받을 수 있고 해당 에러를 적절한 문구로서 엔드유저에게 보여줄 수 있어야 한다!
         res.json({success: false, msg: '다시 시도해주세요.', err: err});
       }
     });

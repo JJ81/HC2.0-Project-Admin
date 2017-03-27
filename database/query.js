@@ -37,8 +37,8 @@ QUERY.Broadcast = {
 
 QUERY.Event = {
 	ResultRegister: 'insert into `event_result` set ?;',
-	ResultDelete: 'delete from `event_result` where `event_id` = ?;',
-	StatusChange: 'update `event` set `status` =?, `ref_id` =? where `id`=?;', // todo
+	//ResultDelete: 'delete from `event_result` where `event_id` = ?;',
+	//StatusChange: 'update `event` set `status` =?, `ref_id` =? where `id`=?;', // todo
 	ResultList: 'select e.`id`, e.`title`, e.`thumbnail`,e.`type`, e.`ref_id`, e.`status`, ' + // todo
   'e.`description`, e.`created_dt`, e.`end_dt`,er.`result_img` ' +
   'from `event` as e left join (select *from `event_result`) as er on e.`id` = er.`event_id` order by e.`created_dt` desc;',
@@ -69,7 +69,8 @@ QUERY.Contents = {
   'order by `priority` desc, `created_dt` desc ;',
 	Register: 'insert into `contents` set ?;',
 	Delete: 'delete from `contents`where `id`= ?',
-	Update: 'update `contents` set `ref_id` = ?, `type` = ? where `id` =?;', // todo
+
+	// Update: 'update `contents` set `ref_id` = ?, `type` = ? where `id` =?;', // todo
 	ListGet: 'select * from `contents`;',
   ActiveRT : 'update `contents` set `active`=? where `channel_id`=?;',
   ActiveOther : 'update `contents` set `active` =? where `video_id` =?;'

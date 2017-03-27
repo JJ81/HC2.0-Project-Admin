@@ -5,8 +5,6 @@ requirejs(
     ,'jquery'
   ],
   function (Common, $) {
-    // console.log(Common);
-    
     const
       submit_bc_live_on = $('#submit_bc_live_on'),
       form_bc_live_on = $('#form_bc_live_on'),
@@ -43,9 +41,4 @@ requirejs(
         }
       });
     });
-    
-    /**
-     * 생방송 수정
-     */
-    
   });

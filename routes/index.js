@@ -9,7 +9,6 @@ if(express().get('env') === 'production'){
 	require('../database/redis')(router, 'local');
 }
 
-//require('../database/redis')(router, 'real'); // redis
 require('../helpers/helpers');
 
 

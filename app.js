@@ -121,18 +121,7 @@ app.use((err, req, res) => {
   });
 });
 
-// Swifty Automatic Changing ENV.
-// todo config 파일을 생성하여 아래의 설정을 공통으로 가져갈 수 있도록
-if (app.get('env') === 'local') {
-  global.mysql_location = 'local';
-  global.redis_location = 'local';
-} else if (app.get('env') === 'development') {
-  global.redis_location = 'dev';
-  global.mysql_location = 'dev';
-} else if (app.get('env') === 'production') {
-  global.mysql_location = 'real';
-  global.redis_location = 'real';
-}
+
 
 
 module.exports = app;

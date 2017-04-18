@@ -2,7 +2,14 @@ const express = require('express');
 const router = express.Router();
 const flash = require('connect-flash');
 const bcrypt = require('bcrypt');
-require('../database/redis')(router, 'real'); // redis
+
+if(express().get('env') === 'production'){
+	require('../database/redis')(router, 'real');
+}else{
+	require('../database/redis')(router, 'local');
+}
+
+//require('../database/redis')(router, 'real'); // redis
 require('../helpers/helpers');
 
 

@@ -1,6 +1,7 @@
 /**
  * Created by yijaejun on 07/12/2016.
  */
+'use strict';
 
 let redis = require('redis');
 let db_info = require('../secret/db_info');

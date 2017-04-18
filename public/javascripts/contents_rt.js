@@ -60,7 +60,7 @@ requirejs(
      * 활성화 / 비활성화
      */
     $('.btn_active').on('click', function () {
-      // todo custom attriute에 데이터가 있는지 여부를 확인해야 한다.
+      // todo custom attribute에 데이터가 있는지 여부를 확인해야 한다.
       const data = {
         id: $(this).attr('data-id'),
         active: $(this).attr('data-active'), // todo 상태 정보를 view에 의존하면 안된다. 일단 이대로 진행

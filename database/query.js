@@ -61,12 +61,24 @@ QUERY.Contents = {
   // 'where `type`=\'E\' ' +
   // 'order by `priority` desc, `created_dt` desc ;'
 
-	SummaryList: 'select * from `contents` ' +
-  'where `type`=\'S\' ' +
-  'order by `priority` desc, `created_dt` desc ;',
-	RecommendList: 'select * from `contents` ' +
-  'where `type`=\'R\' ' +
-  'order by `priority` desc, `created_dt` desc ;',
+	SummaryList:
+	`
+	select id, channel_id, video_id, priority, active from contents
+	where type='S'
+	order by priority desc, created_dt desc;
+	`,
+  // 'select * from `contents` ' +
+  // 'where `type`=\'S\' ' +
+  // 'order by `priority` desc, `created_dt` desc ;',
+	RecommendList:
+	`
+	select id, channel_id, video_id, type, priority, active from contents
+	where type='R'
+	order by priority desc, created_dt desc;
+	`,
+  // 'select * from `contents` ' +
+  // 'where `type`=\'R\' ' +
+  // 'order by `priority` desc, `created_dt` desc ;',
 	Register: 'insert into `contents` set ?;',
 	Delete: 'delete from `contents`where `id`= ?',
 
@@ -76,19 +88,19 @@ QUERY.Contents = {
   ActiveOther : 'update `contents` set `active` =? where `video_id` =?;'
 };
 
-
+// todo grouping과 관련된 쿼리문은 어디에?
 // Special(대표채널), General(단독채널), Under(S채널에 종속
 QUERY.Channel = {
-	ListAll: 'select *from `channel` order by `created_dt` desc',
-	ListSpecial: 'select *from `channel` where `type` = \'S\' order by `created_dt` desc;',
-	ListGeneral: 'select *from `channel` where `type` = \'G\' order by `created_dt` desc;',
-	ListUnder: 'select *from `channel` where `type` = \'U\' order by `created_dt` desc;',
-	Register: 'insert into `channel` set ? ;',
-  Modify : 'update `channel` set `title`= ?, `type` =? where `channel_id`= ?;',
-	RegisterGroup: 'update `channel` set `type` = ? , `group_id`= ? where `channel_id` =?;',
-	DeleteGroup: 'update `channel` set `group_id`= ?, `type`= ? where `channel_id`= ?;',
-  Active : 'update `channel` set `active`= ? where `channel_id`= ?',
-  
+	ListAll: 'select * from `channels` order by `created_dt` desc;',
+	ListSpecial: 'select * from `channels` where `type` = \'S\' order by `created_dt` desc;',
+	ListGeneral: 'select * from `channels` where `type` = \'G\' order by `created_dt` desc;',
+	ListUnder: 'select * from `channels` where `type` = \'U\' order by `created_dt` desc;',
+	Register: 'insert into `channels` set ? ;',
+  Modify : 'update `channels` set `title`= ?, `type` =? where `channel_id`= ?;',
+	// todo 채널 그룹화를 한 후에 channel_group 테이블에 그룹 아이디를 만들어 저장하는 로직이 필요하다
+	RegisterGroup: 'update `channels` set `type` = ? , `group_id`= ? where `channel_id` =?;',
+	DeleteGroup: 'update `channels` set `group_id`= ?, `type`= ? where `channel_id`= ?;',
+  Active : 'update `channels` set `active`= ? where `channel_id`= ?',
 };
 
 QUERY.Video = {

@@ -6,15 +6,14 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">뉴스등록</h4>
+                <h4 class="modal-title">뉴스 등록</h4>
             </div>
             <div class="modal-body">
                 <!-- modal body -->
                 <form id="form_news_upload" action="/api/v1/news" enctype="multipart/form-data"  method="post">
-
                     <fieldset class="form-group">
                         <label for="image">Image</label>
-                        <input class="form-control" type="file" id="file" name="img_files[]" accept="image/*">
+                        <input class="form-control" type="file" id="file" name="img_files[]" accept="image/*" required />
                     </fieldset>
 
                     <fieldset class="form-group">
@@ -28,20 +27,33 @@
                     </fieldset>
 
                     <fieldset class="form-group">
-                        <label for="sub_title">Desc</label>
-                        <input type="text" class="form-control" name="desc"  placeholder="Insert Description" required autocomplete="off"/>
+                        <label for="contents">Link <small class="text-danger">( * 내부링크 입력시 호스트 네임[http://holdemclub.tv]을 제외하고 입력해주세요.)</small></label>
+                        <input type="text" class="form-control" name="link"  placeholder="Insert link (external or internal)" required autocomplete="off"/>
+                    </fieldset>
+
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-warning active">
+                            <input type="radio" name="direction" id="option1" autocomplete="off" checked> Internal
+                        </label>
+                        <label class="btn btn-warning">
+                            <input type="radio" name="direction" id="option2" autocomplete="off"> External
+                        </label>
+                    </div><br /><br />
+
+                    <fieldset class="form-group">
+                        <label for="sub_title">Desc.</label>
+                        <input type="text" class="form-control" name="desc"  placeholder="Insert Description (Optional)" autocomplete="off"/>
                     </fieldset>
 
                     <fieldset class="form-group">
                         <label for="contents">Contents</label>
-                        <textarea class="form-control" rows="5" name="contents"></textarea>
+                        <textarea class="form-control" rows="5" name="contents" placeholder="(optional)"></textarea>
                     </fieldset>
-
 
                     <fieldset class="form-group">
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary" id="submit_news_upload">Add</button>
+                            <button type="button" class="btn btn-default pull-right" data-dismiss="modal">취소</button>
+                            <button type="submit" class="btn btn-primary pull-right" id="submit_news_upload">등록</button>
                         </div>
                     </fieldset>
                 </form>
@@ -52,4 +64,3 @@
     </div>
     <!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<!--// Modal (Add Player) -->

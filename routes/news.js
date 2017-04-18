@@ -16,7 +16,6 @@ const HOST_INFO = {
 };
 
 const HOST = `${HOST_INFO.LOCAL}${HOST_INFO.VERSION}`;
-
 const isAuthenticated = (req, res, next) => {
   if (req.isAuthenticated())
     return next();

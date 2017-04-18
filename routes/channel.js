@@ -10,9 +10,9 @@ const
 
 // TODO 모든 라우터에서 사용중 어디로 빼야 될까? 글로벌로 ??
 const HOST_INFO = {
-	LOCAL: 'http://localhost:3002/api/',
-	DEV: 'http://beta.holdemclub.tv/api/',
-	REAL: 'http://holdemclub.tv/api/',
+	LOCAL: 'http://localhost:3001/api/',
+	// DEV: 'http://beta.holdemclub.tv/api/',
+	// REAL: 'http://holdemclub.tv/api/',
 	VERSION: 'v1/'
 };
 

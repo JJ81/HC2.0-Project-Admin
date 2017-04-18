@@ -531,15 +531,19 @@ router.route('/news')
       }
     });
   })
-  .post((req, res) => {
-  // 뉴스 관련 업로드
+  .post((req, res) => { // 뉴스 관련 업로드
     News.register(req, (err) => {
       if (!err) {
         res.json({success: true, msg: '등록완료'});
       } else {
         console.log(err);
         // todo 일부 에러에 대해서만 리턴이 된다 따라서 어떤 에러든지 받을 수 있고 해당 에러를 적절한 문구로서 엔드유저에게 보여줄 수 있어야 한다!
-        res.json({success: false, msg: '다시 시도해주세요.', err: err});
+
+        res.json({
+          success: false,
+          msg: '다시 시도해주세요.',
+          err: err
+        });
       }
     });
   })
@@ -564,6 +568,74 @@ router.route('/news')
     });
   });
 
+
+/**
+ * channel --> channels로 데이터를 이동시킨다.
+ */
+const mysql_dbc = require('../commons/db_conn')();
+const connection = mysql_dbc.init();
+
+// router.get('/database/migration/channel', (req, res) => {
+//   connection.query('select * from `channel` where active=true;', (err, rows) => {
+//     if(err) console.error(err);
+//     // console.log(rows);
+//
+//     // channel_id, title, created_dt, active, hits--> hit_count, group_id
+//     for(var i=0, size=rows.length;i<size;i++){
+// 	      var
+//           channel_id = rows[i].channel_id,
+// 		      title = rows[i].title,
+// 		      created_dt = rows[i].created_dt,
+// 		      group_id = rows[i].group_id,
+// 		      hit_count = rows[i].hits;
+//
+// 	    // todo 스트링쿼리를 한번에 만들어서 호출하는 방법을 사용해보자!!
+//       connection.query('insert into `channels` (`channel_id`,`title`,`created_dt`,`group_id`,`hit_count`) values(?,?,?,?,?);',
+//         [
+//           channel_id,
+//           title,
+//           created_dt,
+//           group_id,
+//           hit_count
+//         ],
+//         (err, result) => {
+//           if(!err){
+//             console.info('@@@@@ : ' + result);
+//           }else{
+//             console.error(err);
+//           }
+//         });
+//     }
+// 	  res.end();
+//   });
+// });
+
+// router.get('/database/migration/channel_group', (req, res) => {
+//   connection.query('select * from `group`;', (err, rows) => {
+//     if(!err){
+//       var query = '';
+//       for(var i=0, size=rows.length;i<size;i++){
+//         query += `insert into channel_group (group_id, channel_id) values ('${rows[i].group_id}', '${rows[i].channel_id}');`
+//       }
+//
+//       // console.log(query);
+//       connection.query(query,(err, result) => {
+//         if(!err){
+// 	        res.end('query completed');
+//         }else{
+//           console.error(err);
+// 	        res.end('query not completed');
+//         }
+//       });
+//
+//
+//
+//     }else{
+//       console.error(err);
+//       res.end('fail to update');
+//     }
+//   });
+// });
 
 //NEWS API END
 module.exports = router;

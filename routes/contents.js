@@ -83,7 +83,7 @@ router.get('/recommend', isAuthenticated, (req, res) => {
 			const _body = JSON.parse(body);
             
 			res.render('contents_recom', {
-				current_path: 'contents',
+				current_path: 'contents_rt',
 				title: PROJ_TITLE + '대표 체널',
 				result: _body.result,
         type: 'R'

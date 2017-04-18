@@ -124,6 +124,7 @@ Channel.modify = (req, callback) => {
   });
   
 };
+
 Channel.registerGroup = (group_id, channel_id, callback) => {
   const array_channel_id = (channel_id.constructor === Array) ? channel_id : [channel_id];
   

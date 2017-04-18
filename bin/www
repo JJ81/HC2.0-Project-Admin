@@ -5,7 +5,7 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('ams-holdemclub:server');
+var debug = require('debug')('holdemclub:server');
 var http = require('http');
 
 /**

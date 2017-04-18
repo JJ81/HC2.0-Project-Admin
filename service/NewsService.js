@@ -12,6 +12,7 @@ News.register = (req, callback) => {
   
   const tasks = [
     (callback) => {
+
       UploadService.formidable(req, (err, files, fields) => { // 이 때 에러가 나도 캐치를 할 수가 없다!
         if(err){
 	        console.log(err);
@@ -39,6 +40,8 @@ News.register = (req, callback) => {
         desc: fields.desc,
         contents: fields.contents,
         thumbnail: file_name.S3_FILE_NAME,
+        link: fields.link,
+        direction : fields.direction
       };
 
       connection.query(QUERY.News.Register, values, (err, result) => {

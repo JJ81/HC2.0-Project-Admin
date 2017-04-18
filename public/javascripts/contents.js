@@ -125,9 +125,6 @@ requirejs(
       });
     });
 
-
-
-
   
     function makeVideoListToHTML(video_list) {
 
@@ -160,8 +157,6 @@ requirejs(
       }
 
       $('.find_list').empty().append(html);
-
-
     }
 
 

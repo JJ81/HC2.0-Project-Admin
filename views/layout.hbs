@@ -1,49 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
-    <meta name="Referrer" content="origin"/>
-
-
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Holdemclubtv Administrator</title>
-
-
-    <!-- Bootstrap -->
-    <link href="/components/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
-    <!-- Font Awesome -->
-    <link href="/components/gentelella/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
-    <!-- Custom Theme Style -->
-    <link href="/components/gentelella/build/css/custom.min.css" rel="stylesheet"/>
-    <!--Video.JS-->
-    <link href="/components/video.js/dist/video-js.min.css" rel="stylesheet" />
-    <!-- Custom Theme Style -->
-    <link href="/components/gentelella/build/css/custom.min.css" rel="stylesheet"/>
-    <!--Video.JS-->
-    <link href="/components/video.js/dist/video-js.min.css" rel="stylesheet" />
-    <!-- bootstrap-progressbar -->
-    <link href="/components/gentelella/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet"/>
-    <!--<link href="/components/gentelella/vendors/animate.css/animate.min.css" rel="stylesheet"/>-->
-    <!-- NProgress -->
-    <!--<link href="/components/gentelella/vendors/nprogress/nprogress.css" rel="stylesheet"/>-->
-    <!-- iCheck -->
-    <!--<link href="/components/gentelella/vendors/iCheck/skins/flat/green.css" rel="stylesheet"/>-->
-    <!-- JQVMap -->
-    <!--<link href="/components/gentelella/vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>-->
-    <!-- bootstrap-daterangepicker -->
-    <!--<link href="/components/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet"/>-->
-
-
-    <title>{{title}}</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+<meta name="Referrer" content="origin"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Bootstrap -->
+<link href="/components/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="/components/gentelella/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
+<!-- Custom Theme Style -->
+<link href="/components/gentelella/build/css/custom.min.css" rel="stylesheet"/>
+<!--Video.JS-->
+<link href="/components/video.js/dist/video-js.min.css" rel="stylesheet" />
+<!-- Custom Theme Style -->
+<link href="/components/gentelella/build/css/custom.min.css" rel="stylesheet"/>
+<!--Video.JS-->
+<link href="/components/video.js/dist/video-js.min.css" rel="stylesheet" />
+<!-- bootstrap-progressbar -->
+<link href="/components/gentelella/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet"/>
+<title>{{title}}</title>
 </head>
-<body class="nav-md {{current_path}}" id="body">
 
+<body class="nav-md {{current_path}}" id="body">
 {{#unless (isEquals current_path 'login')}}
     <div class="container body">
         <div class="main_container">
@@ -56,19 +38,8 @@
 {{else}}
     {{{body}}}
 {{/unless}}
-
-
 <script src="/components/requirejs/require.js"></script>
 <script src="/javascripts/app.js"></script>
-
-<!--<script src="/dist/app.js"></script>-->
-<!--<script src="/dist/require.js"></script>-->
-
-
-
-{{#if current_path}}
-    <script src="/javascripts/{{current_path}}.js"></script>
-    <!--<script src="/dist/{{current_path}}.js"></script>-->
-{{/if}}
+{{#if current_path}}<script src="/javascripts/{{current_path}}.js"></script>{{/if}}
 </body>
 </html>

@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
-const logger = require('morgan');
+const logger = require('morgan'); // todo 어떻게 사용이 되고 있는지 확인할 것
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
@@ -57,7 +57,7 @@ app.disable('x-powered-by');
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(logger('dev'));
+app.use(logger('combined'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
@@ -73,7 +73,7 @@ const allowCORS = (req, res, next) => {
 };
 app.use(allowCORS);
 
-global.PROJ_TITLE = '홀덤클럽티비';
+global.PROJ_TITLE = '홀덤클럽티비, ';
 
 app.use('/', routes);
 app.use('/api/v1', api);
@@ -86,6 +86,8 @@ app.use('/news', news);
 // catch 404 and forward to error handler
 app.use((req, res) => {
   // TODO 무조건 404를 거쳐가고 있는데 이것을 방지하는 코드를 넣을 것
+  // todo 404 처리는 모든 라우터를 지나고 걸릴 것이 없을 경우 처리되는 것
+  // 그러하면 이 바로 아래 코드는 무슨 역할을 하는가?
   res.status(404);
   res.render('404', {
     current_path: '404 Error Page',
@@ -106,6 +108,9 @@ if (app.get('env') === 'development') {
     });
   });
 }
+
+// todo production 용 error handler를 설정할 것.
+
 
 // production error handler
 // no stacktraces leaked to user

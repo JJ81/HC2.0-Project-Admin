@@ -27,7 +27,6 @@ define(
       HOST = 'http://localhost:3001/',
       HOST_API = `${HOST}api/v1/`;
     
-    console.log(HOST_API);
     const utils = {
       checkVideoId: function(video_id){
         $('#video_id').val(video_id.trim());

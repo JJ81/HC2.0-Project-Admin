@@ -40,8 +40,8 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 // todo 무료 개방 TLS를 적용할 경우 아래 코드를 수정해야 한다
 // var expiryDate = new Date( Date.now() + 60 * 60 * 1000 ); // 1 hour
 app.use(cookieSession({
-  name: 'session',
-  keys: ['HC_Mobile', 'Holdemclub'],
+  name: 'hc2.0_session',
+  keys: ['HC_Admin2.0', 'HoldemclubAdmin2.0'],
   cookie: {
     secure: false // https를 통해서만 쿠키를 전송하도록 한다
     , httpOnly: false // 쿠키가 클라이언트 js가 아닌 httpd를 통해서만 전송이 되도록 하며 XSS 공격으로부터 보호할 수 있다

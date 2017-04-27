@@ -34,6 +34,13 @@ News.register = (req, callback) => {
     },
 
     (file_name, fields, callback) => {
+      console.log('fields data');
+      // console.log(fields);
+
+      var direction = (fields.direction === 'external') ? 'EX' : 'IN';
+
+      console.log(direction);
+
       const values = {
         title: fields.title,
         sub_title: fields.sub_title,
@@ -41,7 +48,7 @@ News.register = (req, callback) => {
         contents: fields.contents,
         thumbnail: file_name.S3_FILE_NAME,
         link: fields.link,
-        direction : fields.direction
+        direction
       };
 
       connection.query(QUERY.News.Register, values, (err, result) => {

@@ -25,10 +25,11 @@
                                 {{else}}
                                     <button class="btn btn-info btn-block btn-lg btn_news_active" data-news-id="{{id}}" data-active="1"><i class="fa fa-minus-circle" aria-hidden="true"></i>&nbsp;&nbsp;활성화</button>
                                 {{/if}}
-                                <button class="btn btn-danger btn-block btn-lg btn_news_delete"
-                                        data-news-id="{{id}}">
+                                <button class="btn btn-danger btn-block btn-lg btn_news_delete" data-news-id="{{id}}">
                                     <i class="fa fa-minus-circle" aria-hidden="true"></i>&nbsp;삭제
                                 </button>
+                                <p>링크 : {{link}} / {{direction}}</p>
+                                <p>생성일 : {{stime created_dt}}</p>
                             </div>
                         </div>
                     </div>

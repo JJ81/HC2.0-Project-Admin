@@ -9,7 +9,7 @@ const
 
 // todo 공통 모듈에 심어서 임포트할 수 있도록 변경할 것.
 const HOST_INFO = {
-	LOCAL: 'http://localhost:3001/api/',
+	LOCAL: 'http://localhost:2500/api/',
 	// DEV: 'http://beta.holdemclub.tv/api/',
 	// REAL: 'http://holdemclub.tv/api/',
 	VERSION: 'v1'

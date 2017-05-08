@@ -6,7 +6,7 @@ const
 
 
 const HOST_INFO = {
-  LOCAL: 'http://localhost:3001/api/',
+  LOCAL: 'http://localhost:2500/api/',
   // DEV: 'http://beta.holdemclub.tv/api/',
   // REAL: 'http://holdemclub.tv/api/',
   VERSION: 'v1'

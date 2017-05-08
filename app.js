@@ -24,7 +24,7 @@ const flash = require('connect-flash');
 // 클라이언트에서 쿠키 데이터를 볼 수 있기 때문에 쿠키 데이터를 안전하게 모호하게 유지를 해야 할 경우 express-session을 선택하는 것이 더 나을 수 있다.
 const cookieSession = require('cookie-session');
 const helmet = require('helmet');
-
+const errorHandler = require('errorhandler');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -37,16 +37,16 @@ hbs.registerPartials(__dirname + '/views/main');
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
-// todo 무료 개방 TLS를 적용할 경우 아래 코드를 수정해야 한다
-// var expiryDate = new Date( Date.now() + 60 * 60 * 1000 ); // 1 hour
+
+var expiryDate = new Date( Date.now() + 60 * 60 * 1000 ); // 1 hour
 app.use(cookieSession({
   name: 'hc2.0_session',
   keys: ['HC_Admin2.0', 'HoldemclubAdmin2.0'],
   cookie: {
-    secure: false // https를 통해서만 쿠키를 전송하도록 한다
-    , httpOnly: false // 쿠키가 클라이언트 js가 아닌 httpd를 통해서만 전송이 되도록 하며 XSS 공격으로부터 보호할 수 있다
-    , domain: 'holdemclub.tv' // 쿠키의 도메인 설정
-    // expires: expiryDate // 지속적 쿠키에 대한 만기 일짜를 설정, 쿠키에 중요한 정보가 없으므로 로그인을 일단 유지하게 한다.
+    secure: true // https를 통해서만 쿠키를 전송하도록 한다
+    , httpOnly: true // 쿠키가 클라이언트 js가 아닌 https를 통해서만 전송이 되도록 하며 XSS 공격으로부터 보호할 수 있다
+    , domain: 'admin.holdemclub.tv' // 쿠키의 도메인 설정
+    expires: expiryDate // 지속적 쿠키에 대한 만기 일짜를 설정, 쿠키에 중요한 정보가 없으므로 로그인을 일단 유지하게 한다.
   }
 }));
 
@@ -96,32 +96,67 @@ app.use((req, res) => {
   });
 });
 
+// // error handlers
+// // development error handler
+// // will print stacktrace
+// if (app.get('env') === 'development') {
+//   app.use((err, req, res) => {
+//     res.status(err.status || 500);
+//     res.render('500', {
+//       current_path: ' 500 Error Page',
+//       title: PROJ_TITLE + 'ERROR PAGE'
+//     });
+//   });
+// }
+//
+// // todo production 용 error handler를 설정할 것.
+//
+//
+// // production error handler
+// // no stacktraces leaked to user
+// app.use((err, req, res) => {
+//   res.render('500', {
+//     current_path: '500 Error Page',
+//     title: PROJ_TITLE + 'ERROR PAGE'
+//   });
+// });
+
 // error handlers
 // development error handler
 // will print stacktrace
-if (app.get('env') === 'development') {
-  app.use((err, req, res) => {
-    res.status(err.status || 500);
-    res.render('500', {
-      current_path: ' 500 Error Page',
-      title: PROJ_TITLE + 'ERROR PAGE'
-    });
-  });
+if (app.get('env') !== 'production') {
+	// app.use((err, req, res, next) => {
+	// 	res.status(err.status || 500);
+	// 	res.render('500', {
+	// 		current_path: ' 500 Error Page',
+	// 		title: PROJ_TITLE + 'ERROR PAGE'
+	// 	});
+	// });
+
+	app.use(errorHandler());
 }
 
-// todo production 용 error handler를 설정할 것.
-
+if(app.get('env') === 'production'){
+	// todo production으로 띄울 경우 에러가 발생했을 때 메일을 받을 수 있도록 변경할 것
 
 // production error handler
 // no stacktraces leaked to user
-app.use((err, req, res) => {
-  res.render('500', {
-    current_path: '500 Error Page',
-    title: PROJ_TITLE + 'ERROR PAGE'
-  });
-});
+	app.use((err, req, res, next) => {
+		console.log('From production');
 
+		if(err.code === 'EBADCSRFTOKEN'){
+			console.error(`CSRFERR : ${err}`);
+		}
 
+		// todo log@holdemclub.tv로 받을 수 있도록 한다.
+		console.error(err.stack);
+
+		res.render('500', {
+			current_path: '500 Error Page',
+			title: PROJ_TITLE + 'ERROR PAGE'
+		});
+	});
+}
 
 
 module.exports = app;

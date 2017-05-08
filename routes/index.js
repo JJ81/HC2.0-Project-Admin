@@ -22,26 +22,26 @@ router.get('/', isAuthenticated, (req, res) => {
   res.redirect('/broadcast/live');
 });
 
-var httpToHttps = function (req, res, next) {
-	var
-		isHttps = req.headers['x-forwarded-port'],
-		host = req.headers.host,
-		url = req.url;
+// var httpToHttps = function (req, res, next) {
+// 	var
+// 		isHttps = req.headers['x-forwarded-port'],
+// 		host = req.headers.host,
+// 		url = req.url;
+//
+// 	if(express().get('env') !== 'production'){
+// 		next();
+// 	}else{
+// 		if(isHttps === '443'){
+// 			//console.log('443');
+// 			next();
+// 		}else{
+// 			//console.log('80');
+// 			res.redirect(`https://${host}${url}`);
+// 		}
+// 	}
+// };
 
-	if(express().get('env') !== 'production'){
-		next();
-	}else{
-		if(isHttps === '443'){
-			//console.log('443');
-			next();
-		}else{
-			//console.log('80');
-			res.redirect(`https://${host}${url}`);
-		}
-	}
-};
-
-router.get('/login', httpToHttps, function (req, res) {
+router.get('/login', function (req, res) {
 	if (req.user == null) {
 		res.render('login', {
 			current_path: 'login',

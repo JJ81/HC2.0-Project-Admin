@@ -18,10 +18,9 @@ const isAuthenticated = (req, res, next) => {
 	res.redirect('/login');
 };
 
-// todo ??
-// router.get('/', isAuthenticated, (req, res) => {
-//   res.redirect('/broadcast/live');
-// });
+router.get('/', isAuthenticated, (req, res) => {
+  res.redirect('/broadcast/live');
+});
 
 var httpToHttps = function (req, res, next) {
 	var

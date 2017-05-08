@@ -43,9 +43,9 @@ app.use(cookieSession({
   name: 'hc2.0_session',
   keys: ['HC_Admin2.0', 'HoldemclubAdmin2.0'],
   cookie: {
-    secure: true // https를 통해서만 쿠키를 전송하도록 한다
-    , httpOnly: true // 쿠키가 클라이언트 js가 아닌 https를 통해서만 전송이 되도록 하며 XSS 공격으로부터 보호할 수 있다
-    , domain: 'admin.holdemclub.tv' // 쿠키의 도메인 설정
+    secure: false // https를 통해서만 쿠키를 전송하도록 한다
+    , httpOnly: false // 쿠키가 클라이언트 js가 아닌 https를 통해서만 전송이 되도록 하며 XSS 공격으로부터 보호할 수 있다
+    , domain: 'admin-dev.holdemclub.tv' // 쿠키의 도메인 설정
     , expires: expiryDate // 지속적 쿠키에 대한 만기 일짜를 설정, 쿠키에 중요한 정보가 없으므로 로그인을 일단 유지하게 한다.
   }
 }));

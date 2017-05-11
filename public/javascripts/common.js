@@ -24,8 +24,8 @@ define(
 
     // todo [중요] 포트 번호 등 문제가 될 만한 ajax사항들은 모두 수정할 것.
     const
-      HOST = window.location.host,
-      HOST_API = `/${HOST}api/v1/`;
+      // HOST = window.location.host,
+      HOST_API = `/api/v1/`;
     
     const utils = {
       checkVideoId: function(video_id){

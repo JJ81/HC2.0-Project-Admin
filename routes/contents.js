@@ -27,7 +27,7 @@ router.get('/representative', isAuthenticated, (req, res) => {
             
 			res.render('contents_rt', {
 				current_path: 'contents_rt',
-				title: PROJ_TITLE + '대표 체널',
+				title: PROJ_TITLE + '대표 채널',
 				result: _body.result,
 				type: 'RT'
 			});
@@ -46,7 +46,7 @@ router.get('/education', isAuthenticated, (req, res) => {
             
 			res.render('contents_edu', {
 				current_path: 'contents',
-				title: PROJ_TITLE + '대표 체널',
+				title: PROJ_TITLE + '대표 채널',
 				result: _body.result,
         type: 'E'
 			});
@@ -65,7 +65,7 @@ router.get('/summary', isAuthenticated, (req, res) => {
 			
 			res.render('contents_sum', {
 				current_path: 'contents',
-				title: PROJ_TITLE + '대표 체널',
+				title: PROJ_TITLE + '대표 채널',
 				result: _body.result,
         type: 'S'
 			});
@@ -84,7 +84,7 @@ router.get('/recommend', isAuthenticated, (req, res) => {
             
 			res.render('contents_recom', {
 				current_path: 'contents_rt',
-				title: PROJ_TITLE + '대표 체널',
+				title: PROJ_TITLE + '대표 채널',
 				result: _body.result,
         type: 'R'
 			});

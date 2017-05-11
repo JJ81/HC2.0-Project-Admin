@@ -24,7 +24,7 @@ define(
 
     // todo [중요] 포트 번호 등 문제가 될 만한 ajax사항들은 모두 수정할 것.
     const
-      HOST = 'http://localhost:3001/',
+      HOST = 'http://localhost:2500/',
       HOST_API = `${HOST}api/v1/`;
     
     const utils = {

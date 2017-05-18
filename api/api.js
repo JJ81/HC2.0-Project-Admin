@@ -14,7 +14,7 @@ const Content = require('../service/ContentService');
 const Channel = require('../service/ChannelService');
 const Video = require('../service/VideoService');
 const News = require('../service/NewsService');
-
+const NoticeService = require('../service/NoticeService');
 
 /**
  * URI에 리소스명은 동사보다는 명사를 사용한다.
@@ -77,7 +77,11 @@ passport.use(new LocalStrategy({
         return done(null, false);
       } else {
         if (result.success) {
-          return done(null, result.admin_info);
+          // console.info(result);
+
+          return done(null, {
+            admin_id : result.admin_info[0].admin_id
+          });
         } else {
           return done(null, false);
         }
@@ -572,8 +576,8 @@ router.route('/news')
 /**
  * channel --> channels로 데이터를 이동시킨다.
  */
-const mysql_dbc = require('../commons/db_conn')();
-const connection = mysql_dbc.init();
+// const mysql_dbc = require('../commons/db_conn')();
+// const connection = mysql_dbc.init();
 
 // router.get('/database/migration/channel', (req, res) => {
 //   connection.query('select * from `channel` where active=true;', (err, rows) => {
@@ -638,4 +642,60 @@ const connection = mysql_dbc.init();
 // });
 
 //NEWS API END
+
+
+// todo 여기서부터 공지사항
+// api 테스트 코드도 작성할 것.
+// router.route('/notice')
+//   .get(req, res);
+
+router.route('/notice/list')
+	.get((req, res) => {
+    var info = {
+      size : 0,
+      page : 1
+    };
+
+		NoticeService.GetList(info, (err, result) =>{
+		  if(!err){
+			  res.json({
+          success : true,
+          result
+			  });
+      }else{
+		    console.error(err);
+			  res.json({
+				  success : false,
+				  error: err
+			  });
+      }
+    });
+  });
+
+router.get('/notice/content/:id/:admin_id', (req, res) => {
+  var info = {
+    id: req.params.id.trim(),
+    user_id : req.params.admin_id
+  };
+
+  console.info(info);
+
+  NoticeService.GetContent(info, (err, result) => {
+	  if(!err){
+		  res.json({
+			  success : true,
+			  result
+		  });
+	  }else{
+		  console.error(err);
+		  res.json({
+			  success : false,
+			  error: err
+		  });
+	  }
+  });
+});
+
+
+
 module.exports = router;

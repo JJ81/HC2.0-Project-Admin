@@ -47,6 +47,7 @@ router.get('/live', isAuthenticated, (req, res) => {
       const _body = JSON.parse(body);
       
       res.render('bc_live', {
+        user : req.user.admin_id,
         current_path: 'bc_live',
         title: PROJ_TITLE + '라이브 방송',
         live_result: (_body.result === 0) ? false : _body.result

@@ -22,7 +22,7 @@ QUERY.HOME = {
 
 
 QUERY.Common = {
-	SearchAdminById: 'select *from `admin` where `admin_id` = ?;'
+	SearchAdminById: 'select * from `admin` where `admin_id` = ?;'
 };
 
 QUERY.Broadcast = {
@@ -115,7 +115,6 @@ QUERY.Video = {
 };
 
 QUERY.News = {
-	//ListAll: 'select * from `news`;',
 	ListAll :
 		'select * from `news` ' +
 		'order by `created_dt` desc ' +
@@ -125,4 +124,36 @@ QUERY.News = {
 	DeleteById: 'delete from `news` where `id` = ? ;',
   ActiveById :'update `news` set  `active`= ? where `id`= ?'
 };
+
+QUERY.Notice = {
+	List :
+		`
+		select * from notice
+		order by created_dt desc
+		limit 0, 1000;
+		`,
+	GetContentById :
+		`
+		select * from notice
+		where id=? and user_id=?;
+		`,
+	GetContentByOnlyId :
+		`
+		select * from notice where id=?;
+		`,
+	CreateContent :
+		`
+		insert into notice (title, content, user_id) values (?,?,?);
+		`,
+	UpdateById :
+		`
+		update notice set title=?, content=?, user_id=? where id=? and user_id=?;
+		`,
+	ActivateById :
+		`
+		update notice set active=? where id=?;
+		`
+
+};
+
 module.exports = QUERY;

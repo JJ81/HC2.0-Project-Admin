@@ -17,7 +17,9 @@ Common.login = (admin_id, password, callback) => {
 					callback(err, {success: false, msg: '비밀번호가 일치하지 않습니다. 비밀번호를 확인하세요'});
 				} else {
 					callback(null, {
-						success: true, admin_info: {admin_id: result[0].admin_id}, msg: '로그인에 성공했습니다.',
+						success: true,
+						admin_info: result,
+						msg: '로그인에 성공했습니다.'
 					});
 				}
 			} else {

@@ -1,0 +1,48 @@
+<div class="right_col" id="body_content" role="main">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="dashboard_graph">
+
+                <div class="row x_title">
+                    <div class="col-md-6 col-lg-6">
+                        <h3>공지 게시판</h3>
+                    </div>
+
+                    <div class="col-md-6 col-lg-6">
+                        <div class="pull-right">
+                            <a href="javascript:window.history.back(-1);" class="btn btn-default">뒤로</a>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <form action="/notice/content/write" method="post">
+                        <table class="table tb_notice">
+                            <colgroup>
+                                <col width="55%" />
+                                <col width="10%" />
+                                <col width="10%" />
+                                <col width="10%" />
+                                <col width="*" />
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th><input type="text" name="title" class="form-control" autocomplete="off" autofocus placeholder="제목을 입력하세요." required /></th>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="content">
+                                    <textarea cols="10" rows="10" name="content" class="form-control" placeholder="내용을 입력해주세요." autocomplete="off"></textarea>
+                                    <p class="text-right"><button type="submit" class="btn btn-primary" role="button">저장</button> <a href="/notice" class="btn btn-default" role="button">취소</a></p>
+                                </td>
+                            </tr>
+                            </thead>
+                        </table>
+                    </form>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>

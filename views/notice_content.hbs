@@ -1,0 +1,59 @@
+<div class="right_col" id="body_content" role="main">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="dashboard_graph">
+
+                <div class="row x_title">
+                    <div class="col-md-6 col-lg-6">
+                        <h3>공지 게시판</h3>
+                    </div>
+
+                    <div class="col-md-6 col-lg-6">
+                        <div class="pull-right">
+                            <a href="javascript:window.history.back(-1);" class="btn btn-default">뒤로</a>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    {{#if result}}
+                        {{#each result}}
+                        <table class="table tb_notice">
+                            <colgroup>
+                                <col width="55%" />
+                                <col width="10%" />
+                                <col width="10%" />
+                                <col width="10%" />
+                                <col width="*" />
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th><h4>{{title}}</h4></th>
+                                <th>by {{user_id}}</th>
+                                <th>{{time created_dt}}</th>
+                                <th>{{#if (isEquals active 1)}}활성화중{{else}}비활성화중{{/if}}</th>
+                                <th class="text-right">
+                                    <form action="/notice/content/activate" method="post">
+                                        <input type="hidden" name="id" value="{{id}}" />
+                                        <input type="hidden" name="active" value="{{active}}" />
+                                        <a href="/notice/modify/{{id}}" class="btn btn-warning">수정</a>
+                                        <button type="submit" class="btn {{#if (isEquals active 1)}}btn-danger{{else}}btn-success{{/if}}">{{#if (isEquals active 1)}}비활성화{{else}}활성화{{/if}}</button>
+                                    </form>
+                                </th>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="content">{{{content}}}</td>
+                            </tr>
+
+                            </thead>
+                        </table>
+                        {{/each}}
+                    {{/if}}
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>

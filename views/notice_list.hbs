@@ -1,0 +1,64 @@
+<div class="right_col" id="body_content" role="main">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="dashboard_graph">
+
+                <div class="row x_title">
+                    <div class="col-md-6 col-lg-6">
+                        <h3>공지 게시판</h3>
+                    </div>
+
+                    <div class="col-md-6 col-lg-6">
+                        <div class="pull-right">
+                            <a href="/notice/write" class="btn btn-primary">공지 등록</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <table class="table tb_notice">
+                        <colgroup>
+                            <col width="10%" />
+                            <col width="*" />
+                            <col width="10%" />
+                            <col width="10%" />
+                            <col width="20%" />
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>Admin</th>
+                            <th>Title</th>
+                            <th>Created_dt</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                        {{#if result}}
+                            {{#each result}}
+                            <tr>
+                            <td>{{user_id}}</td>
+                            <td class="title"><a href="/notice/content/{{id}}">{{title}}</a></td>
+                            <td>{{time created_dt}}</td>
+                            <td>{{#if (isEquals active 1)}}활성화중{{else}}비활성화중{{/if}}</td>
+                            <td>
+                                <form action="/notice/content/activate" method="post">
+                                    <input type="hidden" name="id" value="{{id}}" />
+                                    <input type="hidden" name="active" value="{{active}}" />
+                                    <a href="/notice/content/{{id}}" class="btn btn-info">보기</a>
+                                    <button type="submit" class="btn {{#if (isEquals active 1)}}btn-danger{{else}}btn-success{{/if}}">{{#if (isEquals active 1)}}비활성화{{else}}활성화{{/if}}</button>
+                                </form>
+                            </td>
+                            </tr>
+                            {{/each}}
+                        {{else}}
+                            <td colspan="5" align="center">등록된 공지글이 없습니다</td>
+                        {{/if}}
+                        </thead>
+                    </table>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>

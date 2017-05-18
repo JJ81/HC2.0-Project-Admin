@@ -13,7 +13,7 @@ const contents = require('./routes/contents');
 const channel = require('./routes/channel');
 const news = require('./routes/news');
 const broadcast = require('./routes/broadcast');
-/*routes*/
+const notice = require('./routes/notice');
 
 const app = express();
 const hbs = require('hbs');
@@ -73,15 +73,16 @@ const allowCORS = (req, res, next) => {
 };
 app.use(allowCORS);
 
-global.PROJ_TITLE = '홀덤클럽티비, ';
+global.PROJ_TITLE = '홀덤클럽티비 관리자, ';
 
 app.use('/', routes);
 app.use('/api/v1', api);
-app.use('/event', event);
+// app.use('/event', event);
 app.use('/contents', contents);
 app.use('/broadcast', broadcast);
 app.use('/channel', channel);
 app.use('/news', news);
+app.use('/notice', notice);
 
 // catch 404 and forward to error handler
 app.use((req, res) => {

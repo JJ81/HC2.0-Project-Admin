@@ -1,9 +1,32 @@
 @charset "UTF-8";
-@import 'variables';
-@import 'common';
-@import 'layout';
-@import 'main_channel';
-@import 'main_recom';
-@import 'main_community';
-@import '../components/swiper/dist/css/swiper.min.css';
-@import 'swiper';
+//@import 'variables';
+//@import 'common';
+//@import '_layout';
+//@import 'main_channel';
+//@import 'main_recom';
+//@import 'main_community';
+// @import '../components/swiper/dist/css/swiper.min.css';
+// @import 'swiper';
+
+.tb_notice{
+  th, td{
+    text-align: center;
+  }
+  th{
+    font-size: 16px;
+  }
+  td{
+    font-size: 14px;
+  }
+
+  td.title{
+    text-align: center;
+  }
+
+  td.content{
+    font-size: 18px;
+    text-align: left;
+    word-break: break-all;
+    white-space: pre-line;
+  }
+}

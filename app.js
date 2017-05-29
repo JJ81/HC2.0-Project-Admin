@@ -150,6 +150,7 @@ if(app.get('env') === 'production'){
 		}
 
 		// todo log@holdemclub.tv로 받을 수 있도록 한다.
+		// todo api에 설정한 로직을 이곳으로 적용할 수 있도록 한다.
 		console.error(err.stack);
 
 		res.render('500', {

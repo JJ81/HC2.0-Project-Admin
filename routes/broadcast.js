@@ -1,14 +1,12 @@
 const
   express = require('express'),
-  Broadcast = require('../service/BroadcastService'), // todo ?
+  Broadcast = require('../service/BroadcastService'),
   request = require('request'),
   router = express.Router();
 
 
 const HOST_INFO = {
   LOCAL: 'http://localhost:2500/api/',
-  // DEV: 'http://beta.holdemclub.tv/api/',
-  // REAL: 'http://holdemclub.tv/api/',
   VERSION: 'v1'
 };
 

@@ -101,6 +101,7 @@ QUERY.Channel = {
 	RegisterGroup: 'update `channels` set `type` = ? , `group_id`= ? where `channel_id` =?;',
 	DeleteGroup: 'update `channels` set `group_id`= ?, `type`= ? where `channel_id`= ?;',
   Active : 'update `channels` set `active`= ? where `channel_id`= ?',
+	getListWithoutRepresentative : `select * from channels where type != 'S' order by priority asc;`
 };
 
 QUERY.Video = {

@@ -30,8 +30,9 @@ router.get('/', isAuthenticated, (req, res) => {
       
 			res.render('channel_register', {
 				current_path: 'channel',
-				title: PROJ_TITLE + '이벤트',
+				title: PROJ_TITLE + ' 채널관리',
 				result: _body.result,
+				user : req.user.admin_id
 			});
 		} else {
 			console.error(err);
@@ -39,6 +40,45 @@ router.get('/', isAuthenticated, (req, res) => {
 		}
 	});
 });
+
+const ChannelService = require('../service/ChannelService');
+const VideoService = require('../service/VideoService');
+
+// 비디오 등록 페이지
+router.get('/video', isAuthenticated, (req, res) => {
+
+	ChannelService.getListWithoutRepresentative((err, result)=> {
+		if(!err){
+
+			console.log(result);
+
+			res.render('video_register', {
+				current_path: 'channel',
+				title: PROJ_TITLE + ' 비디오 등록',
+				user : req.user.admin_id,
+				result
+			});
+		}else{
+			console.error(err);
+			throw new Error(err);
+		}
+	});
+});
+
+
+router.post('/video/register', isAuthenticated, (req, res) => {
+	VideoService.register(req, (err, result) => {
+		if(!err){
+			console.info(result);
+		}else{
+			console.error(err);
+			throw new Error(err);
+		}
+		res.redirect('/channel/video');
+	});
+});
+
+
 
 router.get('/:channel_id/video/list', isAuthenticated, (req, res) => {
 	const channel_id = req.params.channel_id;
@@ -131,6 +171,8 @@ router.get('/group', isAuthenticated, (req, res) => {
 		}
 	});
 });
+
+
 
 
 module.exports = router;

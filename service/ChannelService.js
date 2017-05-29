@@ -68,14 +68,7 @@ Channel.register = (req, callback) => {
       connection.query(QUERY.Channel.Register, values, (err, result) => {
         callback(err, result);
       });
-    },
-    
-    // TODO 레디스 키 정책 나오면 진행
-    // (callback) => {
-    // 	CommonDAO.DeleteByKeyPattern(req.cache, 'RedisKey', (err, result)=>{
-    // 		callback(err, result);
-    // 	});
-    // }
+    }
   ];
   
   async.waterfall(tasks, (err, result) => {
@@ -150,5 +143,15 @@ Channel.active = (channel_id, active, callback) => {
   });
 };
 
+// 비디오 추가가 가능한 채널 리스트만 뽑아온다
+Channel.getListWithoutRepresentative = (cb) => {
+  connection.query(QUERY.Channel.getListWithoutRepresentative, (err, result) => {
+    if(!err){
+      cb(null, result);
+    }else{
+      cb(err, null);
+    }
+  });
+};
 
 module.exports = Channel;

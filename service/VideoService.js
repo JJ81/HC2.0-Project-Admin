@@ -37,6 +37,16 @@ Video.active = (video_id, active, callback) =>{
 };
 
 Video.register = (req, callback) => {
+
+  // 넘어온 데이터를 확인한다
+
+	var info = {
+		channel_id : req.body.channel_id,
+		title : req.body.title,
+		link : req.body.link
+	};
+
+
   const video_id = uuid.v1();
   
   const tasks = [
@@ -46,9 +56,9 @@ Video.register = (req, callback) => {
       });
     },
     
-    (files, fields, callback) => {
+    (files, field, callback) => {
       Upload.optimize(files, (err) => {
-        callback(err, files, fields)
+        callback(err, files, field);
       });
     },
     
@@ -59,28 +69,23 @@ Video.register = (req, callback) => {
     },
     
     (field, callback) => {
-      
+
+  	  console.log('check link');
+  	  console.log(field);
+
       const values = {
         channel_id: field.channel_id,
-        video_id: video_id,
+        video_id,
         title: field.title,
         link: field.link,
-        type: field.type,
-        active: 0,
-        created_dt: new Date()
+				type : 'Y',
+				active : true
       };
       
       connection.query(QUERY.Video.Register, values, (err, result) => {
         callback(err, result);
       });
-    },
-    
-    //TODO 레디스 키정책 나오면 진행하자
-    // (callback) => {
-    // CommonDAO.DeleteByKeyPattern(req.cache, 'RedisKey', (err, result) => {
-    // 	callback(err, result);
-    // });
-    // }
+    }
   ];
   
   async.waterfall(tasks, (err, result) => {

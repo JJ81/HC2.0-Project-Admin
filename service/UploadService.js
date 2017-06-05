@@ -20,12 +20,21 @@ function S3Instance() {
   return instance
 }
 
-/**
- * REAL ROOT_PATH 는 ${process.cwd()}/HC2.0-Project-Admin/ 을 사용해야한다
- * // TODO 한번에 로컬 데브 리얼 동시에 사용할수 있게 수정  or npm 스크립트에서 선택적으로 실행 가능하게 변경할것
- */
-const ROOT_PATH = process.cwd();
-//const ROOT_PATH = `${process.cwd()}/HC2.0-Project-Admin/`;
+const express = require('express');
+const app = express();
+
+
+var ROOT_PATH = process.cwd();
+if(app.get('env') === 'production'){
+  ROOT_PATH = `${process.cwd()}/HC2.0-Project-Admin`;
+}else{
+	console.log('local env path');
+	ROOT_PATH = process.cwd();
+}
+
+console.log('upload temp path');
+console.log(ROOT_PATH);
+
 
 /**
  * AWS S3 세부 설정은
@@ -44,7 +53,8 @@ Upload.S3KYES = {
   EVENT_RESULT: 'event/result/',
   EVENT: 'event/',
   CHANNEL: 'channel/',
-  NEWS: 'news/'
+  NEWS: 'news/',
+	TEST : 'test/'
 };
 
 Upload.formidable = (req, callback) => {
@@ -60,8 +70,8 @@ Upload.formidable = (req, callback) => {
     instance = new formidable.IncomingForm({
       encoding: 'utf-8',
       multiples: true,
-      keepExtensions: false, //확장자 제거
-      uploadDir: `${ROOT_PATH}/temp` // todo 현재 디랙토리를 기준으로 파일을 임시로 업로드 하게 되어 있는데 이게 리얼에 가서도 동일하게 작동하는지 여부를 판단해야 한다.
+      keepExtensions: false, //확장자 제거 // todo 폴더를 생성하면 문제가 사라지는지 확인할 것
+      uploadDir: `${ROOT_PATH}/public/temp` // todo 현재 디랙토리를 기준으로 파일을 임시로 업로드 하게 되어 있는데 이게 리얼에 가서도 동일하게 작동하는지 여부를 판단해야 한다.
     }); // todo 만약 temp 파일이 없어서 업로드가 실패할 경우 폴더를 생성해주어야 한다.
     
     return instance
@@ -93,20 +103,25 @@ Upload.formidable = (req, callback) => {
 };
 
 Upload.optimize = (files, callback) => {
-  // TODO 이미지 파일이 아닌 걍우에는 최적화를 진행하지 않는다
-  // TODO 최적화가 완료되면 S3 업로드를 진행한다
-  
+	/**
+	 // TODO 이미지 파일이 아닌 걍우에는 최적화를 진행하지 않는다
+	 // TODO 최적화가 완료되면 S3 업로드를 진행한다
+	 // todo 이미지 파일 중 gif, png, jpeg, jpg만 받아서 최적화를 진행할 수 있도록 한다.
+	 // 이미지 사이즈를 변경한다
+	 // 이미지 사이즈 변동이 얼마나 일어났는지 로그로 확인할 수 있도록 한다.
+	 */
+
   async.each(files, (file, cb) => {
     console.log(file.path);
-    imagemin([file.path], `${ROOT_PATH}/temp/`, {
+    imagemin([file.path], `${ROOT_PATH}/public/temp/`, {
       plugins: [
         // imageminMozjpeg(),
         imageminPngquant({quality: '0-80', verbose: false, floyd: 1})
       ]
     }).then((test) => {
-      console.log('최적화 작업 진행중...');
+      console.log('optimizing images...');
       console.log(test);
-      console.log('=============');
+      console.log('finished optimizing!');
       cb();
     })
   }, (err) => {
@@ -117,9 +132,8 @@ Upload.optimize = (files, callback) => {
 // todo 각 메서드에 대한 유닛 테스트가 없어서 시일이 지난 후에 다시 점검을 하는 경우 아주 큰 기술부채가 발생하게 된다...
 Upload.s3 = (files, key, callback) => {
 
-  console.log(files[0].name);
-  console.log(files[0].path);
-
+  // console.log(files[0].name);
+  // console.log(files[0].path);
 
   const s3_file_name = makeS3FilesName(files[0].name);
   console.info('uploading file name : ' + s3_file_name);
@@ -153,12 +167,30 @@ Upload.s3Multiple = (files, key, callback) => {
 };
 
 // AWS 업로드, 디비 저장이 완료되면 해당 파일을 삭제시킨다.
+// Upload.RemovieFile = (callback) => {
+//   require('fs').unlink('/tmp/hello', (err) => {
+//     if (err) throw err;
+//     console.log('successfully deleted /tmp/hello');
+//   });
+// };
+
+// todo 테스트 진행할 것
+// AWS 업로드, 디비 저장이 완료되면 해당 파일을 삭제시킨다.
 Upload.RemovieFile = (callback) => {
-  require('fs').unlink('/tmp/hello', (err) => {
-    if (err) throw err;
-    console.log('successfully deleted /tmp/hello');
-  });
+	const path = `${ROOT_PATH}/public/temp/`;
+	if( fs.existsSync(path) ) {
+		fs.readdirSync(path).forEach(function(file) {
+			var curPath = path + '/' + file;
+			if(fs.statSync(curPath).isDirectory()) { // recurse
+				Upload.RemovieFile(curPath);
+			} else { // delete file
+				fs.unlinkSync(curPath);
+			}
+		});
+	}
 };
+
+
 
 function makeS3FilesName(file_name) {
   return (md5(file_name + new Date()));

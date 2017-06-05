@@ -50,7 +50,7 @@ router.get('/video', isAuthenticated, (req, res) => {
 	ChannelService.getListWithoutRepresentative((err, result)=> {
 		if(!err){
 
-			console.log(result);
+			// console.log(result);
 
 			res.render('video_register', {
 				current_path: 'channel',

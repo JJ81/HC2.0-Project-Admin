@@ -11,3 +11,4 @@
 /service/_bak
 /temp/
 /database/query.js
+/public/temp/*

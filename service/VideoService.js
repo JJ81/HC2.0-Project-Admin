@@ -89,6 +89,8 @@ Video.register = (req, callback) => {
   ];
   
   async.waterfall(tasks, (err, result) => {
+    // todo 여기서 업로드된 파일을 제거할 수 있도록 한다.
+
     callback(err, result);
   });
 };

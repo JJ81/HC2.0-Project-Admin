@@ -1,0 +1,57 @@
+<div class="right_col" id="body_content" role="main">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="dashboard_graph">
+
+                <div class="row x_title">
+                    <div class="col-md-6 col-lg-6">
+                        <h3>사용자 정보 관리 <small>총 {{comma-number count}} 명</small></h3>
+                    </div>
+
+                    <!--<div class="col-md-6 col-lg-6">-->
+                        <!--<div class="pull-right">-->
+                            <!--<a href="/notice/write" class="btn btn-primary">공지 등록</a>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                </div>
+
+                <div class="row">
+
+                    <table class="table tb_notice">
+                        <colgroup>
+                            <col width="10%" />
+                            <col width="*" />
+                            <col width="10%" />
+                            <col width="10%" />
+                            <col width="20%" />
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>USER_ID</th>
+                            <th>NICKNAME</th>
+                            <th>EMAIL</th>
+                            <th>LAST_LOGIN</th>
+                            <th>SIGNUP_DATE</th>
+                        </tr>
+                        {{#if result}}
+                            {{#each result}}
+                            <tr>
+                                <td>{{user_id}}</td>
+                                <td>{{nickname}}</td>
+                                <td>{{email}}</td>
+                                <td>{{time last_login_dt}}</td>
+                                <td>{{time signup_dt}}</td>
+                            </tr>
+                            {{/each}}
+                        {{else}}
+                            <td colspan="5" align="center">등록된 사용자가 없습니다</td>
+                        {{/if}}
+                        </thead>
+                    </table>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -157,4 +157,17 @@ QUERY.Notice = {
 
 };
 
+
+// todo 20170729
+QUERY.DATA = {
+	getCustomerList :
+		`
+		select u.user_id, u.nickname, u.email, u.last_login_dt, u.signup_dt
+		from user as u
+		where (u.market_code != 'DEV_TEST' or u.market_code is null) 
+		and u.user_id != "player001" and u.user_id != "player002" and u.user_id != "jtester"
+		order by u.signup_dt desc;
+		`
+};
+
 module.exports = QUERY;

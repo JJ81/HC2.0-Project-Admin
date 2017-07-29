@@ -66,8 +66,21 @@ router.get('/video', isAuthenticated, (req, res) => {
 });
 
 
+// router.post('/video/register', isAuthenticated, (req, res) => {
+// 	VideoService.register(req, (err, result) => {
+// 		if(!err){
+// 			console.info(result);
+// 		}else{
+// 			console.error(err);
+// 			throw new Error(err);
+// 		}
+// 		res.redirect('/channel/video');
+// 	});
+// });
+
+
 router.post('/video/register', isAuthenticated, (req, res) => {
-	VideoService.register(req, (err, result) => {
+	VideoService.registerTest(req, (err, result) => {
 		if(!err){
 			console.info(result);
 		}else{
@@ -77,7 +90,6 @@ router.post('/video/register', isAuthenticated, (req, res) => {
 		res.redirect('/channel/video');
 	});
 });
-
 
 
 router.get('/:channel_id/video/list', isAuthenticated, (req, res) => {

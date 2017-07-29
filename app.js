@@ -14,6 +14,7 @@ const channel = require('./routes/channel');
 const news = require('./routes/news');
 const broadcast = require('./routes/broadcast');
 const notice = require('./routes/notice');
+const user = require('./routes/user');
 
 const app = express();
 const hbs = require('hbs');
@@ -83,6 +84,7 @@ app.use('/broadcast', broadcast);
 app.use('/channel', channel);
 app.use('/news', news);
 app.use('/notice', notice);
+app.use('/user', user);
 
 // catch 404 and forward to error handler
 app.use((req, res) => {

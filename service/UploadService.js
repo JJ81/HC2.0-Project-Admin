@@ -9,6 +9,7 @@ const imageminPngquant = require('imagemin-pngquant');
 AWS.config.region = 'ap-northeast-2';
 const s3 = new S3Instance();
 const Upload = {};
+const fs = require('fs');
 
 function S3Instance() {
   'use strict';
@@ -85,7 +86,13 @@ Upload.formidable = (req, callback) => {
   
   // Form File의 Name 값으로 S3_FILE_NAME  값을 결정하다. (체널 업로드, 비디오 업로드에 사용)
   form.on('file', (name, file) => {
-    file.S3_FILE_NAME = name
+  	// console.log('name');
+  	// console.log(name);
+	  //
+	  // console.log('file');
+	  // console.log(file);
+
+    file.S3_FILE_NAME = name;
   });
   
   // form.on('progress', (bytesReceived, bytesExpected) => {
@@ -130,6 +137,7 @@ Upload.optimize = (files, callback) => {
 };
 
 // todo 각 메서드에 대한 유닛 테스트가 없어서 시일이 지난 후에 다시 점검을 하는 경우 아주 큰 기술부채가 발생하게 된다...
+// todo 하나의 파일을 올릴 경우 그리고 임의로 파일이름을 생성할 경우 아래의 메서드를 사용한다.
 Upload.s3 = (files, key, callback) => {
 
   // console.log(files[0].name);
@@ -146,16 +154,18 @@ Upload.s3 = (files, key, callback) => {
       console.error(err);
       callback(err, null);
     }else{
-	    result.S3_FILE_NAME = s3_file_name; // 생성된 파일을 이름을 콜백으로 전달하기 전에 오버라이드한다.
+    	// todo 이 작업은 필요가 없어진다, 임의로 파일 네이밍을 주고 싶다면 해당 옵션을 별도로 받을 수 있도록 한다.
+	    // result.S3_FILE_NAME = s3_file_name; // 생성된 파일을 이름을 콜백으로 전달하기 전에 오버라이드한다.
       callback(null, result);
     }
 
   });
 };
 
+// todo 아래 메서드는 네이밍이 변경되어야 한다.
 Upload.s3Multiple = (files, key, callback) => {
   async.each(files, (file, cb) => {
-    params.Key = key + file.S3_FILE_NAME;
+    params.Key = key + file.S3_FILE_NAME; // todo 각 필드의 name값을 넣었기 때문에 이것은 해당 기능을 위해서만 필요한 메서드가 된다.
     params.Body = require('fs').createReadStream(file.path);
     
     s3.upload(params, (err, result) => {
@@ -165,6 +175,15 @@ Upload.s3Multiple = (files, key, callback) => {
     callback(err, result);
   });
 };
+
+
+// todo 각 파일을 임의의 이름을 지어서 업로드시킬 수 있도록 설정하여 테스트를 진행한다.
+Upload.S3UploadFiles = (files, key, cb) => {
+
+};
+
+
+
 
 // AWS 업로드, 디비 저장이 완료되면 해당 파일을 삭제시킨다.
 // Upload.RemovieFile = (callback) => {
